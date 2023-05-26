@@ -1,0 +1,6 @@
+# Skip formatting for folders/files:
+test-results
+playwright-report
+playwright/.cache
+.history
+README.md
