@@ -20,32 +20,49 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: process.env.CI ? 'github' : [['list'], ['html', { open: 'on-failure' }]],
+  /* Each test is given 30 seconds. */
+  timeout: 30000,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
-
+    baseURL: 'http://kube.local',
+    /* Capture screenshot. */
+    screenshot: 'only-on-failure',
+    /* Record video. */
+    video: 'on',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on',
+    /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
+    actionTimeout: 0,
+    /* Toggles bypassing Content-Security-Policy. */
+    bypassCSP: true,
+    /* Whether to ignore HTTPS errors when sending network requests. ßDefaults to `false`. */
+    ignoreHTTPSErrors: true,
+    /* Channel to use, for example "chrome", "chrome-beta", "msedge", "msedge-beta". */
+    // channel: 'chrome',
+    /* Run browser in headless mode. */
+    headless: true
+    /* Change the default data-testid attribute. */
+    // testIdAttribute: 'pw-test-id',
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'] }
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'] }
     },
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+      use: { ...devices['Desktop Safari'] }
+    }
 
     /* Test against mobile viewports. */
     // {
@@ -66,7 +83,7 @@ export default defineConfig({
     //   name: 'Google Chrome',
     //   use: { ..devices['Desktop Chrome'], channel: 'chrome' },
     // },
-  ],
+  ]
 
   /* Run your local dev server before starting the tests */
   // webServer: {

@@ -1,0 +1,12 @@
+{
+  "editor.quickSuggestions": {
+    "comments": false,
+    "strings": true,
+    "other": true
+  },
+  "editor.rulers": [150],
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "cSpell.words": ["combobox", "msedge", "testid", "viewports"]
+}
