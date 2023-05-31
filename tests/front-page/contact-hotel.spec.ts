@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
-import { FrontPage } from '../pages/FrontPage';
-import { invalidEmails } from '../utils/test-data-util';
+import { FrontPage } from '../../pages/FrontPage';
+import { invalidEmails } from '../../utils/test-data-util';
 
-test.describe('Contact Tests', () => {
+test.describe('Contact Hotel Tests', () => {
   let frontPage: FrontPage;
 
   test.beforeEach(async ({ page, baseURL }) => {

@@ -74,7 +74,7 @@ export type RoomAmenities = {
   views: boolean;
 };
 
-export function getRoomDetailsFromAmenities(roomAmenities: RoomAmenities) {
+export function getAmenitiesAsList(roomAmenities: RoomAmenities) {
   const amenities: string[] = [];
   if (roomAmenities.wifi) amenities.push('WiFi');
   if (roomAmenities.tv) amenities.push('TV');
@@ -82,5 +82,10 @@ export function getRoomDetailsFromAmenities(roomAmenities: RoomAmenities) {
   if (roomAmenities.refreshments) amenities.push('Refreshments');
   if (roomAmenities.safe) amenities.push('Safe');
   if (roomAmenities.views) amenities.push('Views');
+  return amenities;
+}
+
+export function getRoomDetailsFromAmenities(roomAmenities: RoomAmenities) {
+  const amenities: string[] = getAmenitiesAsList(roomAmenities);
   return amenities.length == 0 ? 'No features added to the room' : amenities.join(', ');
 }

@@ -1,6 +1,8 @@
 import { APIRequestContext, expect } from '@playwright/test';
 import { BaseApi } from './BaseApi';
 import { BookingApi } from './BookingApi';
+import { RoomType, RoomAmenities, getAmenitiesAsList } from '../pages/RoomsPage';
+import { getImageUrl } from '../utils/test-data-util';
 
 const path = '/room';
 
@@ -10,6 +12,22 @@ export class RoomApi extends BaseApi {
   constructor(request: APIRequestContext) {
     super(request);
     this.bookingApi = new BookingApi(request);
+  }
+
+  async createRoom(roomName: string, roomType: RoomType, roomIsAccessible: boolean, roomPrice: number, roomFeatures: RoomAmenities) {
+    await this.deleteAllRooms(roomName);
+    const response = await this.request.post(`${path}/`, {
+      data: {
+        roomName: roomName,
+        type: roomType,
+        accessible: roomIsAccessible.toString(),
+        roomPrice: roomPrice.toString(),
+        features: getAmenitiesAsList(roomFeatures),
+        image: getImageUrl(roomType),
+        description: 'Room Created with Automated Test'
+      }
+    });
+    expect(response.status()).toBe(201);
   }
 
   async deleteRoom(roomId: number) {

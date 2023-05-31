@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
-import { RoomsPage, RoomAmenities, getRoomDetailsFromAmenities, RoomType } from '../pages/RoomsPage';
-import { AuthApi } from '../apis/AuthApi';
-import { AdminPage } from '../pages/AdminPage';
-import { Header } from '../pages/components/Header';
-import { hideBanner } from '../utils/ui-util';
-import { RoomApi } from '../apis/RoomApi';
+import { RoomsPage, RoomAmenities, getRoomDetailsFromAmenities, RoomType } from '../../pages/RoomsPage';
+import { AuthApi } from '../../apis/AuthApi';
+import { AdminPage } from '../../pages/AdminPage';
+import { Header } from '../../pages/components/Header';
+import { hideBanner } from '../../utils/ui-util';
+import { RoomApi } from '../../apis/RoomApi';
 
-test.describe('Create Room Tests', () => {
+test.describe('Room Management Tests', () => {
   let adminPage: AdminPage;
   let header: Header;
   let roomsPage: RoomsPage;

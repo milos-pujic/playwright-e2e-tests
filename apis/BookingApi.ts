@@ -10,7 +10,7 @@ export class BookingApi extends BaseApi {
 
   async deleteBooking(bookingId: number) {
     const response = await this.request.delete(`${path}/${bookingId}`);
-    expect([202, 404]).toContain(response.status);
+    expect([202, 404]).toContain(response.status());
   }
 
   async deleteAllBookings(roomId: number) {

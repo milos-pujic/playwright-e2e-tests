@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { AdminPage } from '../pages/AdminPage';
-import { Header } from '../pages/components/Header';
+import { AdminPage } from '../../pages/AdminPage';
+import { Header } from '../../pages/components/Header';
 
 test.describe('Login Tests', () => {
   let adminPage: AdminPage;
