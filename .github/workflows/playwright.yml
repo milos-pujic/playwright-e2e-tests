@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Cache node_modules
+      - name: Cache Node Modules
         uses: actions/cache@v3
         id: cache-node-modules
         with:
@@ -55,7 +55,7 @@ jobs:
       with:
         node-version: 20
 
-    - name: Cache node_modules
+    - name: Cache Node Modules
       uses: actions/cache@v3
       with:
         path: |
