@@ -48,7 +48,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4, 5, 6]
+        shard: [1, 2, 3, 4]
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
@@ -77,11 +77,4 @@ jobs:
       with:
         name: playwright-report-${{ matrix.shard }}_${{ strategy.job-total }}
         path: playwright-report/
-        retention-days: 15
-
-    - uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: playwright-test-results-${{ matrix.shard }}_${{ strategy.job-total }}
-        path: test-results/
         retention-days: 15

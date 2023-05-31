@@ -33,9 +33,9 @@ export default defineConfig({
     /* Capture screenshot. */
     screenshot: 'only-on-failure',
     /* Record video. */
-    video: 'on',
+    video: 'retain-on-failure',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on',
+    trace: 'retain-on-failure',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Whether to ignore HTTPS errors when sending network requests. ßDefaults to `false`. */
