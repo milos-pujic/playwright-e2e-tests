@@ -34,8 +34,9 @@ jobs:
         path: playwright-report/
         retention-days: 15
     - uses: actions/upload-artifact@v3
-      if: on
+      if: always()
       with:
         name: test-results-${{ matrix.shard }}_${{ strategy.job-total }}
         path: test-results/
+        if-no-files-found: ignore
         retention-days: 15
