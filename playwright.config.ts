@@ -11,6 +11,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
+  // globalSetup: require.resolve('./setup/global.setup.ts'),
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -22,11 +23,13 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI ? 'github' : [['list'], ['html', { open: 'on-failure' }]],
   /* Each test is given 30 seconds. */
-  timeout: 30000,
+  timeout: 60000,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://kube.local',
+    /* Populates context with given storage state. */
+    // storageState: './state.json',
     /* Capture screenshot. */
     screenshot: 'only-on-failure',
     /* Record video. */
@@ -35,8 +38,6 @@ export default defineConfig({
     trace: 'on',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
-    /* Toggles bypassing Content-Security-Policy. */
-    bypassCSP: true,
     /* Whether to ignore HTTPS errors when sending network requests. ßDefaults to `false`. */
     ignoreHTTPSErrors: true,
     /* Channel to use, for example "chrome", "chrome-beta", "msedge", "msedge-beta". */

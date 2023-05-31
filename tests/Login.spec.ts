@@ -13,7 +13,7 @@ test.describe('Login Tests', () => {
     adminPage = new AdminPage(page);
     header = new Header(page);
 
-    page.context().addCookies([{ name: 'banner', value: 'true', url: baseURL }]);
+    await page.context().addCookies([{ name: 'banner', value: 'true', url: baseURL }]);
   });
 
   test('Administrator is able to login with correct username and password', async () => {

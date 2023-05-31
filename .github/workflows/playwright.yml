@@ -6,8 +6,41 @@ on:
     branches: [ main, master ]
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: 30
     runs-on: ubuntu-latest
+    services:
+      rbp-booking:
+        image: mwinteringham/restfulbookerplatform_booking:1.6.24c7b22
+        ports:
+          - 3000:3000
+      rbp-room:
+        image: mwinteringham/restfulbookerplatform_room:1.6.24c7b22
+        ports:
+          - 3001:3001
+      rbp-branding:
+        image: mwinteringham/restfulbookerplatform_branding:1.6.24c7b22
+        ports:
+          - 3002:3002
+      rbp-assets:
+        image: mwinteringham/restfulbookerplatform_assets:1.6.24c7b22
+        ports:
+          - 3003:3003
+      rbp-auth:
+        image: mwinteringham/restfulbookerplatform_auth:1.6.24c7b22
+        ports:
+          - 3004:3004
+      rbp-report:
+        image: mwinteringham/restfulbookerplatform_report:1.6.24c7b22
+        ports:
+          - 3005:3005
+      rbp-message:
+        image: mwinteringham/restfulbookerplatform_message:1.6.24c7b22
+        ports:
+          - 3006:3006
+      rbp-proxy:
+        image: mwinteringham/restfulbookerplatform_proxy:latest
+        ports:
+          - 80:80
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
@@ -24,4 +57,4 @@ jobs:
       with:
         name: playwright-report
         path: playwright-report/
-        retention-days: 30
+        retention-days: 15

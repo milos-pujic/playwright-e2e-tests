@@ -1,15 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { FrontPage } from '../pages/FrontPage';
-import { invalidEmails } from '../utils/invalid-data-helpers';
+import { invalidEmails } from '../utils/test-data-util';
 
 test.describe('Contact Tests', () => {
   let frontPage: FrontPage;
 
-  test.beforeEach(({ page, baseURL }) => {
+  test.beforeEach(async ({ page, baseURL }) => {
     frontPage = new FrontPage(page);
-    page.context().addCookies([{ name: 'banner', value: 'true', url: baseURL }]);
-    frontPage.goto();
+    await page.context().addCookies([{ name: 'banner', value: 'true', url: baseURL }]);
+    await frontPage.goto();
   });
 
   test('Visitor must be able to contact the property by filling up all mandatory fields', async () => {
