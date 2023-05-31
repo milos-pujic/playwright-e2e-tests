@@ -61,7 +61,7 @@ jobs:
           node_modules
         key: modules-${{ hashFiles('package-lock.json') }}
 
-    - name: che Playwright Bi
+    - name: Cache Playwright Binaries
       uses: actions/cache@v3
       with:
         path: |
