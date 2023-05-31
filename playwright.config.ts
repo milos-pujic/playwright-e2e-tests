@@ -27,7 +27,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://kube.local',
+    baseURL: process.env.BASE_URL ? process.env.BASE_URL : 'https://automationintesting.online/',
     /* Populates context with given storage state. */
     // storageState: './state.json',
     /* Capture screenshot. */
