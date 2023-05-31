@@ -6,45 +6,8 @@ on:
   # pull_request:
   #   branches: [ main, master ]
 jobs:
-  install:
-    name: Install
-    runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.34.3-jammy
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-
-      - name: Cache Node Modules
-        uses: actions/cache@v3
-        id: cache-node-modules
-        with:
-          path: |
-            node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
- 
-      - name: Cache Playwright Binaries
-        uses: actions/cache@v3
-        id: cache-playwright
-        with:
-          path: |
-            ~/.cache/ms-playwright
-          key: playwright-${{ hashFiles('package-lock.json') }}
- 
-      - name: Install dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
- 
-      - name: Install Playwright Browsers
-        if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
-
   test:
     name: Test (${{ matrix.shard }}/${{ strategy.job-total }})
-    needs: install
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.34.3-jammy
@@ -58,27 +21,21 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 20
-
-    - name: Cache Node Modules
-      uses: actions/cache@v3
-      with:
-        path: |
-          node_modules
-        key: modules-${{ hashFiles('package-lock.json') }}
-
-    - name: Cache Playwright Binaries
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.cache/ms-playwright
-        key: playwright-${{ hashFiles('package-lock.json') }}
-
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
     - name: Run Playwright Tests
       run: BASE_URL='https://automationintesting.online' npx playwright test --shard=${{ matrix.shard }}/${{ strategy.job-total }}
-
     - uses: actions/upload-artifact@v3
       if: always()
       with:
         name: playwright-report-${{ matrix.shard }}_${{ strategy.job-total }}
         path: playwright-report/
+        retention-days: 15
+    - uses: actions/upload-artifact@v3
+      if: on
+      with:
+        name: test-results-${{ matrix.shard }}_${{ strategy.job-total }}
+        path: test-results/
         retention-days: 15
