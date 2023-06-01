@@ -7,10 +7,10 @@ on:
   #   branches: [ main, master ]
 jobs:
   test:
-    name: ${{ matrix.project }} tests ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+    name: 'Playwright Tests - ${{ matrix.project }} - Shard ${{ matrix.shardIndex }} of ${{ matrix.shardTotal }}'
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.34.3-jammy
+    # container:
+    #   image: mcr.microsoft.com/playwright:v1.34.3-jammy
     timeout-minutes: 60
     strategy:
       fail-fast: false
