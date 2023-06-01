@@ -7,7 +7,7 @@ on:
   #   branches: [ main, master ]
 jobs:
   test:
-    name: ${{ matrix.project }} Tests ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+    name: ${{ matrix.project }} tests ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.34.3-jammy
