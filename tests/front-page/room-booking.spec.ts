@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { AuthApi } from '../../apis/AuthApi';
 import { FrontPage } from '../../pages/FrontPage';
-import { hideBanner } from '../../utils/ui-util';
 import { RoomApi } from '../../apis/RoomApi';
 import { RoomAmenities, RoomType } from '../../pages/RoomsPage';
 import { invalidEmails } from '../../utils/test-data-util';
@@ -32,7 +31,7 @@ test.describe('Room Booking Tests', () => {
     authApi = new AuthApi(request);
     roomApi = new RoomApi(request);
 
-    await hideBanner(page, baseURL);
+    await frontPage.hideBanner(baseURL);
     await authApi.login('admin', 'password');
     await roomApi.createRoom(roomName, roomType, roomIsAccessible, roomPrice, roomAmenities);
 

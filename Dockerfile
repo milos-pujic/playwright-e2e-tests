@@ -1,8 +1,5 @@
-# Get the base image of Node version 20
-FROM node:20
-
 # Get the latest version of Playwright
-FROM mcr.microsoft.com/playwright:jammy
+FROM mcr.microsoft.com/playwright:v1.34.3-jammy
 
 # Set the work directory for the application
 WORKDIR /app
@@ -10,7 +7,7 @@ WORKDIR /app
 # Set the environment path to node_modules/.bin
 ENV PATH /app/node_modules/.bin:$PATH
 
-# Update and Upgrade
+# Update and Upgrade OS
 RUN apt-get update && apt-get upgrade -y
 
 # Copy Project files to the app folder in Docker image

@@ -3,7 +3,6 @@ import { RoomsPage, RoomAmenities, getRoomDetailsFromAmenities, RoomType } from 
 import { AuthApi } from '../../apis/AuthApi';
 import { AdminPage } from '../../pages/AdminPage';
 import { Header } from '../../pages/components/Header';
-import { hideBanner } from '../../utils/ui-util';
 import { RoomApi } from '../../apis/RoomApi';
 
 test.describe('Room Management Tests', () => {
@@ -22,15 +21,12 @@ test.describe('Room Management Tests', () => {
     authApi = new AuthApi(request);
     roomApi = new RoomApi(request);
 
-    await hideBanner(page, baseURL);
-
+    await adminPage.hideBanner(baseURL);
     await adminPage.goto();
     await adminPage.login('admin', 'password');
     await expect(header.logoutLink).toBeVisible();
 
     await authApi.login('admin', 'password');
-
-    await roomsPage.goto();
   });
 
   const rooms: [string, RoomType, boolean, number, RoomAmenities][] = [
