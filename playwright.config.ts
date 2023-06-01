@@ -47,7 +47,7 @@ export default defineConfig({
     /* Run browser in headless mode. */
     headless: true,
     /* Change the default data-testid attribute. */
-    testIdAttribute: 'data-test-id'
+    testIdAttribute: 'data-testid'
   },
 
   /* Configure projects for major browsers */
