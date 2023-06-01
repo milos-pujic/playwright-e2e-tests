@@ -29,12 +29,12 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright Tests
       run: BASE_URL='https://automationintesting.online' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-    - uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: playwright-report-and-results-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
-        path: |
-          playwright-report/
-          test-results/
-        if-no-files-found: ignore
-        retention-days: 15
+    # - uses: actions/upload-artifact@v3
+    #   if: always()
+    #   with:
+    #     name: playwright-report-and-results-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
+    #     path: |
+    #       playwright-report/
+    #       test-results/
+    #     if-no-files-found: ignore
+    #     retention-days: 15
