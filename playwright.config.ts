@@ -40,14 +40,14 @@ export default defineConfig({
     trace: 'retain-on-failure',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
-    /* Whether to ignore HTTPS errors when sending network requests. ßDefaults to `false`. */
+    /* Whether to ignore HTTPS errors when sending network requests. Defaults to `false`. */
     ignoreHTTPSErrors: true,
     /* Channel to use, for example "chrome", "chrome-beta", "msedge", "msedge-beta". */
     // channel: 'chrome',
     /* Run browser in headless mode. */
-    headless: true
+    headless: true,
     /* Change the default data-testid attribute. */
-    // testIdAttribute: 'pw-test-id',
+    testIdAttribute: 'data-test-id'
   },
 
   /* Configure projects for major browsers */
