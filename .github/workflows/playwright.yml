@@ -76,14 +76,9 @@ jobs:
         path: |
           ~/.cache/ms-playwright
         key: playwright-${{ hashFiles('package-lock.json') }}
-    - name: Install dependencies
-      id: install-dependencies
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      run: npm ci
-    - name: Install Playwright Browsers
-      id: install-playwright-browsers
-      if: steps.cache-playwright.outputs.cache-hit != 'true'
-      run: npx playwright install --with-deps
+    - name: Install Playwright System Dependencies
+      id: install-playwright-system-dependencies
+      run: npx playwright install-deps
     - name: Run Playwright Tests
       run: BASE_URL='https://automationintesting.online' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     - uses: actions/upload-artifact@v3
