@@ -7,7 +7,7 @@ on:
   #   branches: [ main, master ]
 jobs:
   test:
-    name: 'Playwright Tests - ${{ matrix.project }} - Shard ${{ matrix.shardIndex }} of ${{ matrix.shardTotal }}'
+    name: 'Tests - ${{ matrix.project }} - Shard ${{ matrix.shardIndex }} of ${{ matrix.shardTotal }}'
     runs-on: ubuntu-latest
     # container:
     #   image: mcr.microsoft.com/playwright:v1.34.3-jammy
