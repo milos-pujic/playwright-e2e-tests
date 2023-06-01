@@ -11,33 +11,33 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Checkout Repository
+      - name: ⬇️ Checkout Repository
         id: checkout-repository
         uses: actions/checkout@v3
-      - name: Setup Node
+      - name: 🛠️ Setup Node
         id: setup-node
         uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Cache Node Modules
+      - name: 🧰 Cache Node Modules
         uses: actions/cache@v3
         id: cache-node-modules
         with:
           path: |
             node_modules
           key: modules-${{ hashFiles('package-lock.json') }}
-      - name: Cache Playwright Binaries
+      - name: 🧰 Cache Playwright Binaries
         uses: actions/cache@v3
         id: cache-playwright
         with:
           path: |
             ~/.cache/ms-playwright
           key: playwright-${{ hashFiles('package-lock.json') }}
-      - name: Install dependencies
+      - name: 🏗️ Install dependencies
         id: install-dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Install Playwright Browsers
+      - name: 🏗️ Install Playwright Browsers
         id: install-playwright-browsers
         if: steps.cache-playwright.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
@@ -54,7 +54,7 @@ jobs:
         shardIndex: [1, 2]
         shardTotal: [2]
     steps:
-    - name: Checkout Repository
+    - name: ⬇️ Checkout Repository
       id: checkout-repository
       uses: actions/checkout@v3
     - name: Setup Node
@@ -62,14 +62,14 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 20
-    - name: Cache Node Modules
+    - name: 🧰 Cache Node Modules
       uses: actions/cache@v3
       id: cache-node-modules
       with:
         path: |
           node_modules
         key: modules-${{ hashFiles('package-lock.json') }}
-    - name: Cache Playwright Binaries
+    - name: 🧰 Cache Playwright Binaries
       uses: actions/cache@v3
       id: cache-playwright
       with:
@@ -78,12 +78,15 @@ jobs:
         key: playwright-${{ hashFiles('package-lock.json') }}
     # Playwright caches the browser binaries, but not their dependencies. 
     # Those extra browser dependencies must be installed separately when the cached browsers are restored.
-    - name: Install Playwright System Dependencies
+    - name: 🏗️ Install Playwright System Dependencies
       id: install-playwright-system-dependencies
       run: npx playwright install-deps ${{ matrix.project }}
-    - name: Run Playwright Tests
+    - name: 🚀 Run Playwright Tests
+      id: run-playwright-tests
       run: BASE_URL='https://automationintesting.online' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-    - uses: actions/upload-artifact@v3
+    - name: ⬆️ Upload Report and Results
+      id: upload-report-and-results
+      uses: actions/upload-artifact@v3
       if: always()
       with:
         name: playwright-report-and-results-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
@@ -91,4 +94,4 @@ jobs:
           playwright-report/
           test-results/
         if-no-files-found: ignore
-        retention-days: 7
+        retention-days: 5
