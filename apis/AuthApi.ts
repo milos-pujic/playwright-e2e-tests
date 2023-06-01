@@ -4,7 +4,6 @@ import { BaseApi } from './BaseApi';
 const path = '/auth';
 
 export class AuthApi extends BaseApi {
-  readonly storageStatePath: string;
   constructor(request: APIRequestContext) {
     super(request);
   }
