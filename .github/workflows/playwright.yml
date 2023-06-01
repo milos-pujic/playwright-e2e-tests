@@ -6,9 +6,46 @@ on:
   # pull_request:
   #   branches: [ main, master ]
 jobs:
+  install:
+    name: 'Install'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Repository
+        id: checkout-repository
+        uses: actions/checkout@v3
+      - name: Setup Node
+        id: setup-node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        id: cache-node-modules
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Playwright Binaries
+        uses: actions/cache@v3
+        id: cache-playwright
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        id: install-dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Install Playwright Browsers
+        id: install-playwright-browsers
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
   test:
     name: 'Tests - ${{ matrix.project }} - Shard ${{ matrix.shardIndex }} of ${{ matrix.shardTotal }}'
     runs-on: ubuntu-latest
+    needs: [install]
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -17,13 +54,35 @@ jobs:
         shardIndex: [1, 2]
         shardTotal: [2]
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - name: Checkout Repository
+      id: checkout-repository
+      uses: actions/checkout@v3
+    - name: Setup Node
+      id: setup-node
+      uses: actions/setup-node@v3
       with:
         node-version: 20
+    - name: Cache Node Modules
+      uses: actions/cache@v3
+      id: cache-node-modules
+      with:
+        path: |
+          node_modules
+        key: modules-${{ hashFiles('package-lock.json') }}
+    - name: Cache Playwright Binaries
+      uses: actions/cache@v3
+      id: cache-playwright
+      with:
+        path: |
+          ~/.cache/ms-playwright
+        key: playwright-${{ hashFiles('package-lock.json') }}
     - name: Install dependencies
+      id: install-dependencies
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: npm ci
     - name: Install Playwright Browsers
+      id: install-playwright-browsers
+      if: steps.cache-playwright.outputs.cache-hit != 'true'
       run: npx playwright install --with-deps
     - name: Run Playwright Tests
       run: BASE_URL='https://automationintesting.online' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
