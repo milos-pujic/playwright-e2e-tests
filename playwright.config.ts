@@ -11,7 +11,6 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
-  // globalSetup: require.resolve('./setup/global.setup.ts'),
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -24,14 +23,23 @@ export default defineConfig({
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : [['list'], ['html', { open: 'on-failure' }]],
   /* Limit the number of failures on CI to save resources */
   maxFailures: process.env.CI ? 10 : undefined,
-  /* Each test is given 30 seconds. */
+  // Folder for test artifacts such as screenshots, videos, traces, etc.
+  outputDir: 'test-results',
+  /* path to the global setup files. */
+  // globalSetup: require.resolve('./setup/global.setup.ts'),
+  /* path to the global teardown files. */
+  // globalTeardown: require.resolve('./setup/global.teardown.ts'),
+  /* Each test is given 60 seconds. */
   timeout: 60000,
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.BASE_URL ? process.env.BASE_URL : 'https://automationintesting.online/',
     /* Populates context with given storage state. */
     // storageState: './state.json',
+    /* Viewport used for all pages in the context. */
+    // viewport: { width: 1280, height: 720 },
     /* Capture screenshot. */
     screenshot: 'only-on-failure',
     /* Record video. */
@@ -42,8 +50,6 @@ export default defineConfig({
     actionTimeout: 0,
     /* Whether to ignore HTTPS errors when sending network requests. Defaults to `false`. */
     ignoreHTTPSErrors: true,
-    /* Channel to use, for example "chrome", "chrome-beta", "msedge", "msedge-beta". */
-    // channel: 'chrome',
     /* Run browser in headless mode. */
     headless: true,
     /* Change the default data-testid attribute. */
