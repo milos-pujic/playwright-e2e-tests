@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -20,7 +21,31 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : [['list'], ['html', { open: 'on-failure' }]],
+  reporter: process.env.CI
+    ? [
+        ['list'],
+        ['html', { open: 'never' }],
+        [
+          'monocart-reporter',
+          {
+            name: 'Playwright Test Report',
+            outputFile: './playwright-monocart-report/report.html',
+            trend: './playwright-monocart-report/report.json'
+          }
+        ]
+      ]
+    : [
+        ['list'],
+        ['html', { open: 'on-failure' }],
+        [
+          'monocart-reporter',
+          {
+            name: 'Playwright Test Report',
+            outputFile: './playwright-monocart-report/report.html',
+            trend: './playwright-monocart-report/report.json'
+          }
+        ]
+      ],
   /* Limit the number of failures on CI to save resources */
   maxFailures: process.env.CI ? 10 : undefined,
   // Folder for test artifacts such as screenshots, videos, traces, etc.

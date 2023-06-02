@@ -18,8 +18,7 @@
       "error",
       2,
       {
-        "SwitchCase": 1,
-        "ArrayExpression": "2"
+        "SwitchCase": 1
       }
     ],
     "no-duplicate-imports": [
