@@ -92,6 +92,7 @@ jobs:
         name: playwright-report-and-results-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
         path: |
           playwright-report/
+          playwright-monocart-report/
           test-results/
         if-no-files-found: ignore
         retention-days: 5
