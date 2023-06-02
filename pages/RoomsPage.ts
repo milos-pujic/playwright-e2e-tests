@@ -13,7 +13,7 @@ export class RoomsPage extends BasePage {
   readonly safeCheckbox: Locator;
   readonly viewsCheckbox: Locator;
   readonly createRoomButton: Locator;
-  readonly contactErrorMessages: Locator;
+  readonly errorMessages: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -28,7 +28,7 @@ export class RoomsPage extends BasePage {
     this.safeCheckbox = page.getByLabel('Safe');
     this.viewsCheckbox = page.getByLabel('Views');
     this.createRoomButton = page.getByRole('button', { name: 'Create' });
-    this.contactErrorMessages = page.locator('.alert.alert-danger');
+    this.errorMessages = page.locator('.alert.alert-danger');
   }
 
   async goto() {

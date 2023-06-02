@@ -27,13 +27,13 @@ export class RoomApi extends BaseApi {
         description: 'Room Created with Automated Test'
       }
     });
-    expect(response.status()).toBe(201);
+    expect(response.status(), `Creating ${roomType} Room ${roomName} unsuccessful!`).toBe(201);
   }
 
   async deleteRoom(roomId: number) {
     await this.bookingApi.deleteAllBookings(roomId);
     const response = await this.request.delete(`${path}/${roomId}`);
-    expect([202, 404]).toContain(response.status());
+    expect([202, 404], `Delete of Room with ID:${roomId} unsuccessful!`).toContain(response.status());
   }
 
   async deleteAllRooms(roomName: string) {

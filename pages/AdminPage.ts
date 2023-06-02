@@ -17,7 +17,7 @@ export class AdminPage extends BasePage {
 
   async goto() {
     await this.page.goto('/#/admin');
-    await expect(this.pageHeader).toBeVisible();
+    await expect(this.pageHeader, 'Admin page not loaded!').toBeVisible();
   }
 
   async fillInLogin(userName: string, password: string) {

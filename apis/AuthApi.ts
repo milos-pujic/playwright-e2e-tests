@@ -15,6 +15,6 @@ export class AuthApi extends BaseApi {
         password: password
       }
     });
-    expect(response.status()).toBe(200);
+    expect(response.status(), 'Login unsuccessful!').toBe(200);
   }
 }

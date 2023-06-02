@@ -47,7 +47,7 @@ export class FrontPage extends BasePage {
 
   async goto() {
     await this.page.goto('/');
-    await expect(this.pageLocator).toBeVisible();
+    await expect(this.pageLocator, 'Front Page not loaded!').toBeVisible();
   }
 
   async sendMessage(name: string, email: string, phone: string, subject: string, description: string) {

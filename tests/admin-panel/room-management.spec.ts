@@ -24,7 +24,7 @@ test.describe('Room Management Tests', () => {
     await adminPage.hideBanner(baseURL);
     await adminPage.goto();
     await adminPage.login('admin', 'password');
-    await expect(header.logoutLink).toBeVisible();
+    await expect(header.logoutLink, 'Administrator is not logged in!').toBeVisible();
 
     await authApi.login('admin', 'password');
   });
@@ -45,19 +45,21 @@ test.describe('Room Management Tests', () => {
       const amenities = room[4];
       await roomsPage.createRoom(name, type, accessible, price, amenities);
       const roomRecord = page.locator(`//div[@data-testid='roomlisting'][.//p[contains(@id,'${name}')]]`).last();
-      await expect(roomRecord).toBeVisible();
-      await expect(roomRecord.locator('p[id*=roomName]')).toContainText(name);
-      await expect(roomRecord.locator('p[id*=type]')).toContainText(type);
-      await expect(roomRecord.locator('p[id*=accessible]')).toContainText(accessible ? 'true' : 'false');
-      await expect(roomRecord.locator('p[id*=roomPrice]')).toContainText(price.toString());
-      await expect(roomRecord.locator('p[id*=details]')).toContainText(getRoomDetailsFromAmenities(amenities));
+      await expect(roomRecord, `Room ${name} is not created!`).toBeVisible();
+      await expect(roomRecord.locator('p[id*=roomName]'), `Room ${name} has wrong name!`).toContainText(name);
+      await expect(roomRecord.locator('p[id*=type]'), `Room ${name} has wrong type!`).toContainText(type);
+      await expect(roomRecord.locator('p[id*=accessible]'), `Room ${name} has wrong accessibility!`).toContainText(accessible ? 'true' : 'false');
+      await expect(roomRecord.locator('p[id*=roomPrice]'), `Room ${name} has wrong price!`).toContainText(price.toString());
+      await expect(roomRecord.locator('p[id*=details]'), `Room ${name} has wrong details!`).toContainText(getRoomDetailsFromAmenities(amenities));
       await roomApi.deleteAllRooms(name);
     });
   }
 
   test('User must NOT be able to create new room without filling up room name field', async () => {
     await roomsPage.createRoom('', RoomType.TWIN, false, 55, { wifi: true, tv: true, radio: false, refreshments: false, safe: false, views: false });
-    await expect(roomsPage.contactErrorMessages).toContainText('Room name must be set');
+    await expect(roomsPage.errorMessages, 'Error messages not displayed!').toBeVisible();
+    const errorMessage = 'Room name must be set';
+    await expect(roomsPage.errorMessages, `Error messages "${errorMessage} no displayed!`).toContainText(errorMessage);
   });
 
   test('User must NOT be able to create new room without filling up room price field', async () => {
@@ -69,7 +71,9 @@ test.describe('Room Management Tests', () => {
       safe: true,
       views: false
     });
-    await expect(roomsPage.contactErrorMessages).toContainText('must be greater than or equal to 1');
+    await expect(roomsPage.errorMessages, 'Error messages not displayed!').toBeVisible();
+    const errorMessage = 'must be greater than or equal to 1';
+    await expect(roomsPage.errorMessages, `Error messages "${errorMessage} no displayed!`).toContainText(errorMessage);
   });
 
   test('User must NOT be able to create new room with price 0', async () => {
@@ -81,6 +85,8 @@ test.describe('Room Management Tests', () => {
       safe: false,
       views: false
     });
-    await expect(roomsPage.contactErrorMessages).toContainText('must be greater than or equal to 1');
+    await expect(roomsPage.errorMessages, 'Error messages not displayed!').toBeVisible();
+    const errorMessage = 'must be greater than or equal to 1';
+    await expect(roomsPage.errorMessages, `Error messages "${errorMessage} no displayed!`).toContainText(errorMessage);
   });
 });
