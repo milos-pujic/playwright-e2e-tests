@@ -1,4 +1,4 @@
-import { APIRequestContext, expect } from '@playwright/test';
+import { test, expect, APIRequestContext } from '@playwright/test';
 import { BaseApi } from './BaseApi';
 import { BookingApi } from './BookingApi';
 import { RoomType, RoomAmenities, getAmenitiesAsList } from '../pages/RoomsPage';
@@ -14,36 +14,40 @@ export class RoomApi extends BaseApi {
     this.bookingApi = new BookingApi(request);
   }
 
-  async createRoom(roomName: string, roomType: RoomType, roomIsAccessible: boolean, roomPrice: number, roomFeatures: RoomAmenities) {
+  async createRoom(roomName: string, roomType: RoomType, roomIsAccessible: boolean, roomPrice: number, roomAmenities: RoomAmenities) {
     await this.deleteAllRooms(roomName);
-    const response = await this.request.post(`${path}/`, {
-      data: {
-        roomName: roomName,
-        type: roomType,
-        accessible: roomIsAccessible.toString(),
-        roomPrice: roomPrice.toString(),
-        features: getAmenitiesAsList(roomFeatures),
-        image: getImageUrl(roomType),
-        description: 'Room Created with Automated Test'
-      }
+    await test.step(`Create ${roomType} Room with name '${roomName}'`, async () => {
+      const response = await this.request.post(`${path}/`, {
+        data: {
+          roomName: roomName,
+          type: roomType,
+          accessible: roomIsAccessible.toString(),
+          roomPrice: roomPrice.toString(),
+          features: getAmenitiesAsList(roomAmenities),
+          image: getImageUrl(roomType),
+          description: 'Room Created with Automated Test'
+        }
+      });
+      expect(response.status(), `${roomType} Room with name '${roomName}' is created`).toBe(201);
     });
-    expect(response.status(), `${roomType} Room with name '${roomName}' created`).toBe(201);
   }
 
   async deleteRoom(roomId: number) {
     await this.bookingApi.deleteAllBookings(roomId);
-    const response = await this.request.delete(`${path}/${roomId}`);
-    expect([202, 404], `Room with id: ${roomId} deleted`).toContain(response.status());
+    await test.step(`Delete room with id: ${roomId}`, async () => {
+      const response = await this.request.delete(`${path}/${roomId}`);
+      expect([202, 404], `Room with id: ${roomId} is deleted`).toContain(response.status());
+    });
   }
 
   async deleteAllRooms(roomName: string) {
-    const getRoomsResponse = await this.request.get(`${path}/`);
-    expect(getRoomsResponse.status(), 'All rooms fetched').toBe(200);
-    const getRoomsData = JSON.parse(await getRoomsResponse.text());
-    if (getRoomsData.rooms.length > 0) {
-      for (const room of getRoomsData.rooms) {
-        if (room.roomName == roomName) await this.deleteRoom(room.roomid);
-      }
-    }
+    await test.step(`Delete all rooms with na: '${roomName}'`, async () => {
+      const getRoomsResponse = await this.request.get(`${path}/`);
+      expect(getRoomsResponse.status(), 'All rooms are fetched').toBe(200);
+      const getRoomsData = JSON.parse(await getRoomsResponse.text());
+      const allRooms = getRoomsData.rooms;
+      const filteredRoomsByName = allRooms.filter((room) => room.roomName == roomName);
+      for (const room of filteredRoomsByName) await this.deleteRoom(room.roomid);
+    });
   }
 }

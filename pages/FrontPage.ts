@@ -1,4 +1,4 @@
-import { test, expect, Locator, Page } from '@playwright/test';
+import { test, expect, Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class FrontPage extends BasePage {
@@ -53,7 +53,7 @@ export class FrontPage extends BasePage {
   }
 
   async sendMessage(name: string, email: string, phone: string, subject: string, description: string) {
-    await test.step('Try to Submit Message to Hotel', async () => {
+    await test.step('Submit Message to Hotel', async () => {
       await this.contactNameField.type(name);
       await this.contactEmailField.type(email);
       await this.contactPhoneField.type(phone);
@@ -64,7 +64,7 @@ export class FrontPage extends BasePage {
   }
 
   async clickBookThsRoomButton(roomName: string) {
-    await test.step(`Click on Book this room button for Room '${roomName}'`, async () => {
+    await test.step(`Click on Book this room button for Room named '${roomName}'`, async () => {
       await this.page.locator(`//div[./div/img[contains(@alt,'${roomName}')]]//button`).last().click();
     });
   }
@@ -97,7 +97,7 @@ export class FrontPage extends BasePage {
   }
 
   async bookRoom(roomName: string, firstName: string, lastName: string, email: string, phoneNumber: string) {
-    await test.step(`Try to Book a Room '${roomName}'`, async () => {
+    await test.step(`Book a Room '${roomName}'`, async () => {
       await this.clickBookThsRoomButton(roomName);
       await this.fillBookingFields(firstName, lastName, email, phoneNumber);
       await this.selectBookingDates();
@@ -106,7 +106,7 @@ export class FrontPage extends BasePage {
   }
 
   async bookRoomWithoutDates(roomName: string, firstName: string, lastName: string, email: string, phoneNumber: string) {
-    await test.step(`Try to Book a Room '${roomName}' without selecting booking dates`, async () => {
+    await test.step(`Book a Room '${roomName}' without selecting booking dates`, async () => {
       await this.clickBookThsRoomButton(roomName);
       await this.fillBookingFields(firstName, lastName, email, phoneNumber);
       await this.clickOnBookButton();

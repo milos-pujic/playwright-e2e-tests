@@ -1,4 +1,4 @@
-import { APIRequestContext, test, expect } from '@playwright/test';
+import { test, expect, APIRequestContext } from '@playwright/test';
 import { BaseApi } from './BaseApi';
 
 const path = '/auth';
@@ -16,7 +16,7 @@ export class AuthApi extends BaseApi {
           password: password
         }
       });
-      expect(response.status(), `User '${username}' logged in`).toBe(200);
+      expect(response.status(), `User '${username}' is logged in`).toBe(200);
     });
   }
 }

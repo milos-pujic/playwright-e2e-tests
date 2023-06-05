@@ -1,4 +1,4 @@
-import { test, Locator, Page } from '@playwright/test';
+import { test, Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class RoomsPage extends BasePage {
@@ -60,13 +60,13 @@ export class RoomsPage extends BasePage {
     else await this.viewsCheckbox.uncheck();
   }
 
-  async createRoom(name: string, type: RoomType | null, accessible: boolean, price: number | null, amenities: RoomAmenities) {
-    await test.step(`Try to Create Room  #'${name}'`, async () => {
-      await this.roomNameField.type(name);
-      await this.selectRoomType(type);
-      await this.roomAccessibleSelect.selectOption(accessible ? 'true' : 'false');
-      await this.enterPrice(price);
-      await this.selectAmenities(amenities);
+  async createRoom(roomName: string, roomType: RoomType | null, roomIsAccessible: boolean, roomPrice: number | null, roomAmenities: RoomAmenities) {
+    await test.step(`Create ${roomType} Room with name '${roomName}'`, async () => {
+      await this.roomNameField.type(roomName);
+      await this.selectRoomType(roomType);
+      await this.roomAccessibleSelect.selectOption(roomIsAccessible ? 'true' : 'false');
+      await this.enterPrice(roomPrice);
+      await this.selectAmenities(roomAmenities);
       await this.createRoomButton.click();
     });
   }
