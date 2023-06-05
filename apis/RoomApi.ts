@@ -41,7 +41,7 @@ export class RoomApi extends BaseApi {
   }
 
   async deleteAllRooms(roomName: string) {
-    await test.step(`Delete all rooms with na: '${roomName}'`, async () => {
+    await test.step(`Delete all rooms with name: '${roomName}'`, async () => {
       const getRoomsResponse = await this.request.get(`${path}/`);
       expect(getRoomsResponse.status(), 'All rooms are fetched').toBe(200);
       const getRoomsData = JSON.parse(await getRoomsResponse.text());
