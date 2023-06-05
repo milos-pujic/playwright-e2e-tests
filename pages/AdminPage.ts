@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { test, expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class AdminPage extends BasePage {
@@ -16,17 +16,17 @@ export class AdminPage extends BasePage {
   }
 
   async goto() {
-    await this.page.goto('/#/admin');
-    await expect(this.pageHeader, 'Admin page not loaded!').toBeVisible();
-  }
-
-  async fillInLogin(userName: string, password: string) {
-    await this.usernameField.type(userName);
-    await this.passwordField.type(password);
+    await test.step('Go to Admin Page', async () => {
+      await this.page.goto('/#/admin');
+      await expect(this.pageHeader, 'Admin page loaded').toBeVisible();
+    });
   }
 
   async login(username: string, password: string) {
-    await this.fillInLogin(username, password);
-    await this.loginButton.click();
+    await test.step(`User '${username}' logged in`, async () => {
+      await this.usernameField.type(username);
+      await this.passwordField.type(password);
+      await this.loginButton.click();
+    });
   }
 }

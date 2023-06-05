@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { test, Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class RoomsPage extends BasePage {
@@ -32,15 +32,20 @@ export class RoomsPage extends BasePage {
   }
 
   async goto() {
-    await this.page.goto('/#/admin');
+    await test.step('Go to Rooms Page', async () => {
+      await this.page.goto('/#/admin');
+    });
   }
 
-  async createRoom(name: string, type: RoomType | null, accessible: boolean, price: number | null, amenities: RoomAmenities) {
-    if (name) await this.roomNameField.type(name);
-    if (type != null && type) await this.roomTypeSelect.selectOption(type);
-    if (accessible) await this.roomAccessibleSelect.selectOption('true');
-    else await this.roomAccessibleSelect.selectOption('false');
-    if (price != null && price) await this.roomPriceField.type(price.toString());
+  async selectRoomType(type: RoomType | null) {
+    if (type != null) await this.roomTypeSelect.selectOption(type);
+  }
+
+  async enterPrice(price: number | null) {
+    if (price != null) await this.roomPriceField.type(price.toString());
+  }
+
+  async selectAmenities(amenities: RoomAmenities) {
     if (amenities.wifi) await this.wifiCheckbox.check();
     else await this.wifiCheckbox.uncheck();
     if (amenities.tv) await this.tvCheckbox.check();
@@ -53,7 +58,17 @@ export class RoomsPage extends BasePage {
     else await this.safeCheckbox.uncheck();
     if (amenities.views) await this.viewsCheckbox.check();
     else await this.viewsCheckbox.uncheck();
-    await this.createRoomButton.click();
+  }
+
+  async createRoom(name: string, type: RoomType | null, accessible: boolean, price: number | null, amenities: RoomAmenities) {
+    await test.step(`Try to Create Room  #'${name}'`, async () => {
+      await this.roomNameField.type(name);
+      await this.selectRoomType(type);
+      await this.roomAccessibleSelect.selectOption(accessible ? 'true' : 'false');
+      await this.enterPrice(price);
+      await this.selectAmenities(amenities);
+      await this.createRoomButton.click();
+    });
   }
 }
 

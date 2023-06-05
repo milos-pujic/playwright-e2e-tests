@@ -1,4 +1,4 @@
-import { APIRequestContext, expect } from '@playwright/test';
+import { APIRequestContext, test, expect } from '@playwright/test';
 import { BaseApi } from './BaseApi';
 
 const path = '/auth';
@@ -9,12 +9,14 @@ export class AuthApi extends BaseApi {
   }
 
   async login(username: string, password: string) {
-    const response = await this.request.post(`${path}/login`, {
-      data: {
-        username: username,
-        password: password
-      }
+    await test.step(`Log in using API with username: ${username} and password: ${password}`, async () => {
+      const response = await this.request.post(`${path}/login`, {
+        data: {
+          username: username,
+          password: password
+        }
+      });
+      expect(response.status(), `User '${username}' logged in`).toBe(200);
     });
-    expect(response.status(), 'Login unsuccessful!').toBe(200);
   }
 }

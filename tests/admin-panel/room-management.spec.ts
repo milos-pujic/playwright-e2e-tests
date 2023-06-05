@@ -24,7 +24,7 @@ test.describe('Room Management Tests', () => {
     await adminPage.hideBanner(baseURL);
     await adminPage.goto();
     await adminPage.login('admin', 'password');
-    await expect(header.logoutLink, 'Administrator is not logged in!').toBeVisible();
+    await expect(header.logoutLink, 'Administrator is logged in').toBeVisible();
 
     await authApi.login('admin', 'password');
   });
@@ -44,22 +44,28 @@ test.describe('Room Management Tests', () => {
       const price = room[3];
       const amenities = room[4];
       await roomsPage.createRoom(name, type, accessible, price, amenities);
+
+      const accessibleString = accessible.toString();
+      const priceString = price.toString();
+      const amenitiesString = getRoomDetailsFromAmenities(amenities);
       const roomRecord = page.locator(`//div[@data-testid='roomlisting'][.//p[contains(@id,'${name}')]]`).last();
       await expect(roomRecord, `Room ${name} is not created!`).toBeVisible();
-      await expect(roomRecord.locator('p[id*=roomName]'), `Room ${name} has wrong name!`).toContainText(name);
-      await expect(roomRecord.locator('p[id*=type]'), `Room ${name} has wrong type!`).toContainText(type);
-      await expect(roomRecord.locator('p[id*=accessible]'), `Room ${name} has wrong accessibility!`).toContainText(accessible ? 'true' : 'false');
-      await expect(roomRecord.locator('p[id*=roomPrice]'), `Room ${name} has wrong price!`).toContainText(price.toString());
-      await expect(roomRecord.locator('p[id*=details]'), `Room ${name} has wrong details!`).toContainText(getRoomDetailsFromAmenities(amenities));
+      await expect(roomRecord.locator('p[id*=roomName]'), `Room ${name} has correct name: ${name}`).toContainText(name);
+      await expect(roomRecord.locator('p[id*=type]'), `Room ${name} has correct type: ${type}`).toContainText(type);
+      await expect(roomRecord.locator('p[id*=accessible]'), `Room ${name} has correct accessibility: ${accessibleString}`).toContainText(
+        accessibleString
+      );
+      await expect(roomRecord.locator('p[id*=roomPrice]'), `Room ${name} has correct price: ${priceString}`).toContainText(priceString);
+      await expect(roomRecord.locator('p[id*=details]'), `Room ${name} has correct details: ${amenitiesString}`).toContainText(amenitiesString);
       await roomApi.deleteAllRooms(name);
     });
   }
 
   test('User must NOT be able to create new room without filling up room name field', async () => {
     await roomsPage.createRoom('', RoomType.TWIN, false, 55, { wifi: true, tv: true, radio: false, refreshments: false, safe: false, views: false });
-    await expect(roomsPage.errorMessages, 'Error messages not displayed!').toBeVisible();
+    await expect(roomsPage.errorMessages, 'Error messages are displayed').toBeVisible();
     const errorMessage = 'Room name must be set';
-    await expect(roomsPage.errorMessages, `Error messages "${errorMessage} no displayed!`).toContainText(errorMessage);
+    await expect(roomsPage.errorMessages, `Error message '${errorMessage}' is displayed`).toContainText(errorMessage);
   });
 
   test('User must NOT be able to create new room without filling up room price field', async () => {
@@ -71,9 +77,9 @@ test.describe('Room Management Tests', () => {
       safe: true,
       views: false
     });
-    await expect(roomsPage.errorMessages, 'Error messages not displayed!').toBeVisible();
+    await expect(roomsPage.errorMessages, 'Error messages are displayed').toBeVisible();
     const errorMessage = 'must be greater than or equal to 1';
-    await expect(roomsPage.errorMessages, `Error messages "${errorMessage} no displayed!`).toContainText(errorMessage);
+    await expect(roomsPage.errorMessages, `Error message '${errorMessage}' is displayed`).toContainText(errorMessage);
   });
 
   test('User must NOT be able to create new room with price 0', async () => {
@@ -85,8 +91,8 @@ test.describe('Room Management Tests', () => {
       safe: false,
       views: false
     });
-    await expect(roomsPage.errorMessages, 'Error messages not displayed!').toBeVisible();
+    await expect(roomsPage.errorMessages, 'Error messages are displayed').toBeVisible();
     const errorMessage = 'must be greater than or equal to 1';
-    await expect(roomsPage.errorMessages, `Error messages "${errorMessage} no displayed!`).toContainText(errorMessage);
+    await expect(roomsPage.errorMessages, `Error message '${errorMessage}' is displayed`).toContainText(errorMessage);
   });
 });

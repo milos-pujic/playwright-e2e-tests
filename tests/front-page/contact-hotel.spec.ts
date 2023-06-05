@@ -19,8 +19,10 @@ test.describe('Contact Hotel Tests', () => {
     const subject = faker.lorem.sentence(3);
     const message = faker.lorem.lines(5);
     await frontPage.sendMessage(name, email, phoneNumber, subject, message);
-    await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful not visible!').toBeVisible();
-    await expect(frontPage.contactSuccessMessage, 'Wrong Success Message displayed!').toContainText(`Thanks for getting in touch ${name}`);
+
+    const successMessage = `Thanks for getting in touch ${name}`;
+    await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful').toBeVisible();
+    await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' displayed`).toContainText(successMessage);
   });
 
   test('Visitor must NOT be able to contact the property without filling up name field', async () => {
@@ -29,8 +31,10 @@ test.describe('Contact Hotel Tests', () => {
     const subject = faker.lorem.sentence(3);
     const message = faker.lorem.lines(5);
     await frontPage.sendMessage('', email, phoneNumber, subject, message);
-    await expect(frontPage.contactErrorMessages, 'Error Messages are not visible!').toBeVisible();
-    await expect(frontPage.contactErrorMessages, 'Wrong Mandatory Message displayed!').toContainText('Name may not be blank');
+
+    const mandatoryMessage = 'Name may not be blank';
+    await expect(frontPage.contactErrorMessages, 'Error Messages are displayed').toBeVisible();
+    await expect(frontPage.contactErrorMessages, `Mandatory Message '${mandatoryMessage}' is displayed`).toContainText(mandatoryMessage);
   });
 
   test('Visitor must NOT be able to contact the property without filling up email field', async () => {
@@ -39,8 +43,10 @@ test.describe('Contact Hotel Tests', () => {
     const subject = faker.lorem.sentence(3);
     const message = faker.lorem.lines(5);
     await frontPage.sendMessage(name, '', phoneNumber, subject, message);
-    await expect(frontPage.contactErrorMessages, 'Error Messages are not visible!').toBeVisible();
-    await expect(frontPage.contactErrorMessages, 'Wrong Mandatory Message displayed!').toContainText('Email may not be blank');
+
+    const mandatoryMessage = 'Email may not be blank';
+    await expect(frontPage.contactErrorMessages, 'Error Messages are displayed').toBeVisible();
+    await expect(frontPage.contactErrorMessages, `Mandatory Message '${mandatoryMessage}' is displayed`).toContainText(mandatoryMessage);
   });
 
   test('Visitor must NOT be able to contact the property without filling up phone field', async () => {
@@ -49,9 +55,12 @@ test.describe('Contact Hotel Tests', () => {
     const subject = faker.lorem.sentence(3);
     const message = faker.lorem.lines(5);
     await frontPage.sendMessage(name, email, '', subject, message);
-    await expect(frontPage.contactErrorMessages, 'Error Messages are not visible!').toBeVisible();
-    await expect(frontPage.contactErrorMessages, 'Wrong Mandatory Message displayed!').toContainText('Phone may not be blank');
-    await expect(frontPage.contactErrorMessages, 'Wrong Mandatory Message displayed!').toContainText('Phone must be between 11 and 21 characters');
+
+    const mandatoryMessage = 'Phone may not be blank';
+    const validationMessage = 'Phone must be between 11 and 21 characters';
+    await expect(frontPage.contactErrorMessages, 'Error Messages are displayed').toBeVisible();
+    await expect(frontPage.contactErrorMessages, `Mandatory Message '${mandatoryMessage}' is displayed`).toContainText(mandatoryMessage);
+    await expect(frontPage.contactErrorMessages, `Validation Message '${validationMessage}' is displayed`).toContainText(validationMessage);
   });
 
   test('Visitor must NOT be able to contact the property without filling up subject field', async () => {
@@ -60,9 +69,12 @@ test.describe('Contact Hotel Tests', () => {
     const phoneNumber = faker.phone.number();
     const message = faker.lorem.lines(5);
     await frontPage.sendMessage(name, email, phoneNumber, '', message);
-    await expect(frontPage.contactErrorMessages, 'Error Messages are not visible!').toBeVisible();
-    await expect(frontPage.contactErrorMessages, 'Wrong Mandatory Message displayed!').toContainText('Subject may not be blank');
-    await expect(frontPage.contactErrorMessages, 'Wrong Mandatory Message displayed!').toContainText('Subject must be between 5 and 100 characters');
+
+    const mandatoryMessage = 'Subject may not be blank';
+    const validationMessage = 'Subject must be between 5 and 100 characters';
+    await expect(frontPage.contactErrorMessages, 'Error Messages are displayed').toBeVisible();
+    await expect(frontPage.contactErrorMessages, `Mandatory Message '${mandatoryMessage}' is displayed`).toContainText(mandatoryMessage);
+    await expect(frontPage.contactErrorMessages, `Validation Message '${validationMessage}' is displayed`).toContainText(validationMessage);
   });
 
   test('Visitor must NOT be able to contact the property without filling up message field', async () => {
@@ -71,11 +83,12 @@ test.describe('Contact Hotel Tests', () => {
     const phoneNumber = faker.phone.number();
     const subject = faker.lorem.sentence(3);
     await frontPage.sendMessage(name, email, phoneNumber, subject, '');
-    await expect(frontPage.contactErrorMessages, 'Error Messages are not visible!').toBeVisible();
-    await expect(frontPage.contactErrorMessages, 'Wrong Mandatory Message displayed!').toContainText('Message may not be blank');
-    await expect(frontPage.contactErrorMessages, 'Wrong Mandatory Message displayed!').toContainText(
-      'Message must be between 20 and 2000 characters'
-    );
+
+    const mandatoryMessage = 'Message may not be blank';
+    const validationMessage = 'Message must be between 20 and 2000 characters';
+    await expect(frontPage.contactErrorMessages, 'Error Messages are displayed').toBeVisible();
+    await expect(frontPage.contactErrorMessages, `Mandatory Message '${mandatoryMessage}' is displayed`).toContainText(mandatoryMessage);
+    await expect(frontPage.contactErrorMessages, `Validation Message '${validationMessage}' is displayed`).toContainText(validationMessage);
   });
 
   for (const invalidEmail of invalidEmails()) {
@@ -85,8 +98,10 @@ test.describe('Contact Hotel Tests', () => {
       const subject = faker.lorem.sentence(3);
       const message = faker.lorem.lines(5);
       await frontPage.sendMessage(name, invalidEmail, phoneNumber, subject, message);
-      await expect(frontPage.contactErrorMessages, 'Error Messages are not visible!').toBeVisible();
-      await expect(frontPage.contactErrorMessages, 'Wrong Validation Message displayed!').toContainText('must be a well-formed email address');
+
+      const validationMessage = 'must be a well-formed email address';
+      await expect(frontPage.contactErrorMessages, 'Error Messages are displayed').toBeVisible();
+      await expect(frontPage.contactErrorMessages, `Validation Message '${validationMessage}' is displayed`).toContainText(validationMessage);
     });
   }
 
@@ -97,8 +112,10 @@ test.describe('Contact Hotel Tests', () => {
       const subject = faker.lorem.sentence(3);
       const message = faker.lorem.lines(5);
       await frontPage.sendMessage(name, email, invalidPhone, subject, message);
-      await expect(frontPage.contactErrorMessages, 'Error Messages are not visible!').toBeVisible();
-      await expect(frontPage.contactErrorMessages, 'Wrong Validation Message displayed!').toContainText('Phone must be between 11 and 21 characters');
+
+      const validationMessage = 'Phone must be between 11 and 21 characters';
+      await expect(frontPage.contactErrorMessages, 'Error Messages are displayed').toBeVisible();
+      await expect(frontPage.contactErrorMessages, `Validation Message '${validationMessage}' is displayed`).toContainText(validationMessage);
     });
   }
 
@@ -109,8 +126,10 @@ test.describe('Contact Hotel Tests', () => {
       const subject = faker.lorem.sentence(3);
       const message = faker.lorem.lines(5);
       await frontPage.sendMessage(name, email, validPhone, subject, message);
-      await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful not visible!').toBeVisible();
-      await expect(frontPage.contactSuccessMessage, 'Wrong Success Message displayed!').toContainText(`Thanks for getting in touch ${name}`);
+
+      const successMessage = `Thanks for getting in touch ${name}`;
+      await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful').toBeVisible();
+      await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' displayed`).toContainText(successMessage);
     });
   }
 
@@ -122,10 +141,10 @@ test.describe('Contact Hotel Tests', () => {
       const subject = faker.string.alphanumeric(invalidSubjectLength);
       const message = faker.lorem.lines(5);
       await frontPage.sendMessage(name, email, phoneNumber, subject, message);
-      await expect(frontPage.contactErrorMessages, 'Error Messages are not visible!').toBeVisible();
-      await expect(frontPage.contactErrorMessages, 'Wrong Validation Message displayed!').toContainText(
-        'Subject must be between 5 and 100 characters'
-      );
+
+      const validationMessage = 'Subject must be between 5 and 100 characters';
+      await expect(frontPage.contactErrorMessages, 'Error Messages are displayed').toBeVisible();
+      await expect(frontPage.contactErrorMessages, `Validation Message '${validationMessage}' is displayed`).toContainText(validationMessage);
     });
   }
 
@@ -137,8 +156,10 @@ test.describe('Contact Hotel Tests', () => {
       const subject = faker.string.alphanumeric(validSubjectLength);
       const message = faker.lorem.lines(5);
       await frontPage.sendMessage(name, email, phoneNumber, subject, message);
-      await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful not visible!').toBeVisible();
-      await expect(frontPage.contactSuccessMessage, 'Wrong Success Message displayed!').toContainText(`Thanks for getting in touch ${name}`);
+
+      const successMessage = `Thanks for getting in touch ${name}`;
+      await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful').toBeVisible();
+      await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' displayed`).toContainText(successMessage);
     });
   }
 
@@ -150,10 +171,10 @@ test.describe('Contact Hotel Tests', () => {
       const subject = faker.lorem.sentence(3);
       const message = faker.string.alphanumeric(invalidMessageLength);
       await frontPage.sendMessage(name, email, phoneNumber, subject, message);
-      await expect(frontPage.contactErrorMessages, 'Error Messages are not visible!').toBeVisible();
-      await expect(frontPage.contactErrorMessages, 'Wrong Validation Message displayed!').toContainText(
-        'Message must be between 20 and 2000 characters'
-      );
+
+      const validationMessage = 'Message must be between 20 and 2000 characters';
+      await expect(frontPage.contactErrorMessages, 'Error Messages are displayed').toBeVisible();
+      await expect(frontPage.contactErrorMessages, `Validation Message '${validationMessage}' is displayed`).toContainText(validationMessage);
     });
   }
 
@@ -165,8 +186,10 @@ test.describe('Contact Hotel Tests', () => {
       const subject = faker.lorem.sentence(3);
       const message = faker.string.alphanumeric(validMessageLength);
       await frontPage.sendMessage(name, email, phoneNumber, subject, message);
-      await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful not visible!').toBeVisible();
-      await expect(frontPage.contactSuccessMessage, 'Wrong Success Message displayed!').toContainText(`Thanks for getting in touch ${name}`);
+
+      const successMessage = `Thanks for getting in touch ${name}`;
+      await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful').toBeVisible();
+      await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' displayed`).toContainText(successMessage);
     });
   }
 });

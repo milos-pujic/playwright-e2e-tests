@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { test, expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class FrontPage extends BasePage {
@@ -46,50 +46,70 @@ export class FrontPage extends BasePage {
   }
 
   async goto() {
-    await this.page.goto('/');
-    await expect(this.pageLocator, 'Front Page not loaded!').toBeVisible();
+    await test.step('Go to Front Page', async () => {
+      await this.page.goto('/');
+      await expect(this.pageLocator, 'Front Page loaded').toBeVisible();
+    });
   }
 
   async sendMessage(name: string, email: string, phone: string, subject: string, description: string) {
-    if (name) await this.contactNameField.type(name);
-    if (email) await this.contactEmailField.type(email);
-    if (phone) await this.contactPhoneField.type(phone);
-    if (subject) await this.contactSubjectField.type(subject);
-    if (description) await this.contactDescriptionField.type(description);
-    await this.contactSubmitButton.click();
+    await test.step('Try to Submit Message to Hotel', async () => {
+      await this.contactNameField.type(name);
+      await this.contactEmailField.type(email);
+      await this.contactPhoneField.type(phone);
+      await this.contactSubjectField.type(subject);
+      await this.contactDescriptionField.type(description);
+      await this.contactSubmitButton.click();
+    });
   }
 
   async clickBookThsRoomButton(roomName: string) {
-    await this.page.locator(`//div[./div/img[contains(@alt,'${roomName}')]]//button`).last().click();
+    await test.step(`Click on Book this room button for Room '${roomName}'`, async () => {
+      await this.page.locator(`//div[./div/img[contains(@alt,'${roomName}')]]//button`).last().click();
+    });
   }
 
   async fillBookingFields(firstName: string, lastName: string, email: string, phoneNumber: string) {
-    if (firstName) await this.bookingFirstNameField.type(firstName);
-    if (lastName) await this.bookingLastNameField.type(lastName);
-    if (email) await this.bookingEmailField.type(email);
-    if (phoneNumber) await this.bookingPhoneNumberField.type(phoneNumber);
+    await test.step('Fill in booking information', async () => {
+      await this.bookingFirstNameField.type(firstName);
+      await this.bookingLastNameField.type(lastName);
+      await this.bookingEmailField.type(email);
+      await this.bookingPhoneNumberField.type(phoneNumber);
+    });
   }
 
   async selectBookingDates() {
-    await this.bookingCalendarNextButton.click();
-    const bookingCalendarStart = this.page.locator('.rbc-day-bg:not(.rbc-off-range-bg)').first();
-    const bookingCalendarEnd = this.page.locator('.rbc-day-bg:not(.rbc-off-range-bg)').last();
-    await bookingCalendarStart.hover();
-    await this.page.mouse.down();
-    await bookingCalendarEnd.hover();
-    await this.page.mouse.up();
+    await test.step('Select booking dates', async () => {
+      await this.bookingCalendarNextButton.click();
+      const bookingCalendarStart = this.page.locator('.rbc-day-bg:not(.rbc-off-range-bg)').first();
+      const bookingCalendarEnd = this.page.locator('.rbc-day-bg:not(.rbc-off-range-bg)').last();
+      await bookingCalendarStart.hover();
+      await this.page.mouse.down();
+      await bookingCalendarEnd.hover();
+      await this.page.mouse.up();
+    });
+  }
+
+  async clickOnBookButton() {
+    await test.step('Click on Book button', async () => {
+      await this.bookingBookButton.click();
+    });
   }
 
   async bookRoom(roomName: string, firstName: string, lastName: string, email: string, phoneNumber: string) {
-    await this.clickBookThsRoomButton(roomName);
-    await this.fillBookingFields(firstName, lastName, email, phoneNumber);
-    await this.selectBookingDates();
-    await this.bookingBookButton.click();
+    await test.step(`Try to Book a Room '${roomName}'`, async () => {
+      await this.clickBookThsRoomButton(roomName);
+      await this.fillBookingFields(firstName, lastName, email, phoneNumber);
+      await this.selectBookingDates();
+      await this.clickOnBookButton();
+    });
   }
 
   async bookRoomWithoutDates(roomName: string, firstName: string, lastName: string, email: string, phoneNumber: string) {
-    await this.clickBookThsRoomButton(roomName);
-    await this.fillBookingFields(firstName, lastName, email, phoneNumber);
-    await this.bookingBookButton.click();
+    await test.step(`Try to Book a Room '${roomName}' without selecting booking dates`, async () => {
+      await this.clickBookThsRoomButton(roomName);
+      await this.fillBookingFields(firstName, lastName, email, phoneNumber);
+      await this.clickOnBookButton();
+    });
   }
 }

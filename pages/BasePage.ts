@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { test, Page } from '@playwright/test';
 
 export class BasePage {
   readonly page: Page;
@@ -8,6 +8,8 @@ export class BasePage {
   }
 
   async hideBanner(baseUrl: string | undefined) {
-    await this.page.context().addCookies([{ name: 'banner', value: 'true', url: baseUrl ? baseUrl : '/', sameSite: 'Strict' }]);
+    await test.step('Hide Welcome to Restful Booker Platform banner', async () => {
+      await this.page.context().addCookies([{ name: 'banner', value: 'true', url: baseUrl ? baseUrl : '/', sameSite: 'Strict' }]);
+    });
   }
 }

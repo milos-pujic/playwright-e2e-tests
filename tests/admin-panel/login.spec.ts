@@ -18,25 +18,25 @@ test.describe('Login Tests', () => {
 
   test('Administrator is able to login with correct username and password', async () => {
     await adminPage.login('admin', 'password');
-    await expect(header.logoutLink, 'Administrator is not logged in!').toBeVisible();
+    await expect(header.logoutLink, 'Administrator logged in!').toBeVisible();
   });
 
   test('User is not able to login with empty username', async () => {
     await adminPage.login('', 'password');
-    await expect(header.logoutLink, 'User is logged in, even though it should be!').toBeHidden();
-    await expect(adminPage.usernameField, 'Username field do not have red border!').toHaveAttribute(style, redBorder);
+    await expect(header.logoutLink, 'User is not logged in').toBeHidden();
+    await expect(adminPage.usernameField, 'Username field has red border!').toHaveAttribute(style, redBorder);
   });
 
   test('User is not able to login with empty password', async () => {
     await adminPage.login('admin', '');
-    await expect(header.logoutLink, 'User is logged in, even though it should be!').toBeHidden();
-    await expect(adminPage.passwordField, 'Password field do not have red border!').toHaveAttribute(style, redBorder);
+    await expect(header.logoutLink, 'User is not logged in').toBeHidden();
+    await expect(adminPage.passwordField, 'Password field has red border!').toHaveAttribute(style, redBorder);
   });
 
   test('User is not able to login with wrong password', async () => {
     await adminPage.login('admin', 'wrong_password');
-    await expect(header.logoutLink, 'User is logged in, even though it should be!').toBeHidden();
-    await expect(adminPage.usernameField, 'Username field do not have red border!').toHaveAttribute(style, redBorder);
-    await expect(adminPage.passwordField, 'Password field do not have red border!').toHaveAttribute(style, redBorder);
+    await expect(header.logoutLink, 'User is not logged in').toBeHidden();
+    await expect(adminPage.usernameField, 'Username field has red border!').toHaveAttribute(style, redBorder);
+    await expect(adminPage.passwordField, 'Password field has red border!').toHaveAttribute(style, redBorder);
   });
 });
