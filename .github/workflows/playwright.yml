@@ -84,15 +84,30 @@ jobs:
     - name: Run Playwright Tests
       id: run-playwright-tests
       run: BASE_URL='https://automationintesting.online' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-    - name: Upload Report and Results
-      id: upload-report-and-results
+    - name: Upload Playwright HTML Report
+      id: upload-playwright-html-report
       uses: actions/upload-artifact@v3
       if: always()
       with:
-        name: playwright-report-and-results-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
-        path: |
-          playwright-report/
-          playwright-monocart-report/
-          test-results/
+        name: playwright-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
+        path: playwright-report/
         if-no-files-found: ignore
-        retention-days: 5
+        retention-days: 3
+    - name: Upload Playwright Test Results
+      id: upload-playwright-test-results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
+        path: test-results/
+        if-no-files-found: ignore
+        retention-days: 3
+    - name: Upload Playwright Monocart Report
+      id: upload-playwright-monocart-report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: monocart-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
+        path: playwright-monocart-report/
+        if-no-files-found: ignore
+        retention-days: 3
