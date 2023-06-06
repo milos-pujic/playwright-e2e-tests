@@ -13,6 +13,7 @@ const reportDataList = [
 merge(reportDataList, {
   name: 'Playwright E2E Tests',
   outputFile: 'merged-monocart-report/index.html',
+  trend: 'previous-trend.json',
   attachmentPath: (currentPath) => {
     const searchStr = '../test-results/';
     const replaceStr = './data/';
