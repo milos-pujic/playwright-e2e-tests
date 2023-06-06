@@ -92,7 +92,7 @@ jobs:
         name: playwright-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
         path: playwright-report/
         if-no-files-found: ignore
-        retention-days: 3
+        retention-days: 1
     - name: Upload Playwright Test Results
       id: upload-playwright-test-results
       uses: actions/upload-artifact@v3
@@ -101,7 +101,7 @@ jobs:
         name: test-results-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
         path: test-results/
         if-no-files-found: ignore
-        retention-days: 3
+        retention-days: 1
     - name: Upload Playwright Monocart Report
       id: upload-playwright-monocart-report
       uses: actions/upload-artifact@v3
@@ -110,7 +110,7 @@ jobs:
         name: monocart-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
         path: playwright-monocart-report/
         if-no-files-found: ignore
-        retention-days: 3
+        retention-days: 1
 
   merge:
     name: Merge Reports
@@ -157,5 +157,5 @@ jobs:
         name: merged-playwright-report
         path: merged-html-report/
         if-no-files-found: ignore
-        retention-days: 3
+        retention-days: 1
         
