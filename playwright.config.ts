@@ -29,7 +29,7 @@ export default defineConfig({
           'monocart-reporter',
           {
             name: 'Playwright E2E Tests',
-            outputFile: './playwright-monocart-report/report.html'
+            outputFile: './playwright-monocart-report/index.html'
           }
         ]
       ]
@@ -40,7 +40,7 @@ export default defineConfig({
           'monocart-reporter',
           {
             name: 'Playwright E2E Tests',
-            outputFile: './playwright-monocart-report/report.html'
+            outputFile: './playwright-monocart-report/index.html'
           }
         ]
       ],

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create the test-results folder
-mkdir -p test-results
+mkdir -p merged-monocart-report/data
 
 # Array of folder names
 folders=(
@@ -16,6 +16,6 @@ folders=(
 # Iterate over the array and copy contents if the folder exists
 for folder in "${folders[@]}"; do
   if [ -d "$folder" ]; then
-    cp -r "$folder"/* test-results/
+    cp -r "$folder"/* merged-monocart-report/data/
   fi
 done
