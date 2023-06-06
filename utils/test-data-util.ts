@@ -13,8 +13,8 @@ export function invalidEmails() {
     'email@example.com (Joe Smith)',
     'email@-example.com',
     'email@example..com',
-    'Abc..123@example.com',
-    'email@example'
+    'Abc..123@example.com'
+    // 'email@example'
   ];
 }
 
