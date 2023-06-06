@@ -169,10 +169,9 @@ jobs:
         ./merge-test-results.sh
     - name: Prepare Reports Folder
       id: prepare-reports-folder
-      shell: bash
       run: |
-        mv merged-html-report reports/playwright                                                                                                                                              (main)
-        mv merged-monocart-report reports/monocart
+        chmod +x ./prepare-reports-folder.sh
+        ./prepare-reports-folder.sh
     - name: Setup Pages
       uses: actions/configure-pages@v3
     - name: Upload artifact
