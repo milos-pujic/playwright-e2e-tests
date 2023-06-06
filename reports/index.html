@@ -4,22 +4,76 @@
   <meta charset="utf-8">
   <meta name="description" content="">
   <title>Playwright E2E Test Reports</title>
-  <link rel="stylesheet" href="./styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #header img {
+      display: block;
+      margin: 0 auto;
+      max-width: 200px;
+    }
+
+    #main {
+      margin: 20px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: #333;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      padding: 10px 20px;
+      border: 2px solid #333;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #333;
+      color: #fff;
+    }
+
+    #footer {
+      background-color: #f5f5f5;
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <section id="header">
-      <h1>Playwright E2E Test</h1>
-    </section>
+  <section id="header">
+    <img src="./playwright-logo.png" alt="playwright-logo">
+  </section>
 
-    <section id="main">
-      <ul>
-        <li><a href="./playwright/index.html">Check Latest HTML Report</a></li>
-        <li><a href="./monocart/index.html">Check Monocart Report</a></li>
-      </ul>
-    </section>
+  <section id="main">
+    <ul>
+      <li><a href="./playwright/index.html">Checkout Latest HTML Report</a></li>
+      <li><a href="./monocart/index.html">Checkout Monocart Report</a></li>
+    </ul>
+  </section>
 
-    <section id="footer">
-      
-    </section>
+  <section id="footer">
+    Playwright E2E Test Reports
+  </section>
 </body>
 </html>
