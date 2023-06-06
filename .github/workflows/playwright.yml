@@ -169,6 +169,7 @@ jobs:
         ./merge-test-results.sh
     - name: Prepare Reports Folder
       id: prepare-reports-folder
+      shell: bash
       run: |
         mv merged-html-report reports/playwright                                                                                                                                              (main)
         mv merged-monocart-report reports/monocart
