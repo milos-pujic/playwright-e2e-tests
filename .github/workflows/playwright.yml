@@ -144,11 +144,11 @@ jobs:
     - name: Download Artifacts
       id: download-artifacts
       uses: actions/download-artifact@v3
-    - name: Merge Reports
-      id: merge-reports
+    - name: Merge Playwright HTML Reports
+      id: merge-playwright-html-reports
       run: |
-        npx tsc merege-reports.ts
-        node merege-reports.js
+        npx tsc merege-playwright-reports.ts
+        node merege-playwright-reports.js
     - name: Upload Merged Playwright HTML Report
       id: upload-merged-playwright-html-report
       uses: actions/upload-artifact@v3
@@ -158,4 +158,17 @@ jobs:
         path: merged-html-report/
         if-no-files-found: ignore
         retention-days: 1
-        
+    - name: Merge Playwright Monocart Reports
+      id: merge-playwright-monocart-reports
+      run: |
+        npx tsc merege-monocart-reports.ts
+        node merege-monocart-reports.js
+    - name: Upload Merged Playwright Monocart Report
+      id: upload-merged-playwright-monocart-report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: merged-playwright-monocart-report
+        path: merged-monocart-report/
+        if-no-files-found: ignore
+        retention-days: 1
