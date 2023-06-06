@@ -68,7 +68,7 @@ export default defineConfig({
     /* Capture screenshot. */
     screenshot: 'only-on-failure',
     /* Record video. */
-    video: 'retain-on-failure',
+    video: 'on-first-retry',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: process.env.CI ? 'off' : 'on-first-retry',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
