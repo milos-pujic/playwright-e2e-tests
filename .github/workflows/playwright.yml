@@ -163,12 +163,19 @@ jobs:
       run: |
         npx tsc merege-monocart-reports.ts
         node merege-monocart-reports.js
+    - name: Merge Playwright Test Results
+      id: merge-playwright-test-results
+      run: |
+        chmod +x ./merge-test-results.sh
+        ./merge-test-results.sh
     - name: Upload Merged Playwright Monocart Report
       id: upload-merged-playwright-monocart-report
       uses: actions/upload-artifact@v3
       if: always()
       with:
         name: merged-playwright-monocart-report
-        path: merged-monocart-report/
+        path: |
+          merged-monocart-report/
+          test-results/
         if-no-files-found: ignore
         retention-days: 1
