@@ -28,9 +28,8 @@ export default defineConfig({
         [
           'monocart-reporter',
           {
-            name: 'Playwright Test Report',
-            outputFile: './playwright-monocart-report/report.html',
-            trend: './playwright-monocart-report/report.json'
+            name: 'Playwright E2E Tests',
+            outputFile: './playwright-monocart-report/report.html'
           }
         ]
       ]
@@ -40,9 +39,8 @@ export default defineConfig({
         [
           'monocart-reporter',
           {
-            name: 'Playwright Test Report',
-            outputFile: './playwright-monocart-report/report.html',
-            trend: './playwright-monocart-report/report.json'
+            name: 'Playwright E2E Tests',
+            outputFile: './playwright-monocart-report/report.html'
           }
         ]
       ],

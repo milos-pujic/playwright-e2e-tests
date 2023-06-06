@@ -12,8 +12,5 @@ const reportDataList = [
 
 merge(reportDataList, {
   name: 'Playwright E2E Tests',
-  outputFile: 'merged-monocart-report/report.html',
-  attachmentPath: (currentPath, extras) => {
-    // return `https://cenfun.github.io/monocart-reporter/${currentPath}`;
-  }
+  outputFile: 'merged-monocart-report/report.html'
 });
