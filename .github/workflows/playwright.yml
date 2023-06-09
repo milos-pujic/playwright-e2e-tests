@@ -113,7 +113,7 @@ jobs:
       run: npx playwright install-deps ${{ matrix.project }}
     - name: Run Playwright Tests
       id: run-playwright-tests
-      run: BASE_URL='https://localhost' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      run: BASE_URL='http://localhost' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     - name: Upload Playwright HTML Report
       id: upload-playwright-html-report
       uses: actions/upload-artifact@v3
