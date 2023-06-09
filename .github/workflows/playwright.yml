@@ -50,6 +50,39 @@ jobs:
         project: [chromium, firefox, webkit]
         shardIndex: [1, 2]
         shardTotal: [2]
+    services:
+      rbp-booking:
+        image: mwinteringham/restfulbookerplatform_booking:1.6.24c7b22
+        ports:
+          - 3000:3000
+      rbp-room:
+        image: mwinteringham/restfulbookerplatform_room:1.6.24c7b22
+        ports:
+          - 3001:3001
+      rbp-branding:
+        image: mwinteringham/restfulbookerplatform_branding:1.6.24c7b22
+        ports:
+          - 3002:3002
+      rbp-assets:
+        image: mwinteringham/restfulbookerplatform_assets:1.6.24c7b22
+        ports:
+          - 3003:3003
+      rbp-auth:
+        image: mwinteringham/restfulbookerplatform_auth:1.6.24c7b22
+        ports:
+          - 3004:3004
+      rbp-report:
+        image: mwinteringham/restfulbookerplatform_report:1.6.24c7b22
+        ports:
+          - 3005:3005
+      rbp-message:
+        image: mwinteringham/restfulbookerplatform_message:1.6.24c7b22
+        ports:
+          - 3006:3006
+      rbp-proxy:
+        image: mwinteringham/restfulbookerplatform_proxy:latest
+        ports:
+          - 80:80
     steps:
     - name: Checkout Repository
       id: checkout-repository
@@ -80,7 +113,7 @@ jobs:
       run: npx playwright install-deps ${{ matrix.project }}
     - name: Run Playwright Tests
       id: run-playwright-tests
-      run: BASE_URL='https://automationintesting.online' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      run: BASE_URL='https://localhost' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     - name: Upload Playwright HTML Report
       id: upload-playwright-html-report
       uses: actions/upload-artifact@v3
