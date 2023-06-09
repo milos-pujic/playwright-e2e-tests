@@ -113,7 +113,7 @@ jobs:
     name: Merge and Publish Reports
     if: ${{ always() }}
     runs-on: ubuntu-latest
-    needs: [install, test]
+    needs: [test]
     timeout-minutes: 30
     permissions:
       contents: read
@@ -167,11 +167,12 @@ jobs:
       run: |
         chmod +x ./merge-test-results.sh
         ./merge-test-results.sh
-    - name: Prepare Reports Folder
+    - name: Move to Reports folder
       id: prepare-reports-folder
       run: |
-        chmod +x ./prepare-reports-folder.sh
-        ./prepare-reports-folder.sh
+        mv merged-html-report reports/playwright
+        mv merged-monocart-report reports/monocart
+      shell: bash
     - name: Setup Pages
       uses: actions/configure-pages@v3
     - name: Upload artifact
