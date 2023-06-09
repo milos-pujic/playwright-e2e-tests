@@ -154,14 +154,14 @@ jobs:
     - name: Merge Playwright HTML Reports
       id: merge-playwright-html-reports
       run: |
-        npx tsc merege-playwright-reports.ts
-        node merege-playwright-reports.js
+        npx tsc merge-playwright-reports.ts
+        node merge-playwright-reports.js
     - name: Merge Playwright Monocart Reports
       id: merge-playwright-monocart-reports
       run: |
         curl -o previous-trend.json https://milos-pujic.github.io/playwright-e2e-tests/monocart/index.json
-        npx tsc merege-monocart-reports.ts
-        node merege-monocart-reports.js
+        npx tsc merge-monocart-reports.ts
+        node merge-monocart-reports.js
     - name: Merge Playwright Test Results
       id: merge-playwright-test-results
       run: |

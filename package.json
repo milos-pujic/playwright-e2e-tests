@@ -8,7 +8,7 @@
     "clean": "npm run clean:results && npm run clean:modules",
     "clean:modules": "rimraf ./node_modules",
     "clean:results": "rimraf ./playwright-report ./test-results",
-    "docker:build": "docker build . -t playwright-e2e"
+    "docker:build": "docker build . -t e2e-playwright"
   },
   "keywords": [],
   "author": "",
