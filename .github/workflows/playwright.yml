@@ -212,5 +212,5 @@ jobs:
       with:
         path: reports/
     - name: Deploy to GitHub Pages
-      id: deploy-to-github-pages
+      id: deployment
       uses: actions/deploy-pages@v2
