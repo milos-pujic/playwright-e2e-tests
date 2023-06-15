@@ -90,6 +90,12 @@ jobs:
         id: install-playwright-browsers
         if: steps.cache-playwright.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
+      # Playwright caches the browser binaries, but not their dependencies.
+      # Those extra browser dependencies must be installed separately when the cached browsers are restored.
+      - name: Install Playwright System Dependencies
+        id: install-playwright-system-dependencies
+        if: steps.cache-playwright.outputs.cache-hit == 'true'
+        run: npx playwright install-deps
       - name: Run Playwright Tests
         id: run-playwright-tests
         run: npx playwright test --grep @sanity
