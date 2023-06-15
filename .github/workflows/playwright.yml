@@ -113,7 +113,9 @@ jobs:
         run: npx playwright install-deps ${{ matrix.project }}
       - name: Run Playwright Tests
         id: run-playwright-tests
-        run: BASE_URL='http://localhost' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        env:
+          BASE_URL: 'http://localhost' 
       - name: Upload Playwright HTML Report
         id: upload-playwright-html-report
         uses: actions/upload-artifact@v3
@@ -186,15 +188,12 @@ jobs:
         uses: actions/download-artifact@v3
       - name: Merge Playwright HTML Reports
         id: merge-playwright-html-reports
-        run: |
-          npx tsc merge-playwright-reports.ts
-          node merge-playwright-reports.js
+        run: npm run merge:report:playwright
       - name: Merge Playwright Monocart Reports
         id: merge-playwright-monocart-reports
         run: |
           curl -o previous-trend.json https://milos-pujic.github.io/playwright-e2e-tests/monocart/index.json
-          npx tsc merge-monocart-reports.ts
-          node merge-monocart-reports.js
+          npm run merge:report:monocart
           chmod +x ./merge-test-results.sh
           ./merge-test-results.sh
       - name: Move to Reports folder
