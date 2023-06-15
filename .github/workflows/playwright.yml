@@ -214,3 +214,10 @@ jobs:
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v2
+    - uses: geekyeggo/delete-artifact@v2
+      with:
+          name: |
+            playwright-report-*
+            test-results-*
+            monocart-report-*
+          failOnError: false
