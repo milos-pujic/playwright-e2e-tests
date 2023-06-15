@@ -37,7 +37,7 @@ test.describe('Room Management Tests', () => {
     ['118', RoomType.SUITE, true, 300, { wifi: true, tv: true, radio: true, refreshments: true, safe: true, views: true }]
   ];
   for (const room of rooms) {
-    test(`User must be able to create new ${room[1]} room named ${room[0]} by filling up all mandatory fields`, async ({ page }) => {
+    test(`User must be able to create new ${room[1]} room named ${room[0]} by filling up all mandatory fields @sanity`, async ({ page }) => {
       const name = room[0];
       const type = room[1];
       const accessible = room[2];

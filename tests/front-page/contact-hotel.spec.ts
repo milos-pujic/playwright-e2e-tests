@@ -12,7 +12,7 @@ test.describe('Contact Hotel Tests', () => {
     await frontPage.goto();
   });
 
-  test('Visitor must be able to contact the property by filling up all mandatory fields', async () => {
+  test('Visitor must be able to contact the property by filling up all mandatory fields @sanity', async () => {
     const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
     const email = faker.internet.email();
     const phoneNumber = faker.phone.number();

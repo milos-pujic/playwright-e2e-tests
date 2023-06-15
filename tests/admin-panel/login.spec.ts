@@ -16,7 +16,7 @@ test.describe('Login Tests', () => {
     await adminPage.goto();
   });
 
-  test('Administrator is able to login with correct username and password', async () => {
+  test('Administrator is able to login with correct username and password @sanity', async () => {
     await adminPage.login('admin', 'password');
     await expect(header.logoutLink, 'Administrator logged in!').toBeVisible();
   });

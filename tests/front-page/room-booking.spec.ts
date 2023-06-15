@@ -38,7 +38,7 @@ test.describe('Room Booking Tests', () => {
     await frontPage.goto();
   });
 
-  test('Visitor must be able to book a room for available dates by filling up all mandatory fields', async () => {
+  test('Visitor must be able to book a room for available dates by filling up all mandatory fields @sanity', async () => {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
     const email = faker.internet.email();
