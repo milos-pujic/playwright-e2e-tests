@@ -84,63 +84,63 @@ jobs:
         ports:
           - 80:80
     steps:
-    - name: Checkout Repository
-      id: checkout-repository
-      uses: actions/checkout@v3
-    - name: Setup Node
-      id: setup-node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
-    - name: Cache Node Modules
-      id: cache-node-modules
-      uses: actions/cache@v3
-      with:
-        path: |
-          node_modules
-        key: modules-${{ hashFiles('package-lock.json') }}
-    - name: Cache Playwright Binaries
-      id: cache-playwright
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.cache/ms-playwright
-        key: playwright-${{ hashFiles('package-lock.json') }}
-    # Playwright caches the browser binaries, but not their dependencies. 
-    # Those extra browser dependencies must be installed separately when the cached browsers are restored.
-    - name: Install Playwright System Dependencies
-      id: install-playwright-system-dependencies
-      run: npx playwright install-deps ${{ matrix.project }}
-    - name: Run Playwright Tests
-      id: run-playwright-tests
-      run: BASE_URL='http://localhost' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-    - name: Upload Playwright HTML Report
-      id: upload-playwright-html-report
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: playwright-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
-        path: playwright-report/
-        if-no-files-found: ignore
-        retention-days: 1
-    - name: Upload Playwright Test Results
-      id: upload-playwright-test-results
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: test-results-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
-        path: test-results/
-        if-no-files-found: ignore
-        retention-days: 1
-    - name: Upload Playwright Monocart Report
-      id: upload-playwright-monocart-report
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: monocart-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
-        path: playwright-monocart-report/
-        if-no-files-found: ignore
-        retention-days: 1
+      - name: Checkout Repository
+        id: checkout-repository
+        uses: actions/checkout@v3
+      - name: Setup Node
+        id: setup-node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Playwright Binaries
+        id: cache-playwright
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
+      # Playwright caches the browser binaries, but not their dependencies.
+      # Those extra browser dependencies must be installed separately when the cached browsers are restored.
+      - name: Install Playwright System Dependencies
+        id: install-playwright-system-dependencies
+        run: npx playwright install-deps ${{ matrix.project }}
+      - name: Run Playwright Tests
+        id: run-playwright-tests
+        run: BASE_URL='http://localhost' npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      - name: Upload Playwright HTML Report
+        id: upload-playwright-html-report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 1
+      - name: Upload Playwright Test Results
+        id: upload-playwright-test-results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 1
+      - name: Upload Playwright Monocart Report
+        id: upload-playwright-monocart-report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: monocart-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
+          path: playwright-monocart-report/
+          if-no-files-found: ignore
+          retention-days: 1
 
   report:
     name: Merge and Publish Reports
@@ -159,63 +159,63 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-    - name: Checkout Repository
-      id: checkout-repository
-      uses: actions/checkout@v3
-    - name: Setup Node
-      id: setup-node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
-    - name: Cache Node Modules
-      id: cache-node-modules
-      uses: actions/cache@v3
-      with:
-        path: |
-          node_modules
-        key: modules-${{ hashFiles('package-lock.json') }}
-    - name: Cache Playwright Binaries
-      id: cache-playwright
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.cache/ms-playwright
-        key: playwright-${{ hashFiles('package-lock.json') }}
-    - name: Download Artifacts
-      id: download-artifacts
-      uses: actions/download-artifact@v3
-    - name: Merge Playwright HTML Reports
-      id: merge-playwright-html-reports
-      run: |
-        npx tsc merge-playwright-reports.ts
-        node merge-playwright-reports.js
-    - name: Merge Playwright Monocart Reports
-      id: merge-playwright-monocart-reports
-      run: |
-        curl -o previous-trend.json https://milos-pujic.github.io/playwright-e2e-tests/monocart/index.json
-        npx tsc merge-monocart-reports.ts
-        node merge-monocart-reports.js
-        chmod +x ./merge-test-results.sh
-        ./merge-test-results.sh
-    - name: Move to Reports folder
-      id: move-to-reports-folder
-      run: |
-        mv merged-html-report reports/playwright
-        mv merged-monocart-report reports/monocart
-      shell: bash
-    - name: Setup Pages
-      id: setup-pages
-      uses: actions/configure-pages@v3
-    - name: Upload Pages Artifact
-      id: upload-pages-artifact 
-      uses: actions/upload-pages-artifact@v1
-      with:
-        path: reports/
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v2
-    - uses: geekyeggo/delete-artifact@v2
-      with:
+      - name: Checkout Repository
+        id: checkout-repository
+        uses: actions/checkout@v3
+      - name: Setup Node
+        id: setup-node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Playwright Binaries
+        id: cache-playwright
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
+      - name: Download Artifacts
+        id: download-artifacts
+        uses: actions/download-artifact@v3
+      - name: Merge Playwright HTML Reports
+        id: merge-playwright-html-reports
+        run: |
+          npx tsc merge-playwright-reports.ts
+          node merge-playwright-reports.js
+      - name: Merge Playwright Monocart Reports
+        id: merge-playwright-monocart-reports
+        run: |
+          curl -o previous-trend.json https://milos-pujic.github.io/playwright-e2e-tests/monocart/index.json
+          npx tsc merge-monocart-reports.ts
+          node merge-monocart-reports.js
+          chmod +x ./merge-test-results.sh
+          ./merge-test-results.sh
+      - name: Move to Reports folder
+        id: move-to-reports-folder
+        run: |
+          mv merged-html-report reports/playwright
+          mv merged-monocart-report reports/monocart
+        shell: bash
+      - name: Setup Pages
+        id: setup-pages
+        uses: actions/configure-pages@v3
+      - name: Upload Pages Artifact
+        id: upload-pages-artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: reports/
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+      - uses: geekyeggo/delete-artifact@v2
+        with:
           name: |
             playwright-report-*
             test-results-*
