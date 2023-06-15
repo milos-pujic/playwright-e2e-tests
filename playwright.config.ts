@@ -83,7 +83,7 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
+      use: { ...devices['Desktop Chrome'], trace: process.env.CI ? 'on-first-retry' : 'on-first-retry' }
     },
 
     {
