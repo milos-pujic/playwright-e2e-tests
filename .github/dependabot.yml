@@ -9,9 +9,9 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'weekly'
+      interval: 'daily'
   # For github actions
   - package-ecosystem: 'github-actions'
     directory: '/.github/workflows'
     schedule:
-      interval: 'weekly'
+      interval: 'daily'
