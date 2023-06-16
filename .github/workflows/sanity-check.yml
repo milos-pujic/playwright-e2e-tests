@@ -23,8 +23,44 @@ on:
       - labeled
 
 jobs:
+  install:
+    name: Install
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Repository
+        id: checkout-repository
+        uses: actions/checkout@v3
+      - name: Setup Node
+        id: setup-node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Playwright Binaries
+        id: cache-playwright
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        id: install-dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Install Playwright Browsers
+        id: install-playwright-browsers
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+  
   test:
-    name: Sanity Tests
+    name: Sanity Tests - ${{ matrix.project }} - Shard ${{ matrix.shardIndex }} of ${{ matrix.shardTotal }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
@@ -89,15 +125,8 @@ jobs:
           path: |
             ~/.cache/ms-playwright
           key: playwright-${{ hashFiles('package-lock.json') }}
-      - name: Install dependencies
-        id: install-dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
-      - name: Install Playwright Browsers
-        id: install-playwright-browsers
-        if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
       # Playwright caches the browser binaries, but not their dependencies.
+      # Those extra browser dependencies must be installed separately when the cached browsers are restored.
       # Those extra browser dependencies must be installed separately when the cached browsers are restored.
       - name: Install Playwright System Dependencies
         id: install-playwright-system-dependencies
