@@ -9,6 +9,7 @@ on:
       - 'pages/**'
       - 'tests/**'
       - 'utils/**'
+      - '.github/workflows/sanity-check.yml'
       - 'playwright.config.ts'
       - 'package-lock.json'
       - 'package.json'
