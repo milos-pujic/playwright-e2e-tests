@@ -27,9 +27,6 @@ jobs:
     name: Sanity Tests
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    container:
-      image: mcr.microsoft.com/playwright:jammy
-      options: '--ipc=host --entrypoint /bin/bash'
     services:
       rbp-booking:
         image: mwinteringham/restfulbookerplatform_booking:1.6.24c7b22
@@ -72,17 +69,39 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Playwright Binaries
+        id: cache-playwright
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
       - name: Install dependencies
         id: install-dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci
       - name: Install Playwright Browsers
         id: install-playwright-browsers
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
+      # Playwright caches the browser binaries, but not their dependencies.
+      # Those extra browser dependencies must be installed separately when the cached browsers are restored.
+      - name: Install Playwright System Dependencies
+        id: install-playwright-system-dependencies
+        if: steps.cache-playwright.outputs.cache-hit == 'true'
+        run: npx playwright install-deps
       - name: Run Playwright Tests
         id: run-playwright-tests
-        run: HOME=/root npx playwright test --grep @sanity
+        run: npx playwright test --grep @sanity
         env:
-          BASE_URL: 'http://rbp-proxy'
+          BASE_URL: 'http://localhost'
       - name: Upload Playwright HTML Report
         id: upload-playwright-html-report
         uses: actions/upload-artifact@v3
