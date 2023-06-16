@@ -26,6 +26,12 @@ jobs:
     name: Sanity Tests
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium, firefox, webkit]
+        shardIndex: [1, 2]
+        shardTotal: [2]
     services:
       rbp-booking:
         image: mwinteringham/restfulbookerplatform_booking:1.6.24c7b22
@@ -95,7 +101,7 @@ jobs:
       - name: Install Playwright System Dependencies
         id: install-playwright-system-dependencies
         if: steps.cache-playwright.outputs.cache-hit == 'true'
-        run: npx playwright install-deps
+        run: npx playwright install-deps ${{ matrix.project }}
       - name: Run Playwright Tests
         id: run-playwright-tests
         run: npx playwright test --grep @sanity
@@ -106,7 +112,59 @@ jobs:
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
           path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 1
+
+  report:
+    name: Merge Reports
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    needs: [test]
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Repository
+        id: checkout-repository
+        uses: actions/checkout@v3
+      - name: Setup Node
+        id: setup-node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Playwright Binaries
+        id: cache-playwright
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
+      - name: Download Artifacts
+        id: download-artifacts
+        uses: actions/download-artifact@v3
+      - name: Merge Playwright HTML Reports
+        id: merge-playwright-html-reports
+        run: npm run merge:report:playwright
+      - name: Delete Old Artifacts
+        id: delete-old-artifacts
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: |
+            playwright-report-*
+          failOnError: false
+      - name: Upload Merged Playwright HTML Report
+        id: upload-playwright-html-report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: merged-html-report/
           if-no-files-found: ignore
           retention-days: 1
