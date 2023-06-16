@@ -9,13 +9,15 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'daily'
-      time: '14:15'
+      interval: 'weekly'
+      day: 'monday'
+      time: '08:30'
       timezone: 'Europe/Belgrade'
   # For github actions
   - package-ecosystem: 'github-actions'
     directory: '/.github/workflows'
     schedule:
-      interval: 'daily'
-      time: '14:15'
+      interval: 'weekly'
+      day: 'monday'
+      time: '08:30'
       timezone: 'Europe/Belgrade'
