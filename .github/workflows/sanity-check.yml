@@ -135,7 +135,7 @@ jobs:
         run: npx playwright install-deps ${{ matrix.project }}
       - name: Run Playwright Tests
         id: run-playwright-tests
-        run: npx playwright test --grep @sanity
+        run: npx playwright test --grep @sanity --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
           BASE_URL: 'http://localhost'
       - name: Upload Playwright HTML Report
