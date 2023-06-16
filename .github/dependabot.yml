@@ -19,5 +19,5 @@ updates:
     schedule:
       interval: 'weekly'
       day: 'monday'
-      time: '08:30'
+      time: '09:00'
       timezone: 'Europe/Belgrade'
