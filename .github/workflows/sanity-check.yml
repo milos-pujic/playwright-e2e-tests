@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     container:
-      image: mcr.microsoft.com/playwright:v1.35.0-jammy
+      image: mcr.microsoft.com/playwright:v1.35.1-jammy
     services:
       rbp-booking:
         image: mwinteringham/restfulbookerplatform_booking:1.6.24c7b22
@@ -81,7 +81,7 @@ jobs:
         id: run-playwright-tests
         run: npx playwright test --grep @sanity
         env:
-          BASE_URL: 'http://localhost'
+          BASE_URL: 'http://rbp-proxy'
       - name: Upload Playwright HTML Report
         id: upload-playwright-html-report
         uses: actions/upload-artifact@v3
