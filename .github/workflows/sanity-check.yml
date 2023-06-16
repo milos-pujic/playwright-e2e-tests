@@ -28,7 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     container:
-      image: mcr.microsoft.com/playwright:v1.35.1-jammy
+      image: mcr.microsoft.com/playwright:jammy
+      options: --user 1001
     services:
       rbp-booking:
         image: mwinteringham/restfulbookerplatform_booking:1.6.24c7b22
