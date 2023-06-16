@@ -80,7 +80,7 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright Tests
         id: run-playwright-tests
-        run: npx playwright test --grep @sanity
+        run: HOME=/root npx playwright test --grep @sanity
         env:
           BASE_URL: 'http://rbp-proxy'
       - name: Upload Playwright HTML Report
