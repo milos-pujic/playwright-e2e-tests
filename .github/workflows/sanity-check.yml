@@ -29,7 +29,7 @@ jobs:
     timeout-minutes: 60
     container:
       image: mcr.microsoft.com/playwright:jammy
-      options: --user 1001
+      options: '--ipc=host --entrypoint /bin/bash'
     services:
       rbp-booking:
         image: mwinteringham/restfulbookerplatform_booking:1.6.24c7b22
