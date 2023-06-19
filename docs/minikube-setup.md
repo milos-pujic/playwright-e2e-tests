@@ -1,4 +1,4 @@
-[← Back to documentation](/readme.md#local-kubernetes-environment-with-minikubes-kubernetes)
+[← Back to documentation](/README.md#local-kubernetes-environment-with-minikubes-kubernetes)
 
 # Minikube Setup
 
