@@ -1,3 +1,5 @@
+[← Back to documentation](/readme.md#local-kubernetes-environment-with-minikubes-kubernetes)
+
 # Minikube Setup
 
 Minikube is one of free alternatives to Docker for Desktop. Minikube and Docker for Desktop are both tools that allow developers to run a local Kubernetes cluster on their own machines. However, there are some key differences between the two tools:
@@ -282,3 +284,5 @@ Add minikube IP address in host file for easier access. Bellow command will add 
 8. Remove all unused dependencies by running the following command:
 
         brew autoremove
+
+[← Back to documentation](/readme.md#local-kubernetes-environment-with-minikubes-kubernetes)
