@@ -115,7 +115,7 @@ jobs:
         id: run-playwright-tests
         run: npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
-          BASE_URL: 'http://localhost' 
+          ENV: local 
       - name: Upload Playwright HTML Report
         id: upload-playwright-html-report
         uses: actions/upload-artifact@v3

@@ -7,6 +7,16 @@ import { defineConfig, devices } from '@playwright/test';
  */
 // require('dotenv').config();
 
+function getBaseUrl() {
+  const environment = process.env.ENV;
+  if (environment == undefined || environment == null) return 'https://automationintesting.online/';
+  else if (environment == 'prod') return 'https://automationintesting.online/';
+  else if (environment == 'local') return 'http://localhost';
+  else if (environment == 'kubeLocal') return 'http://kube.local';
+  else if (environment == 'docker') return 'http://rbp-proxy';
+  else return 'https://automationintesting.online/';
+}
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -58,7 +68,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.BASE_URL ? process.env.BASE_URL : 'https://automationintesting.online/',
+    baseURL: getBaseUrl(),
     /* Populates context with given storage state. */
     // storageState: './state.json',
     /* Viewport used for all pages in the context. */
