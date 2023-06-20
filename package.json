@@ -7,7 +7,7 @@
     "prepare": "husky install",
     "clean": "npm run clean:results && npm run clean:modules",
     "clean:modules": "rimraf ./node_modules",
-    "clean:results": "rimraf ./playwright-report ./test-results",
+    "clean:results": "rimraf ./playwright-report ./playwright-monocart-report ./test-results",
     "docker:build": "docker build . -t e2e-playwright",
     "merge:report:playwright": "tsx merge-playwright-reports.ts",
     "merge:report:monocart": "tsx merge-monocart-reports.ts"
