@@ -12,7 +12,7 @@ test.describe('Contact Hotel Tests', () => {
     await frontPage.goto();
   });
 
-  test('Visitor must be able to contact the property by filling up all mandatory fields @sanity', async () => {
+  test('Visitor must be able to contact the property by filling up all mandatory fields @sanity @contact', async () => {
     const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
     const email = faker.internet.email();
     const phoneNumber = faker.phone.number();
@@ -25,7 +25,7 @@ test.describe('Contact Hotel Tests', () => {
     await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' displayed`).toContainText(successMessage);
   });
 
-  test('Visitor must NOT be able to contact the property without filling up name field', async () => {
+  test('Visitor must NOT be able to contact the property without filling up name field @contact', async () => {
     const email = faker.internet.email();
     const phoneNumber = faker.phone.number();
     const subject = faker.lorem.sentence(3);
@@ -37,7 +37,7 @@ test.describe('Contact Hotel Tests', () => {
     await expect(frontPage.contactErrorMessages, `Mandatory Message '${mandatoryMessage}' is displayed`).toContainText(mandatoryMessage);
   });
 
-  test('Visitor must NOT be able to contact the property without filling up email field', async () => {
+  test('Visitor must NOT be able to contact the property without filling up email field @contact', async () => {
     const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
     const phoneNumber = faker.phone.number();
     const subject = faker.lorem.sentence(3);
@@ -49,7 +49,7 @@ test.describe('Contact Hotel Tests', () => {
     await expect(frontPage.contactErrorMessages, `Mandatory Message '${mandatoryMessage}' is displayed`).toContainText(mandatoryMessage);
   });
 
-  test('Visitor must NOT be able to contact the property without filling up phone field', async () => {
+  test('Visitor must NOT be able to contact the property without filling up phone field @contact', async () => {
     const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
     const email = faker.internet.email();
     const subject = faker.lorem.sentence(3);
@@ -63,7 +63,7 @@ test.describe('Contact Hotel Tests', () => {
     await expect(frontPage.contactErrorMessages, `Validation Message '${validationMessage}' is displayed`).toContainText(validationMessage);
   });
 
-  test('Visitor must NOT be able to contact the property without filling up subject field', async () => {
+  test('Visitor must NOT be able to contact the property without filling up subject field @contact', async () => {
     const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
     const email = faker.internet.email();
     const phoneNumber = faker.phone.number();
@@ -77,7 +77,7 @@ test.describe('Contact Hotel Tests', () => {
     await expect(frontPage.contactErrorMessages, `Validation Message '${validationMessage}' is displayed`).toContainText(validationMessage);
   });
 
-  test('Visitor must NOT be able to contact the property without filling up message field', async () => {
+  test('Visitor must NOT be able to contact the property without filling up message field @contact', async () => {
     const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
     const email = faker.internet.email();
     const phoneNumber = faker.phone.number();
@@ -92,7 +92,7 @@ test.describe('Contact Hotel Tests', () => {
   });
 
   for (const invalidEmail of invalidEmails()) {
-    test(`Visitor must NOT be able to contact the property by filling up email with invalid value: ${invalidEmail}`, async () => {
+    test(`Visitor must NOT be able to contact the property by filling up email with invalid value: ${invalidEmail} @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const phoneNumber = faker.phone.number();
       const subject = faker.lorem.sentence(3);
@@ -106,7 +106,7 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const invalidPhone of ['1234567890', '1234567890123456789012']) {
-    test(`Visitor must NOT be able to contact the property by filling up the phone with invalid length, less than 11 and more than 21 characters: ${invalidPhone}`, async () => {
+    test(`Visitor must NOT be able to contact the property by filling up the phone with invalid length, less than 11 and more than 21 characters: ${invalidPhone} @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const subject = faker.lorem.sentence(3);
@@ -120,7 +120,7 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const validPhone of ['12345678901', '123456789012345678901']) {
-    test(`Visitor must be able to contact the property by filling up phone with valid length, between 11 and 21 characters: ${validPhone}`, async () => {
+    test(`Visitor must be able to contact the property by filling up phone with valid length, between 11 and 21 characters: ${validPhone} @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const subject = faker.lorem.sentence(3);
@@ -134,7 +134,7 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const invalidSubjectLength of [4, 101]) {
-    test(`Visitor must NOT be able to contact the property by filling up the subject with invalid length value of ${invalidSubjectLength}, less than 5 and more than 100 characters`, async () => {
+    test(`Visitor must NOT be able to contact the property by filling up the subject with invalid length value of ${invalidSubjectLength}, less than 5 and more than 100 characters @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const phoneNumber = faker.phone.number();
@@ -149,7 +149,7 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const validSubjectLength of [5, 100]) {
-    test(`Visitor must be able to contact the property by filling up the subject with valid length value of ${validSubjectLength}, between 5 and 100 characters`, async () => {
+    test(`Visitor must be able to contact the property by filling up the subject with valid length value of ${validSubjectLength}, between 5 and 100 characters @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const phoneNumber = faker.phone.number();
@@ -164,7 +164,7 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const invalidMessageLength of [19, 2001]) {
-    test(`Visitor must NOT be able to contact the property by filling up the message with invalid length value of ${invalidMessageLength}, less than 20 and more than 2000 characters`, async () => {
+    test(`Visitor must NOT be able to contact the property by filling up the message with invalid length value of ${invalidMessageLength}, less than 20 and more than 2000 characters @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const phoneNumber = faker.phone.number();
@@ -179,7 +179,7 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const validMessageLength of [20, 2000]) {
-    test(`Visitor must be able to contact the property by filling up the message with valid length value of ${validMessageLength}, between 20 and 2000 characters`, async () => {
+    test(`Visitor must be able to contact the property by filling up the message with valid length value of ${validMessageLength}, between 20 and 2000 characters @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const phoneNumber = faker.phone.number();

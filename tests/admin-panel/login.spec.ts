@@ -16,24 +16,24 @@ test.describe('Login Tests', () => {
     await adminPage.goto();
   });
 
-  test('Administrator is able to login with correct username and password @sanity', async () => {
+  test('Administrator is able to login with correct username and password @sanity @login', async () => {
     await adminPage.login('admin', 'password');
     await expect(header.logoutLink, 'Administrator logged in!').toBeVisible();
   });
 
-  test('User is not able to login with empty username', async () => {
+  test('User is not able to login with empty username @login', async () => {
     await adminPage.login('', 'password');
     await expect(header.logoutLink, 'User is not logged in').toBeHidden();
     await expect(adminPage.usernameField, 'Username field has red border!').toHaveAttribute(style, redBorder);
   });
 
-  test('User is not able to login with empty password', async () => {
+  test('User is not able to login with empty password @login', async () => {
     await adminPage.login('admin', '');
     await expect(header.logoutLink, 'User is not logged in').toBeHidden();
     await expect(adminPage.passwordField, 'Password field has red border!').toHaveAttribute(style, redBorder);
   });
 
-  test('User is not able to login with wrong password', async () => {
+  test('User is not able to login with wrong password @login', async () => {
     await adminPage.login('admin', 'wrong_password');
     await expect(header.logoutLink, 'User is not logged in').toBeHidden();
     await expect(adminPage.usernameField, 'Username field has red border!').toHaveAttribute(style, redBorder);

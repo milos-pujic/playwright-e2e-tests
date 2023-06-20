@@ -38,7 +38,7 @@ test.describe('Room Booking Tests', () => {
     await frontPage.goto();
   });
 
-  test('Visitor must be able to book a room for available dates by filling up all mandatory fields @sanity', async () => {
+  test('Visitor must be able to book a room for available dates by filling up all mandatory fields @sanity @booking', async () => {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
     const email = faker.internet.email();
@@ -56,7 +56,7 @@ test.describe('Room Booking Tests', () => {
     );
   });
 
-  test('Visitor must NOT be able to book a room without filling up first name field', async () => {
+  test('Visitor must NOT be able to book a room without filling up first name field @booking', async () => {
     const lastName = faker.person.lastName();
     const email = faker.internet.email();
     const phoneNumber = faker.phone.number();
@@ -70,7 +70,7 @@ test.describe('Room Booking Tests', () => {
   });
 
   for (const firstNameLength of [2, 19]) {
-    test(`Visitor must NOT be able to book a room by filling up the first name with invalid length value of ${firstNameLength}, less than 3 and more than 18 characters`, async () => {
+    test(`Visitor must NOT be able to book a room by filling up the first name with invalid length value of ${firstNameLength}, less than 3 and more than 18 characters @booking`, async () => {
       const firstName = faker.string.alphanumeric(firstNameLength);
       const lastName = faker.person.lastName();
       const email = faker.internet.email();
@@ -84,7 +84,7 @@ test.describe('Room Booking Tests', () => {
   }
 
   for (const firstNameLength of [3, 18]) {
-    test(`Visitor must be able to book a room by filling up the first name with valid length value of ${firstNameLength}, more than 3 and less than 18 characters`, async () => {
+    test(`Visitor must be able to book a room by filling up the first name with valid length value of ${firstNameLength}, more than 3 and less than 18 characters @booking`, async () => {
       const firstName = faker.string.alphanumeric(firstNameLength);
       const lastName = faker.person.lastName();
       const email = faker.internet.email();
@@ -103,7 +103,7 @@ test.describe('Room Booking Tests', () => {
     });
   }
 
-  test('Visitor must NOT be able to book a room without filling up last name field', async () => {
+  test('Visitor must NOT be able to book a room without filling up last name field @booking', async () => {
     const firstName = faker.person.firstName();
     const email = faker.internet.email();
     const phoneNumber = faker.phone.number();
@@ -117,7 +117,7 @@ test.describe('Room Booking Tests', () => {
   });
 
   for (const lastNameLength of [2, 31]) {
-    test(`Visitor must NOT be able to book a room by filling up the last name with invalid length value of ${lastNameLength}, less than 3 and more than 30 characters`, async () => {
+    test(`Visitor must NOT be able to book a room by filling up the last name with invalid length value of ${lastNameLength}, less than 3 and more than 30 characters @booking`, async () => {
       const firstName = faker.person.firstName();
       const lastName = faker.string.alphanumeric(lastNameLength);
       const email = faker.internet.email();
@@ -131,7 +131,7 @@ test.describe('Room Booking Tests', () => {
   }
 
   for (const lastNameLength of [3, 30]) {
-    test(`Visitor must be able to book a room by filling up the last name with valid length value of ${lastNameLength}, more than 3 and less than 30 characters`, async () => {
+    test(`Visitor must be able to book a room by filling up the last name with valid length value of ${lastNameLength}, more than 3 and less than 30 characters @booking`, async () => {
       const firstName = faker.person.firstName();
       const lastName = faker.string.alphanumeric(lastNameLength);
       const email = faker.internet.email();
@@ -150,7 +150,7 @@ test.describe('Room Booking Tests', () => {
     });
   }
 
-  test('Visitor must NOT be able to book a room without filling up email field', async () => {
+  test('Visitor must NOT be able to book a room without filling up email field @booking', async () => {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
     const phoneNumber = faker.phone.number();
@@ -162,7 +162,7 @@ test.describe('Room Booking Tests', () => {
   });
 
   for (const invalidEmail of invalidEmails()) {
-    test(`Visitor must NOT be able to book a room by filling up email with invalid value: ${invalidEmail}`, async () => {
+    test(`Visitor must NOT be able to book a room by filling up email with invalid value: ${invalidEmail} @booking`, async () => {
       const firstName = faker.person.firstName();
       const lastName = faker.person.lastName();
       const phoneNumber = faker.phone.number();
@@ -175,7 +175,7 @@ test.describe('Room Booking Tests', () => {
     });
   }
 
-  test('Visitor must NOT be able to book a room without filling up phone field', async () => {
+  test('Visitor must NOT be able to book a room without filling up phone field @booking', async () => {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
     const email = faker.internet.email();
@@ -189,7 +189,7 @@ test.describe('Room Booking Tests', () => {
   });
 
   for (const phoneLength of [10, 22]) {
-    test(`Visitor must NOT be able to book a room by filling up the phone with invalid length value of ${phoneLength}, less than 11 and more than 21 characters`, async () => {
+    test(`Visitor must NOT be able to book a room by filling up the phone with invalid length value of ${phoneLength}, less than 11 and more than 21 characters @booking`, async () => {
       const firstName = faker.person.firstName();
       const lastName = faker.person.lastName();
       const email = faker.internet.email();
@@ -203,7 +203,7 @@ test.describe('Room Booking Tests', () => {
   }
 
   for (const phoneLength of [11, 21]) {
-    test(`Visitor must be able to book a room by filling up the phone with valid length value of ${phoneLength}, more than 11 and less than 21 characters`, async () => {
+    test(`Visitor must be able to book a room by filling up the phone with valid length value of ${phoneLength}, more than 11 and less than 21 characters @booking`, async () => {
       const firstName = faker.person.firstName();
       const lastName = faker.person.lastName();
       const email = faker.internet.email();

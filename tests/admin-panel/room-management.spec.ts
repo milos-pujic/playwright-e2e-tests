@@ -37,7 +37,9 @@ test.describe('Room Management Tests', () => {
     ['118', RoomType.SUITE, true, 300, { wifi: true, tv: true, radio: true, refreshments: true, safe: true, views: true }]
   ];
   for (const room of rooms) {
-    test(`User must be able to create new ${room[1]} room named ${room[0]} by filling up all mandatory fields @sanity`, async ({ page }) => {
+    test(`User must be able to create new ${room[1]} room named ${room[0]} by filling up all mandatory fields @sanity @management @room-management`, async ({
+      page
+    }) => {
       const name = room[0];
       const type = room[1];
       const accessible = room[2];
@@ -61,14 +63,14 @@ test.describe('Room Management Tests', () => {
     });
   }
 
-  test('User must NOT be able to create new room without filling up room name field', async () => {
+  test('User must NOT be able to create new room without filling up room name field @management @room-management', async () => {
     await roomsPage.createRoom('', RoomType.TWIN, false, 55, { wifi: true, tv: true, radio: false, refreshments: false, safe: false, views: false });
     await expect(roomsPage.errorMessages, 'Error messages are displayed').toBeVisible();
     const errorMessage = 'Room name must be set';
     await expect(roomsPage.errorMessages, `Error message '${errorMessage}' is displayed`).toContainText(errorMessage);
   });
 
-  test('User must NOT be able to create new room without filling up room price field', async () => {
+  test('User must NOT be able to create new room without filling up room price field @management @room-management', async () => {
     await roomsPage.createRoom('314', RoomType.TWIN, false, null, {
       wifi: true,
       tv: true,
@@ -82,7 +84,7 @@ test.describe('Room Management Tests', () => {
     await expect(roomsPage.errorMessages, `Error message '${errorMessage}' is displayed`).toContainText(errorMessage);
   });
 
-  test('User must NOT be able to create new room with price 0', async () => {
+  test('User must NOT be able to create new room with price 0 @management @room-management', async () => {
     await roomsPage.createRoom('314', RoomType.TWIN, false, 0, {
       wifi: false,
       tv: false,
