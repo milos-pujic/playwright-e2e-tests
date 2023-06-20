@@ -84,3 +84,48 @@ After minikube has been properly installed and started on your machine, open the
 That will start Restful Booker Platform locally.
 
 After everything is up and running you will have Restful Booker Platform available at `http://kube.local`.
+
+## Execute Playwright E2E Tests using Github Actions Workflows on GitHub
+
+All Github Actions Workflows are configured in [**GitHub Folder**](/.github/workflows/) yaml files.
+
+They all can be found by navigating to [GitHub Repository > Actions](https://github.com/milos-pujic/playwright-e2e-tests/actions).
+
+![GitHub Actions Workflows](/docs/imgs/GitHub-Actions.png)
+
+There are 2 GitHub Actions Workflows setup for Playwright E2E Tests repository:
+
+- [Playwright Tests](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml)
+- [Sanity Check](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/sanity-check.yml)
+
+### Playwright Tests
+
+This GitHub Action Workflow Executes All Playwright E2E Tests on `local` environnement using `chromium`, `firefox` and `webkit` browsers from defined branch (by default it is `main`).
+Environnement `local` means that, Restful Booker Platform will be started inside GitHub Services and tests will run against it.
+
+GitHub Action Workflow configuration file of this workflow is [playwright.yml](/.github/workflows/playwright.yml).
+
+This workflow is only triggered Manually. Steps to trigger it:
+
+1. Open [Playwright Tests](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml)
+2. Click on `Run workflow` button
+    - (which opens sub-modal where `Branch` can be selected, `main` selected by default)
+3. Select `Branch`
+4. Click on `Run workflow` button
+
+![Playwright Tests](/docs/imgs/Playwright-Tests.png)
+
+Also, on [Playwright Tests](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml) page, status of all on-going and previously executed 'Playwright Tests' Workflow runs can be found.
+
+### Sanity Check
+
+This GitHub Action Workflow Executes `@sanity` tagged tests of Playwright E2E Tests on `local` environnement using `chromium`, `firefox` and `webkit` browsers from `main` or Pull Request source branch.
+
+GitHub Action Workflow configuration file of this workflow is [sanity-check.yaml](/.github/workflows/sanity-check.yaml).
+
+This workflow is only triggered automatically on specific events:
+
+- Merge Events on `main` branch
+- Create / Update GitHub Pull Request Events
+
+Also, on [Sanity Check](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/sanity-check.yml) page, status of all on-going and previously executed 'Sanity Check' Workflow runs can be found.
