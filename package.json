@@ -22,7 +22,7 @@
     "@typescript-eslint/parser": "^5.60.0",
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-playwright": "^0.14.0",
+    "eslint-plugin-playwright": "^0.15.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.3",
