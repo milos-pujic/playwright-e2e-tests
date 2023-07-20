@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { AdminPage } from '../../pages/AdminPage';
 import { Header } from '../../pages/components/Header';
-import { LoginBuildingBlock } from '../../apis/building_blocks/login_building_block';
+import { LoginBuildingBlock } from '../../building-blocks/login_building_block';
 
 test.describe('Login Tests', () => {
   let adminPage: AdminPage;
@@ -12,8 +12,8 @@ test.describe('Login Tests', () => {
   const redBorder = 'border: 1px solid red;';
 
   test.beforeEach(async ({ page, baseURL }) => {
-    adminPage=new AdminPage(page);
-    loginBuildingBlock = new LoginBuildingBlock(page,adminPage);
+    adminPage = new AdminPage(page);
+    loginBuildingBlock = new LoginBuildingBlock(page, adminPage);
     header = new Header(page);
 
     await adminPage.hideCookieBanner(baseURL);
