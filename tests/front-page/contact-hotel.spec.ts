@@ -106,7 +106,8 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const invalidPhone of ['1234567890', '1234567890123456789012']) {
-    test(`Visitor must NOT be able to contact the property by filling up the phone with invalid length, less than 11 and more than 21 characters: ${invalidPhone} @contact`, async () => {
+    test(`Visitor must NOT be able to contact the property by filling up the phone with invalid length,
+     less than 11 and more than 21 characters: ${invalidPhone} @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const subject = faker.lorem.sentence(3);
@@ -120,7 +121,8 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const validPhone of ['12345678901', '123456789012345678901']) {
-    test(`Visitor must be able to contact the property by filling up phone with valid length, between 11 and 21 characters: ${validPhone} @contact`, async () => {
+    test(`Visitor must be able to contact the property by filling up phone with valid length,
+     between 11 and 21 characters: ${validPhone} @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const subject = faker.lorem.sentence(3);
@@ -134,7 +136,8 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const invalidSubjectLength of [4, 101]) {
-    test(`Visitor must NOT be able to contact the property by filling up the subject with invalid length value of ${invalidSubjectLength}, less than 5 and more than 100 characters @contact`, async () => {
+    test(`Visitor must NOT be able to contact the property by filling up the subject
+     with invalid length value of ${invalidSubjectLength}, less than 5 and more than 100 characters @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const phoneNumber = faker.phone.number();
@@ -149,7 +152,8 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const validSubjectLength of [5, 100]) {
-    test(`Visitor must be able to contact the property by filling up the subject with valid length value of ${validSubjectLength}, between 5 and 100 characters @contact`, async () => {
+    test(`Visitor must be able to contact the property by filling up the subject
+     with valid length value of ${validSubjectLength}, between 5 and 100 characters @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const phoneNumber = faker.phone.number();
@@ -164,7 +168,8 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const invalidMessageLength of [19, 2001]) {
-    test(`Visitor must NOT be able to contact the property by filling up the message with invalid length value of ${invalidMessageLength}, less than 20 and more than 2000 characters @contact`, async () => {
+    test(`Visitor must NOT be able to contact the property by filling up the message
+     with invalid length value of ${invalidMessageLength}, less than 20 and more than 2000 characters @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const phoneNumber = faker.phone.number();
@@ -179,7 +184,8 @@ test.describe('Contact Hotel Tests', () => {
   }
 
   for (const validMessageLength of [20, 2000]) {
-    test(`Visitor must be able to contact the property by filling up the message with valid length value of ${validMessageLength}, between 20 and 2000 characters @contact`, async () => {
+    test(`Visitor must be able to contact the property by filling up the message
+     with valid length value of ${validMessageLength}, between 20 and 2000 characters @contact`, async () => {
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const email = faker.internet.email();
       const phoneNumber = faker.phone.number();

@@ -22,24 +22,24 @@ export class AdminPage extends BasePage {
     });
   }
 
-  async setUsername(username: string){
+  async setUsername(username: string) {
     await test.step('set login username  on admin page', async () => {
       await this.usernameField.fill(username);
       await expect(this.usernameField, 'Admin page loaded').toHaveValue(username);
     });
   }
 
-  async setPassword(password: string){
+  async setPassword(password: string) {
     await test.step('set login password on admin page', async () => {
       await this.passwordField.fill(password);
       await expect(this.passwordField, 'Admin page loaded').toHaveValue(password);
     });
   }
 
-  async clickLogin(){
+  async clickLogin() {
     await test.step('click login on admin page', async () => {
       await this.loginButton.click();
-      await expect(this.loginButton, 'Admin page loaded').not.toBeVisible;
+      await expect(this.loginButton, 'Admin page loaded').toBeHidden();
     });
   }
 }
