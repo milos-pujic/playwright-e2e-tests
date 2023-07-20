@@ -4,7 +4,8 @@ import { AuthApi } from '../../apis/AuthApi';
 import { AdminPage } from '../../pages/AdminPage';
 import { Header } from '../../pages/components/Header';
 import { RoomApi } from '../../apis/RoomApi';
-import { RoomBuildingBlock } from '../../apis/building_blocks/room_building_block';
+import { RoomBuildingBlock } from '../../building-blocks/room_building_block';
+import { LoginBuildingBlock } from '../../building-blocks/login_building_block';
 
 test.describe('Room Management Tests', () => {
   let adminPage: AdminPage;
@@ -12,22 +13,25 @@ test.describe('Room Management Tests', () => {
   let roomsPage: RoomsPage;
   
   let roomBuildingBlock: RoomBuildingBlock;
-  
+  let loginBuildingBlock: LoginBuildingBlock;
+
   let authApi: AuthApi;
   let roomApi: RoomApi;
 
   test.beforeEach(async ({ page, request, baseURL }) => {
     adminPage = new AdminPage(page);
+    loginBuildingBlock=new LoginBuildingBlock(page,adminPage);
+
     header = new Header(page);
     roomsPage = new RoomsPage(page);
-    roomBuildingBlock= new RoomBuildingBlock(page,roomsPage);
-
+    roomBuildingBlock = new RoomBuildingBlock(page,roomsPage);
+     
     authApi = new AuthApi(request);
     roomApi = new RoomApi(request);
 
     await adminPage.hideCookieBanner(baseURL);
     await adminPage.goto();
-    await adminPage.login('admin', 'password');
+    await loginBuildingBlock.login('admin', 'password');
     await expect(header.logoutLink, 'Administrator is logged in').toBeVisible();
 
     await authApi.login('admin', 'password');
@@ -41,7 +45,8 @@ test.describe('Room Management Tests', () => {
     ['118', RoomType.SUITE, true, 300, { wifi: true, tv: true, radio: true, refreshments: true, safe: true, views: true }]
   ];
   for (const room of rooms) {
-    test(`User must be able to create new ${room[1]} room named ${room[0]} by filling up all mandatory fields @sanity @management @room-management`, async ({
+    test(`User must be able to create new ${room[1]} room named ${room[0]} 
+    by filling up all mandatory fields @sanity @management @room-management`, async ({
       page
     }) => {
       const name = room[0];

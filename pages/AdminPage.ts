@@ -39,7 +39,6 @@ export class AdminPage extends BasePage {
   async clickLogin() {
     await test.step('click login on admin page', async () => {
       await this.loginButton.click();
-      await expect(this.loginButton, 'Admin page loaded').toBeHidden();
     });
   }
 }
