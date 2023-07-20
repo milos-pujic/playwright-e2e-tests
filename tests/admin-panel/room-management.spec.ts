@@ -4,12 +4,15 @@ import { AuthApi } from '../../apis/AuthApi';
 import { AdminPage } from '../../pages/AdminPage';
 import { Header } from '../../pages/components/Header';
 import { RoomApi } from '../../apis/RoomApi';
+import { RoomBuildingBlock } from '../../apis/building_blocks/room_building_block';
 
 test.describe('Room Management Tests', () => {
   let adminPage: AdminPage;
   let header: Header;
   let roomsPage: RoomsPage;
-
+  
+  let roomBuildingBlock: RoomBuildingBlock;
+  
   let authApi: AuthApi;
   let roomApi: RoomApi;
 
@@ -17,11 +20,12 @@ test.describe('Room Management Tests', () => {
     adminPage = new AdminPage(page);
     header = new Header(page);
     roomsPage = new RoomsPage(page);
+    roomBuildingBlock= new RoomBuildingBlock(page,roomsPage);
 
     authApi = new AuthApi(request);
     roomApi = new RoomApi(request);
 
-    await adminPage.hideBanner(baseURL);
+    await adminPage.hideCookieBanner(baseURL);
     await adminPage.goto();
     await adminPage.login('admin', 'password');
     await expect(header.logoutLink, 'Administrator is logged in').toBeVisible();
@@ -45,7 +49,7 @@ test.describe('Room Management Tests', () => {
       const accessible = room[2];
       const price = room[3];
       const amenities = room[4];
-      await roomsPage.createRoom(name, type, accessible, price, amenities);
+      await roomBuildingBlock.createRoom(name, type, accessible, price, amenities);
 
       const accessibleString = accessible.toString();
       const priceString = price.toString();
@@ -64,14 +68,14 @@ test.describe('Room Management Tests', () => {
   }
 
   test('User must NOT be able to create new room without filling up room name field @management @room-management', async () => {
-    await roomsPage.createRoom('', RoomType.TWIN, false, 55, { wifi: true, tv: true, radio: false, refreshments: false, safe: false, views: false });
+    await roomBuildingBlock.createRoom('', RoomType.TWIN, false, 55, { wifi: true, tv: true, radio: false, refreshments: false, safe: false, views: false });
     await expect(roomsPage.errorMessages, 'Error messages are displayed').toBeVisible();
     const errorMessage = 'Room name must be set';
     await expect(roomsPage.errorMessages, `Error message '${errorMessage}' is displayed`).toContainText(errorMessage);
   });
 
   test('User must NOT be able to create new room without filling up room price field @management @room-management', async () => {
-    await roomsPage.createRoom('314', RoomType.TWIN, false, null, {
+    await roomBuildingBlock.createRoom('314', RoomType.TWIN, false, null, {
       wifi: true,
       tv: true,
       radio: false,
@@ -85,7 +89,7 @@ test.describe('Room Management Tests', () => {
   });
 
   test('User must NOT be able to create new room with price 0 @management @room-management', async () => {
-    await roomsPage.createRoom('314', RoomType.TWIN, false, 0, {
+    await roomBuildingBlock.createRoom('314', RoomType.TWIN, false, 0, {
       wifi: false,
       tv: false,
       radio: false,

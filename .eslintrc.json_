@@ -38,6 +38,6 @@
         "tabWidth": 2
       }
     ],
-    "prettier/prettier": ["warning"]
+    "prettier/prettier": ["error"]
   }
 }

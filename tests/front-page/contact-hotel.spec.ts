@@ -8,7 +8,7 @@ test.describe('Contact Hotel Tests', () => {
 
   test.beforeEach(async ({ page, baseURL }) => {
     frontPage = new FrontPage(page);
-    await frontPage.hideBanner(baseURL);
+    await frontPage.hideCookieBanner(baseURL);
     await frontPage.goto();
   });
 

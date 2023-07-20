@@ -7,7 +7,7 @@ export class BasePage {
     this.page = page;
   }
 
-  async hideBanner(baseUrl: string | undefined) {
+  async hideCookieBanner(baseUrl: string | undefined) {
     await test.step('Hide Welcome to Restful Booker Platform banner', async () => {
       await this.page.context().addCookies([{ name: 'banner', value: 'true', url: baseUrl ? baseUrl : '/', sameSite: 'Strict' }]);
     });

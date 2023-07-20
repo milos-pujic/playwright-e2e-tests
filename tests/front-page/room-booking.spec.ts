@@ -31,7 +31,7 @@ test.describe('Room Booking Tests', () => {
     authApi = new AuthApi(request);
     roomApi = new RoomApi(request);
 
-    await frontPage.hideBanner(baseURL);
+    await frontPage.hideCookieBanner(baseURL);
     await authApi.login('admin', 'password');
     await roomApi.createRoom(roomName, roomType, roomIsAccessible, roomPrice, roomAmenities);
 
