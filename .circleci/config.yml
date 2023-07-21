@@ -8,12 +8,10 @@ jobs:
       - checkout
       - run: npm i -D @playwright/test
       - run: npx playwright install chrome
-      
-      - name: run the test.
-      - run: npx playwright test --project=chromium --reporter=line,allure-playwright
-      
-      
-      
+      - run:
+          name: run the test.
+          command: |
+            npx playwright test --project=chromium --reporter=line,allure-playwright
 workflows:
   build:
     jobs:
