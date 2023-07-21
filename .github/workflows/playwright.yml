@@ -114,7 +114,7 @@ jobs:
         run: npx playwright install-deps ${{ matrix.project }}
       - name: Run Playwright Tests
         id: run-playwright-tests
-        run: npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} --alluredir=allure-results
         env:
           ENV: local 
       
