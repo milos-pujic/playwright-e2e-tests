@@ -230,7 +230,7 @@ jobs:
           failOnError: false
       - name: Send Results and Generate Allure Report
         uses: Xotabu4/send-to-allure-server-action@1
-          # always() needed because we want report for failed tests as well
-          if: ${{ always() }}
-          with:
+        # always() needed because we want report for failed tests as well
+        if: ${{ always() }}
+        with:
                 allure-server-url: 'http://35.171.159.248:8080/'    
