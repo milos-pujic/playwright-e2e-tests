@@ -6,14 +6,27 @@ jobs:
     working_directory: ~/app
     steps:
       - checkout
-      - run: npm i -D @playwright/test
-      - run: npx playwright install chrome
-      
-      - name: run the test.
-      - run: npx playwright test --project=chromium --reporter=line,allure-playwright
-      
-      
-      
+
+      - run:
+          command: npm i -D @playwright/test
+
+      - run:
+          command: npx playwright install chromium
+
+      - run:
+          command: npx playwright test --project=chromium --reporter=line,allure-playwright
+
+      - run:
+          command: |
+            mkdir -p ~/artifacts
+            cp -r ./allure-report ~/artifacts/
+
+      - run:
+          command: |
+            npx allure generate allure-report --clean
+            npx allure report generate -c -o allure-results
+            npx allure report open -o allure-results --port 8080 http://35.171.159.248
+
 workflows:
   build:
     jobs:
