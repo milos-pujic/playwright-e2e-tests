@@ -20,6 +20,10 @@ function getBaseUrl() {
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+
+const currentDateTime = new Date().toISOString().replace(/[:.]/g, '_').slice(0, -1);
+const outputFolder = `./results/results-${currentDateTime}`;
+
 export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
@@ -45,12 +49,20 @@ export default defineConfig({
       ]
     : [
         ['list'],
-        ['html', { open: 'on-failure' }],
+        ['html', { open: 'on-failure', outputFile: outputFolder }],
         [
           'monocart-reporter',
           {
             name: 'Playwright E2E Tests',
             outputFile: './playwright-monocart-report/index.html'
+          }
+        ],
+        [
+          'allure-playwright',
+          {
+            detail: true,
+            //outputFolder: 'my-allure-results',
+            suiteTitle: false
           }
         ]
       ],
@@ -94,17 +106,18 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], trace: process.env.CI ? 'on-first-retry' : 'on-first-retry' }
-    },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] }
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] }
     }
+    //,
+
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] }
+    // },
+
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] }
+    // }
 
     /* Test against mobile viewports. */
     // {
