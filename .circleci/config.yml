@@ -1,0 +1,16 @@
+ version: 2.1
+ jobs:
+   build_job:
+     docker:
+       - image: mcr.microsoft.com/playwright:v1.34.0-jammy
+     working_directory: ~/app
+     steps:
+       - checkout
+       - run: npm i -D @playwright/test
+       - run: npx playwright install chrome
+       - run:
+           name: "Run playwright tests"
+           command: npx playwright test --config=./playwright.config.js
+ tests:
+     jobs:
+       - build_job
