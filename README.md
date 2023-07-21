@@ -51,11 +51,11 @@ Open the terminal inside `<local_path>\playwright-e2e-tests` and use the followi
 
 Example of above commands with possible variables:
 
-- `ENV=local npx playwright test --ui` - Open Playwright UI to execute tests against Local environnement
-- `ENV=prod npx playwright test` - Execute All tests without opening the Playwright UI against Production environnement in all setup projects (browsers)
-- `ENV=local npx playwright test tests/admin-panel/login.spec.ts` - Execute Login tests without opening the Playwright UI on Local environnement in all setup projects (browsers)
-- `ENV=prod npx playwright test --grep "@booking|@contact"` - Execute tests tagged with `@booking` or `@contact`, without opening the Playwright UI on Production environnement in all setup projects (browsers)
-- `ENV=prod npx playwright test --grep-invert "@room-management" --project chromium` - Execute tests not tagged with `@room-management`, without opening the Playwright UI on Production environnement only on `chromium` project (browser)
+- `set ENV=local & npx playwright test --ui` - Open Playwright UI to execute tests against Local environnement
+- `set ENV=prod & npx playwright test` - Execute All tests without opening the Playwright UI against Production environnement in all setup projects (browsers)
+- `set ENV=local & npx playwright test tests/admin-panel/login.spec.ts` - Execute Login tests without opening the Playwright UI on Local environnement in all setup projects (browsers)
+- `set ENV=prod & npx playwright test --grep "@booking|@contact"` - Execute tests tagged with `@booking` or `@contact`, without opening the Playwright UI on Production environnement in all setup projects (browsers)
+- `set ENV=prod & npx playwright test --grep-invert "@room-management" --project chromium` - Execute tests not tagged with `@room-management`, without opening the Playwright UI on Production environnement only on `chromium` project (browser)
 
 ## Local Docker Environment with Docker for Desktop
 

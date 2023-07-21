@@ -106,6 +106,7 @@ jobs:
           path: |
             ~/.cache/ms-playwright
           key: playwright-${{ hashFiles('package-lock.json') }}
+      
       # Playwright caches the browser binaries, but not their dependencies.
       # Those extra browser dependencies must be installed separately when the cached browsers are restored.
       - name: Install Playwright System Dependencies
@@ -116,6 +117,7 @@ jobs:
         run: npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
           ENV: local 
+      
       - name: Upload Playwright HTML Report
         id: upload-playwright-html-report
         uses: actions/upload-artifact@v3
@@ -183,12 +185,15 @@ jobs:
           path: |
             ~/.cache/ms-playwright
           key: playwright-${{ hashFiles('package-lock.json') }}
+      
       - name: Download Artifacts
         id: download-artifacts
         uses: actions/download-artifact@v3
+      
       - name: Merge Playwright HTML Reports
         id: merge-playwright-html-reports
         run: npm run merge:report:playwright
+      
       - name: Merge Playwright Monocart Reports
         id: merge-playwright-monocart-reports
         run: |
@@ -213,6 +218,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+      
       - name: Delete Unnecessary Artifacts
         id: delete-unnecessary-artifacts
         uses: geekyeggo/delete-artifact@v2
@@ -222,3 +228,9 @@ jobs:
             test-results-*
             monocart-report-*
           failOnError: false
+      - name: Send Results and Generate Allure Report
+        uses: Xotabu4/send-to-allure-server-action@1
+          # always() needed because we want report for failed tests as well
+          if: ${{ always() }}
+          with:
+                allure-server-url: 'http://35.171.159.248:8080/'    
