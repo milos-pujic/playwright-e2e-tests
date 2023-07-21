@@ -4,6 +4,9 @@ jobs:
     docker:
       - image: mcr.microsoft.com/playwright:v1.36.1-focal
     working_directory: ~/app
+    environment:
+      # Set the JAVA_HOME variable to the Java installation path in the Docker image
+      JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
     steps:
       - checkout
 
