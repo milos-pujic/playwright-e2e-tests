@@ -20,6 +20,10 @@ jobs:
           command: |
             mkdir -p ~/artifacts
             cp -r ./allure-report ~/artifacts/
+      
+      - run:
+          name: Install Allure Commandline
+          command: npm install -g allure-commandline      
 
       - run:
           command: |
