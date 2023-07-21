@@ -2,44 +2,45 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.36.1-focal
+      - image: circleci/openjdk:11-jdk  # Use an image with Java 11 installed
     working_directory: ~/app
-    environment:
-      # Set the JAVA_HOME variable to the Java installation path in the Docker image
-      JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+
     steps:
       - checkout
-      # Find the Java installation path in the Docker image
+
+      # Set up JAVA_HOME using alternatives
       - run:
-          name: Find Java Installation Path
+          name: Set up JAVA_HOME
           command: |
-            ls /usr/lib/jvm
-            ls /usr/lib/jvm/java-11-openjdk*
-            ls /usr/lib/jvm/java-11-openjdk*/bin
-            java -version  
-      # - run:
-      #     command: npm i -D @playwright/test
+            sudo update-alternatives --install /usr/bin/java java /usr/local/openjdk-11/bin/java 1
+            sudo update-alternatives --install /usr/bin/javac javac /usr/local/openjdk-11/bin/javac 1
+            export JAVA_HOME=/usr/local/openjdk-11
 
-      # - run:
-      #     command: npx playwright install chromium
+      # Run any necessary setup or installation steps
+      - run:
+          name: Install @playwright/test library
+          command: npm i -D @playwright/test
 
-      # - run:
-      #     command: npx playwright test --project=chromium --reporter=line,allure-playwright || true
+      - run:
+          command: npx playwright install chromium
 
-      # - run:
-      #     command: |
-      #       mkdir -p ~/artifacts
-      #       cp -r ./allure-report ~/artifacts/
+      - run:
+          command: npx playwright test --project=chromium --reporter=line,allure-playwright || true
+
+      - run:
+          command: |
+            mkdir -p ~/artifacts
+            cp -r ./allure-report ~/artifacts/
       
-      # - run:
-      #     name: Install Allure Commandline
-      #     command: npm install -g allure-commandline      
+      - run:
+          name: Install Allure Commandline
+          command: npm install -g allure-commandline      
 
-      # - run:
-      #     command: |
-      #       npx allure generate allure-report --clean
-      #       npx allure report generate -c -o allure-results
-      #       npx allure report open -o allure-results --port 8080 http://35.171.159.248
+      - run:
+          command: |
+            npx allure generate allure-report --clean
+            npx allure report generate -c -o allure-results
+            npx allure report open -o allure-results --port 8080 http://35.171.159.248
 
 workflows:
   build:
