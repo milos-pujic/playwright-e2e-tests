@@ -11,7 +11,7 @@ jobs:
       - run:
           name: run the test.
           command: |
-            npx playwright test --config=./playwright.config.js
+            npx playwright test --project=chromium --reporter=line,allure-playwright
 workflows:
   build:
     jobs:
