@@ -2,46 +2,18 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:11-jdk  # Use an image with Java 11 installed
+      - image: mcr.microsoft.com/playwright:v1.36.1-focal
     working_directory: ~/app
-
     steps:
       - checkout
-
-      # Set up JAVA_HOME using alternatives
-      - run:
-          name: Set up JAVA_HOME
-          command: |
-            sudo update-alternatives --install /usr/bin/java java /usr/local/openjdk-11/bin/java 1
-            sudo update-alternatives --install /usr/bin/javac javac /usr/local/openjdk-11/bin/javac 1
-            export JAVA_HOME=/usr/local/openjdk-11
-
-      # Run any necessary setup or installation steps
-      - run:
-          name: Install @playwright/test library
-          command: npm i -D @playwright/test
-
-      - run:
-          command: npx playwright install chromium
-
-      - run:
-          command: npx playwright test --project=chromium --reporter=line,allure-playwright || true
-
-      - run:
-          command: |
-            mkdir -p ~/artifacts
-            cp -r ./allure-report ~/artifacts/
+      - run: npm i -D @playwright/test
+      - run: npx playwright install chrome
       
-      - run:
-          name: Install Allure Commandline
-          command: npm install -g allure-commandline      
-
-      - run:
-          command: |
-            npx allure generate allure-report --clean
-            npx allure report generate -c -o allure-results
-            npx allure report open -o allure-results --port 8080 http://35.171.159.248
-
+      - name: run the test.
+      - run: npx playwright test --project=chromium --reporter=line,allure-playwright
+      
+      
+      
 workflows:
   build:
     jobs:
