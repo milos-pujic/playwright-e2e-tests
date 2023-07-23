@@ -4,6 +4,7 @@
 /playwright-report/
 /playwright/.cache/
 /allure-report/
+
 # Compiled output
 /dist
 /node_modules
