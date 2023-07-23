@@ -62,7 +62,7 @@ export default defineConfig({
           {
             detail: true,
             //outputFolder: 'my-allure-results',
-            suiteTitle: false
+            suiteTitle: true
           }
         ]
       ],
