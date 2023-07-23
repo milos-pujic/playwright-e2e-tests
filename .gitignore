@@ -3,7 +3,7 @@
 /playwright-monocart-report/
 /playwright-report/
 /playwright/.cache/
-/allure-results/
+/allure-report/
 # Compiled output
 /dist
 /node_modules
