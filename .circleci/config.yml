@@ -13,6 +13,12 @@ jobs:
           command: |
             npx playwright test --project=chromium --reporter=line,allure-playwright || true
       - run:
+          name: downlaod allurectl
+          command: |
+            wget https://github.com/allure-framework/allurectl/releases/latest/download/allurectl_linux_amd64 -O ./allurectl
+            chmod +x ./allurectl
+
+      - run:
           name: upload to testsops allure results
           # Add source command to execute code and make variables
           # available in current step.
