@@ -13,10 +13,10 @@ jobs:
       - run:
           name: run the test.
           command: |
-            set -x 
+            set -x
             TOTAL_SHARDS=4
             CURRENT_SHARD=${CIRCLE_NODE_INDEX}
-            TEST_FILES=$(npx playwright test --list --project=chromium | grep 'test.spec.ts' | awk '{print $1}')
+            TEST_FILES=$(npx playwright test --list --project=chromium | grep -oE ".*test.spec.ts")
             TEST_FILTER=""
             for FILE in $TEST_FILES; do
               FILE_NUMBER=$(( $(echo $FILE | grep -Eo '[0-9]+' | tail -n 1) % $TOTAL_SHARDS ))
@@ -29,7 +29,8 @@ jobs:
               fi
             done
             npx playwright test --project=chromium --reporter=line,allure-playwright --test-match=$TEST_FILTER
-            # The build will fail if the tests fail, no need for "|| true"
+            set +x
+            # The build will fail if the tests fail
 
       - run:
           name: download allurectl
