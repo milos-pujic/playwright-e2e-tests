@@ -16,7 +16,7 @@ jobs:
             set -x
             TOTAL_SHARDS=4
             CURRENT_SHARD=${CIRCLE_NODE_INDEX}
-            TEST_FILES=$(npx playwright test --list --project=chromium | grep -oE ".*.spec.ts")
+            TEST_FILES=$(npx playwright test --list --project=chromium | grep -Eo '.*\.spec\.ts')
             echo "TEST_FILES: $TEST_FILES"
             TEST_FILTER=""
             for FILE in $TEST_FILES; do
