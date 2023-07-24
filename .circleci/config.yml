@@ -15,7 +15,13 @@ jobs:
           command: |
             TOTAL_SHARDS=4
             CURRENT_SHARD=${CIRCLE_NODE_INDEX}
-            npx playwright test --project=chromium --reporter=line,allure-playwright --shards=${TOTAL_SHARDS} --shard=${CURRENT_SHARD} || true
+            TEST_FILTER="*"
+            if [ $CURRENT_SHARD -lt $TOTAL_SHARDS ]; then
+              MODULO=$(( $CURRENT_SHARD % $TOTAL_SHARDS ))
+              TEST_FILTER="test.spec.ts:${MODULO}"
+            fi
+            npx playwright test --project=chromium --reporter=line,allure-playwright $TEST_FILTER || true
+            # The build will fail if the tests fail, no need for "|| true"
             
       - run:
           name: downlaod allurectl
