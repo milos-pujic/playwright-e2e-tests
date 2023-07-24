@@ -13,7 +13,7 @@ jobs:
       - run:
           name: run the test.
           command: |
-            SHARD="$((${CIRCLE_NODE_INDEX}+1))"; npx playwright test --project=chromium --reporter=line,allure-playwright -- shard=${SHARD}/${CIRCLE_NODE_TOTAL}  || true
+            npx playwright test --project=chromium --reporter=line,allure-playwright --shard=${CIRCLE_NODE_INDEX} || true  || true
             
       - run:
           name: downlaod allurectl
