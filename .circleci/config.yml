@@ -20,7 +20,7 @@ jobs:
               MODULO=$(( $CURRENT_SHARD % $TOTAL_SHARDS ))
               TEST_FILTER="test.spec.ts:${MODULO}"
             fi
-            npx playwright test --project=chromium --reporter=line,allure-playwright $TEST_FILTER || true
+            npx playwright test --project=chromium --reporter=line,allure-playwright || true
             # The build will fail if the tests fail, no need for "|| true"
             
       - run:
