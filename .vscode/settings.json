@@ -8,5 +8,14 @@
   "editor.detectIndentation": false,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
-  "cSpell.words": ["combobox", "monocart", "msedge", "testid", "viewports"]
+  "cSpell.words": [
+    "combobox",
+    "monocart",
+    "msedge",
+    "testid",
+    "viewports"
+  ],
+  "allure.host": "https://amielnoy.testops.cloud/",
+  "allure.token": "6dfe1319-dd1a-4794-9f07-986eb5406e92",
+  "allure.project": "1"
 }
