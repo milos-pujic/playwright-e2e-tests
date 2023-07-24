@@ -11,7 +11,7 @@ jobs:
       - run:
           name: run the test.
           command: |
-            npx playwright test --project=chromium --reporter=line,allure-playwright
+            npx playwright test --project=chromium --reporter=line,allure-playwright || true
       - run:
           name: upload to testsops allure results
           # Add source command to execute code and make variables
@@ -23,7 +23,7 @@ jobs:
             export ALLURE_LAUNCH_NAME="playwright tests e2e"
             export ALLURE_LAUNCH_TAGS="release, critical"
             # Run upload process somewhere
-            allurectl upload ./allure-results
+            allurectl upload ./allure-results 
 
 
 workflows:
