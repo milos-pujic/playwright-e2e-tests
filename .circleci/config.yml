@@ -13,6 +13,7 @@ jobs:
       - run:
           name: run the test.
           command: |
+            set -x 
             TOTAL_SHARDS=4
             CURRENT_SHARD=${CIRCLE_NODE_INDEX}
             TEST_FILES=$(npx playwright test --list --project=chromium | grep 'test.spec.ts' | awk '{print $1}')
