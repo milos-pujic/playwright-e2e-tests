@@ -18,6 +18,7 @@ jobs:
             CURRENT_SHARD=${CIRCLE_NODE_INDEX}
             TEST_FILES=$(npx playwright test --list --project=chromium | grep -Eo '.*\.spec\.ts')
             echo "TEST_FILES: $TEST_FILES"
+
             TEST_FILTER=""
             for FILE in $TEST_FILES; do
               FILE_NUMBER=$(echo $FILE | grep -Eo '[0-9]+' | tail -n 1)
@@ -37,7 +38,7 @@ jobs:
             echo "TEST_FILTER: $TEST_FILTER"
             npx playwright test --project=chromium --reporter=line,allure-playwright --test-match="$TEST_FILTER"
             set +x
-            # The build will fail if the tests fail
+                  # The build will fail if the tests fail
 
       - run:
           name: download allurectl
