@@ -17,11 +17,14 @@ jobs:
             TOTAL_SHARDS=4
             CURRENT_SHARD=${CIRCLE_NODE_INDEX}
             TEST_FILES=$(npx playwright test --list --project=chromium | grep -oE ".*.spec.ts")
+            echo "TEST_FILES: $TEST_FILES"
             TEST_FILTER=""
             for FILE in $TEST_FILES; do
               FILE_NUMBER=$(echo $FILE | grep -Eo '[0-9]+' | tail -n 1)
+              echo "FILE: $FILE, FILE_NUMBER: $FILE_NUMBER"
               if [ -n "$FILE_NUMBER" ]; then
                 FILE_NUMBER=$((FILE_NUMBER % TOTAL_SHARDS))
+                echo "FILE_NUMBER (mod): $FILE_NUMBER"
                 if [ "$FILE_NUMBER" -eq "$CURRENT_SHARD" ]; then
                   if [ -z "$TEST_FILTER" ]; then
                     TEST_FILTER="$FILE"
@@ -31,7 +34,8 @@ jobs:
                 fi
               fi
             done
-            npx playwright test --project=chromium --reporter=line,allure-playwright --test-match=$TEST_FILTER
+            echo "TEST_FILTER: $TEST_FILTER"
+            npx playwright test --project=chromium --reporter=line,allure-playwright --test-match="$TEST_FILTER"
             set +x
             # The build will fail if the tests fail
 
