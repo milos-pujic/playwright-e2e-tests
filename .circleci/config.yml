@@ -5,7 +5,7 @@ jobs:
       - image: mcr.microsoft.com/playwright:v1.36.1-focal
     parallelism: 4
     working_directory: ~/app
-    
+
     steps:
       - checkout
       - run: npm i -D @playwright/test
@@ -15,16 +15,23 @@ jobs:
           command: |
             TOTAL_SHARDS=4
             CURRENT_SHARD=${CIRCLE_NODE_INDEX}
-            TEST_FILTER="*"
-            if [ $CURRENT_SHARD -lt $TOTAL_SHARDS ]; then
-              MODULO=$(( $CURRENT_SHARD % $TOTAL_SHARDS ))
-              TEST_FILTER="test.spec.ts:${MODULO}"
-            fi
-            npx playwright test --project=chromium --reporter=line,allure-playwright $TEST_FILTER
+            TEST_FILES=$(npx playwright test --list --project=chromium | grep 'test.spec.ts' | awk '{print $1}')
+            TEST_FILTER=""
+            for FILE in $TEST_FILES; do
+              FILE_NUMBER=$(( $(echo $FILE | grep -Eo '[0-9]+' | tail -n 1) % $TOTAL_SHARDS ))
+              if [ "$FILE_NUMBER" -eq "$CURRENT_SHARD" ]; then
+                if [ -z "$TEST_FILTER" ]; then
+                  TEST_FILTER="$FILE"
+                else
+                  TEST_FILTER="$TEST_FILTER,$FILE"
+                fi
+              fi
+            done
+            npx playwright test --project=chromium --reporter=line,allure-playwright --test-match=$TEST_FILTER
             # The build will fail if the tests fail, no need for "|| true"
-            
+
       - run:
-          name: downlaod allurectl
+          name: download allurectl
           command: |
             wget https://github.com/allure-framework/allurectl/releases/latest/download/allurectl_linux_amd64 -O ./allurectl
             chmod +x ./allurectl
@@ -32,8 +39,6 @@ jobs:
 
       - run:
           name: upload to testsops allure results
-          # Add source command to execute code and make variables
-          # available in current step.
           command: |
             export ALLURE_ENDPOINT=https://amielnoy.testops.cloud/
             export ALLURE_TOKEN=6dfe1319-dd1a-4794-9f07-986eb5406e92
@@ -41,8 +46,7 @@ jobs:
             export ALLURE_LAUNCH_NAME="playwright tests e2e"
             export ALLURE_LAUNCH_TAGS="release, critical"
             # Run upload process somewhere
-            ./allurectl upload ./allure-results 
-
+            ./allurectl upload ./allure-results
 
 workflows:
   build:
