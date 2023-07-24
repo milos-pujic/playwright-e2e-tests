@@ -19,12 +19,15 @@ jobs:
             TEST_FILES=$(npx playwright test --list --project=chromium | grep -oE ".*.spec.ts")
             TEST_FILTER=""
             for FILE in $TEST_FILES; do
-              FILE_NUMBER=$(expr $(echo $FILE | grep -Eo '[0-9]+') % $TOTAL_SHARDS )
-              if [ "$FILE_NUMBER" -eq "$CURRENT_SHARD" ]; then
-                if [ -z "$TEST_FILTER" ]; then
-                  TEST_FILTER="$FILE"
-                else
-                  TEST_FILTER="$TEST_FILTER,$FILE"
+              FILE_NUMBER=$(echo $FILE | grep -Eo '[0-9]+' | tail -n 1)
+              if [ -n "$FILE_NUMBER" ]; then
+                FILE_NUMBER=$((FILE_NUMBER % TOTAL_SHARDS))
+                if [ "$FILE_NUMBER" -eq "$CURRENT_SHARD" ]; then
+                  if [ -z "$TEST_FILTER" ]; then
+                    TEST_FILTER="$FILE"
+                  else
+                    TEST_FILTER="$TEST_FILTER,$FILE"
+                  fi
                 fi
               fi
             done
