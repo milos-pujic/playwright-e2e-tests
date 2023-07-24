@@ -13,7 +13,9 @@ jobs:
       - run:
           name: run the test.
           command: |
-            npx playwright test --project=chromium --reporter=line,allure-playwright || true
+            TOTAL_SHARDS=4
+            CURRENT_SHARD=${CIRCLE_NODE_INDEX}
+            npx playwright test --project=chromium --reporter=line,allure-playwright --shards=${TOTAL_SHARDS} --shard=${CURRENT_SHARD} || true
             
       - run:
           name: downlaod allurectl
