@@ -1,4 +1,5 @@
 version: 2.1
+
 jobs:
   build:
     docker:
@@ -13,9 +14,12 @@ jobs:
       - run:
           name: run the test.
           command: |
-            npx playwright test --project=chromium --reporter=line,allure-playwright || true
-            
-                  # The build will fail if the tests fail
+            set -x
+            TOTAL_SHARDS=4
+            CURRENT_SHARD=$((CIRCLE_NODE_INDEX + 1))
+            npx playwright test --project=chromium --reporter=line,allure-playwright --shard=$CURRENT_SHARD/$TOTAL_SHARDS
+            set +x
+            # The build will fail if the tests fail
 
       - run:
           name: download allurectl
