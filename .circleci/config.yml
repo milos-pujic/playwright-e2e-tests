@@ -30,7 +30,7 @@ jobs:
             export ALLURE_LAUNCH_NAME="playwright tests e2e"
             export ALLURE_LAUNCH_TAGS="release, critical"
             # Run upload process somewhere
-            allurectl upload ./allure-results 
+            ./allurectl upload ./allure-results 
 
 
 workflows:
