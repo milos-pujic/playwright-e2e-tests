@@ -19,7 +19,7 @@
     "@faker-js/faker": "^8.0.2",
     "@playwright/test": "^1.36.1",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
-    "@typescript-eslint/parser": "^6.1.0",
+    "@typescript-eslint/parser": "^6.2.0",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^8.9.0",
     "eslint-plugin-playwright": "^0.15.3",
