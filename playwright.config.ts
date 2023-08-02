@@ -1,11 +1,17 @@
 /* eslint-disable indent */
 import { defineConfig, devices } from '@playwright/test';
-
+import dotenv from 'dotenv';
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
+const env_path = `./environments/.env.${process.env.CURR_ENV}`;
+
+dotenv.config({
+  path: env_path,
+  override: true
+});
 
 function getBaseUrl() {
   const environment = process.env.ENV;
