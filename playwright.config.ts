@@ -6,7 +6,9 @@ import dotenv from 'dotenv';
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
-const env_path = `./environments/.env.${process.env.CURR_ENV}`;
+
+const env = process.env.CURR_ENV ? process.env.CURR_ENV : 'testing';
+const env_path = `./environments/.env.${env}`;
 
 dotenv.config({
   path: env_path,
