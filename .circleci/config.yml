@@ -4,7 +4,7 @@ jobs:
   build:
     docker:
       - image: mcr.microsoft.com/playwright:v1.36.1-focal
-    parallelism: 10
+    parallelism: 4
     working_directory: ~/app
 
     steps:
