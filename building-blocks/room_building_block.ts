@@ -5,9 +5,9 @@ export class RoomBuildingBlock {
   readonly page: Page;
   readonly roomPage: RoomsPage;
 
-  constructor(page: Page, roomPage: RoomsPage) {
+  constructor(page: Page) {
     this.page = page;
-    this.roomPage = roomPage;
+    this.roomPage = new RoomsPage(page);
   }
 
   async createRoom(roomName: string, roomType: RoomType | null, roomIsAccessible: boolean, roomPrice: number | null, roomAmenities: RoomAmenities) {

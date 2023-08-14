@@ -19,13 +19,11 @@ test.describe('Room Management Tests', () => {
   let roomApi: RoomApi;
 
   test.beforeEach(async ({ page, request, baseURL }) => {
-    adminPage = new AdminPage(page);
-    loginBuildingBlock=new LoginBuildingBlock(page,adminPage);
+    loginBuildingBlock = new LoginBuildingBlock(page);
 
     header = new Header(page);
-    roomsPage = new RoomsPage(page);
-    roomBuildingBlock = new RoomBuildingBlock(page,roomsPage);
-     
+    roomBuildingBlock = new RoomBuildingBlock(page);
+    adminPage=new AdminPage(page); 
     authApi = new AuthApi(request);
     roomApi = new RoomApi(request);
 
