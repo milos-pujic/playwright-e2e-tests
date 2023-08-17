@@ -1,7 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { AdminPage } from '../../pages/AdminPage';
 import { Header } from '../../pages/components/Header';
 import { LoginBuildingBlock } from '../../building-blocks/login_building_block';
+import { test} from '../../fixtures/envToDictionaryFixture';
 
 test.describe('Login Tests', () => {
   let adminPage: AdminPage;
@@ -13,15 +14,16 @@ test.describe('Login Tests', () => {
 
   test.beforeEach(async ({ page, baseURL }) => {
     adminPage = new AdminPage(page);
-    loginBuildingBlock = new LoginBuildingBlock(page, adminPage);
+    loginBuildingBlock = new LoginBuildingBlock(page);
     header = new Header(page);
 
     await adminPage.hideCookieBanner(baseURL);
     await adminPage.goto();
   });
 
-  test('Administrator is able to login with correct username and password @sanity @login', async () => {
-    await loginBuildingBlock.login('admin', 'password');
+  test('Administrator is able to login with correct username and password @sanity @login', async ({envConfig}) => {
+    console.log(envConfig.Username,envConfig.Password,process.env.CURR_ENV);
+    await loginBuildingBlock.login(envConfig.Username, envConfig.Password);
     await expect(header.logoutLink, 'Administrator logged in!').toBeVisible();
   });
 

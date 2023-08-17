@@ -12,4 +12,8 @@ export class BasePage {
       await this.page.context().addCookies([{ name: 'banner', value: 'true', url: baseUrl ? baseUrl : '/', sameSite: 'Strict' }]);
     });
   }
+
+  get getPage() { 
+    return this.page; 
+  }
 }

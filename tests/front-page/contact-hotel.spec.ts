@@ -94,8 +94,9 @@ test.describe('Contact Hotel Tests', () => {
 
   for (const invalidEmail of invalidEmails()) {
     test(`Visitor must NOT be able to contact the property by filling up email with invalid value: ${invalidEmail} @contact`, async () => {
-      allure.link('https://playwright.dev', 'playwright-site'); // link with name
+      
       allure.issue('Issue Name', 'https://github.com/allure-framework/allure-js/issues/352');
+      
       const name = `${faker.person.firstName()} ${faker.person.lastName()}`;
       const phoneNumber = faker.phone.number();
       const subject = faker.lorem.sentence(3);

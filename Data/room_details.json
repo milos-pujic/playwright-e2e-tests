@@ -1,0 +1,30 @@
+[
+  {
+    "room_number": "200",
+    "room_type": "Single",
+    "Accesiblity": false,
+    "price":80,
+    "ammenties":{
+      "wifi": false,
+      "tv": false,
+      "radio": false,
+      "refreshments": false,
+      "safe": false,
+      "views": false
+    } 
+  },
+  {
+    "room_number": "300",
+    "room_type": "Double",
+    "Accesiblity": false,
+    "price":80,
+    "ammenties":{
+      "wifi": true,
+      "tv": true,
+      "radio": false,
+      "refreshments": false,
+      "safe": false,
+      "views": false
+    }
+  }
+]

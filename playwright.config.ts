@@ -1,12 +1,17 @@
 /* eslint-disable indent */
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
+import path from 'path';
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
-const env_path = `./environments/.env.${process.env.CURR_ENV}`;
+
+export const STORAGE_STATE = path.join(__dirname, '.auth/user.json');
+
+const env = process.env.CURR_ENV ? process.env.CURR_ENV : 'testing';
+const env_path = `./environments/.env.${env}`;
 
 dotenv.config({
   path: env_path,
@@ -39,7 +44,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 4 : undefined,
+  workers: process.env.CI ? 4 : 12,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI
     ? [
@@ -67,7 +72,7 @@ export default defineConfig({
           'allure-playwright',
           {
             detail: true,
-            //outputFolder: 'my-allure-results',
+            outputFolder: 'my-allure-results',
             suiteTitle: true
           }
         ]
@@ -110,9 +115,23 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'setup',
+      testMatch: '**/*.setup.ts',
+    },
+    {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], trace: process.env.CI ? 'on-first-retry' : 'on-first-retry' }
-    }
+      testMatch: '**/*.spec.ts',
+      testIgnore: 'tests/login.spec.ts',
+      use: { 
+        ...devices['Desktop Chrome'],
+         trace: process.env.CI ? 'retain-on-failure' : 'retain-on-failure',
+         storageState: STORAGE_STATE 
+        },
+      
+      //dependencies: ['setup'],
+    },
+
+    
     //,
 
     // {

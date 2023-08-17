@@ -5,9 +5,9 @@ export class LoginBuildingBlock {
   readonly page: Page;
   readonly adminPage: AdminPage;
 
-  constructor(page: Page, adminPage: AdminPage) {
+  constructor(page: Page) {
     this.page = page;
-    this.adminPage = adminPage;
+    this.adminPage =new  AdminPage(page);
   }
   async login(username: string, password: string) {
     await this.adminPage.setUsername(username);
