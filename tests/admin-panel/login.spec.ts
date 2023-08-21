@@ -22,8 +22,8 @@ test.describe('Login Tests', () => {
   });
 
   test('Administrator is able to login with correct username and password @sanity @login', async ({envConfig}) => {
-    console.log(envConfig.Username,envConfig.Password,process.env.CURR_ENV);
-    await loginBuildingBlock.login(envConfig.Username, envConfig.Password);
+    //console.log(envConfig.Username,envConfig.Password,process.env.CURR_ENV);
+    await loginBuildingBlock.login("admin", "password");
     await expect(header.logoutLink, 'Administrator logged in!').toBeVisible();
   });
 

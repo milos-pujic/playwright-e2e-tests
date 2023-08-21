@@ -8,8 +8,6 @@ import path from 'path';
  */
 // require('dotenv').config();
 
-//export const STORAGE_STATE = path.join(__dirname, '.auth/user.json');
-
 const env = process.env.CURR_ENV ? process.env.CURR_ENV : 'testing';
 const env_path = `./environments/.env.${env}`;
 
@@ -115,19 +113,17 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'setup',
-      testMatch: '**/*.setup.ts',
-    },
-    {
       name: 'chromium',
       testMatch: '**/*.spec.ts',
       testIgnore: 'tests/login.spec.ts',
       use: { 
         ...devices['Desktop Chrome'],
          trace: process.env.CI ? 'retain-on-failure' : 'retain-on-failure'
-        },
+      },
   
     },
+      
+    
 
     
     //,
