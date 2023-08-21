@@ -1,7 +1,6 @@
 import { test, expect, Page, Locator } from '@playwright/test';
-import { BasePage } from '../BasePage';
 
-export class MelioSUserPasswordLoginPage {
+export class MelioSUserPasswordLoginPage{
   readonly usernameEditField: Locator;
   readonly passwordField: Locator;
   readonly loginButton: Locator;

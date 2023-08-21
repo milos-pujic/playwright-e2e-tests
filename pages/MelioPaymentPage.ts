@@ -1,12 +1,11 @@
 import { test, expect, Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
-export class PaymentPage extends BasePage {
+export class PaymentPage {
   readonly scheduleAPaymentButton: Locator;
   readonly page: Page;
 
   constructor(page: Page) {
-    super(page);
     this.page = page;
     this.scheduleAPaymentButton = page.getByTestId('login-button-bills.newEmptyState.ctaButtonText');
   }
