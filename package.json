@@ -37,6 +37,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@melio/shared-web": "github:melio/shared-web",
     "allure-js-commons": "^2.4.0",
     "dotenv": "^16.3.1"
   }

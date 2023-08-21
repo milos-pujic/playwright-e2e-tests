@@ -23,7 +23,7 @@ test.describe('Room Management Tests', () => {
 
     header = new Header(page);
     roomBuildingBlock = new RoomBuildingBlock(page);
-    adminPage=new AdminPage(page); 
+    adminPage = new AdminPage(page); 
     authApi = new AuthApi(request);
     roomApi = new RoomApi(request);
 
