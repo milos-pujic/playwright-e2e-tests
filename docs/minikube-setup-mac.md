@@ -1,6 +1,4 @@
-[← Back to documentation](/README.md#local-kubernetes-environment-with-minikubes-kubernetes)
-
-# Minikube Setup
+# Minikube Setup for Mac
 
 Minikube is one of free alternatives to Docker for Desktop. Minikube and Docker for Desktop are both tools that allow developers to run a local Kubernetes cluster on their own machines. However, there are some key differences between the two tools:
 
@@ -20,22 +18,6 @@ If you have Docker for Desktop installed on your machine, uninstall it before in
 Uninstall guides for Windows/Mac are available [here](https://docs.docker.com/desktop/uninstall/).
 
 After that, clear the leftover Docker for Desktop data and system components.
-
-For Windows:
-
-1. Open the elevated (as Admin) PowerShell window, type the following command and hit Enter to remove the default networks of Docker.
-
-        Get-HNSNetwork | Remove-HNSNetwork
-
-2. Run the following command to clear the program date of Docker from Windows.
-
-        Remove-Item "C:\ProgramData\Docker" -Recurse
-
-3. Run the following command to reboot your system to execute the uninstallation and cleanup.
-
-        Restart-Computer -Force
-
-For MacOS:
 
 Open terminal and execute following commands, one by one, to remove all Docker Desktop dependencies on local file system:
 
@@ -58,51 +40,18 @@ Open terminal and execute following commands, one by one, to remove all Docker D
     sudo rm -Rf ~/Library/Saved\ Application\ State/com.electron.docker-frontend.savedState
     sudo rm -f ~/Library/Preferences/com.electron.docker-frontend.plist
 
-## Install minikube
+## Installation Guide
 
-Official installation guides are available ono minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page. This guide recommends and shows installation via package managers, for Windows [Chocolatey](https://chocolatey.org/), for MacOS [Homebrew](https://brew.sh/). You can chose any other method mentioned on minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page, but than you must install other components and configuration on your own.
+Official installation guides are available ono minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page. This guide recommends and shows installation via package managers, for Mac [Homebrew](https://brew.sh/). You can chose any other method mentioned on minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page, but than you must install other components and configuration on your own.
 
-This guide will cover installing:
+This guide will cover setup for:
 
-- Package Managers
-  - for Windows [Chocolatey](https://chocolatey.org/)
-  - for MacOS [Homebrew](https://brew.sh/)
-- Virtualization Engine
-  - for Windows `Hyper-V`
-  - for Mac `HyperKit`
-- Additionally needed tools and command line interfaces
-  - Docker CLI
-  - Docker Build X
-- Host File Configuration
+- Package Manager: [Homebrew](https://brew.sh/)
+- Virtualization Engine: `HyperKit`
+- Additionally tools and command line interfaces:  `Docker CLI`, `Docker Compose` and `Docker Buildx`
+- Host File and Terminal Configuration
 
-### Install minikube on Windows
-
-1. Open PowerShell with administrator privileges
-2. Install Chocolatey by running the following command:
-
-        Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
-3. Install Hyper-V by running the following command:
-
-        choco install hyper-v -y
-
-4. Install Minikube by running the following command:
-
-        choco install minikube -y
-
-5. Verify the installation by running the following command:
-
-        minikube version
-
-6. Install Docker CLI by running the following command:
-
-        choco install docker-cli -y
-  
-7. Verify the installation by running the following command:
-
-        docker version
-
-### Install minikube on MacOS
+### Install minikube
 
 1. Open Terminal
 2. Install Homebrew by running the following command:
@@ -132,11 +81,16 @@ This guide will cover installing:
     - docker-buildx is a Docker plugin. For Docker to find this plugin, symlink it:
 
           mkdir -p ~/.docker/cli-plugins
-          ln -sfn $HOMEBREW_PREFIX/opt/docker-buildx/bin/docker-buildx ~/.docker/cli-plugins/docker-buildx
+          ln -sfn /usr/local/opt/docker-buildx/bin/docker-buildx ~/.docker/cli-plugins/docker-buildx
 
-8. Verify the installation by running the following command:
+8. Install Docker Compose by running the following command:
 
-        docker version
+        brew install docker-compose
+
+    - Compose is now a Docker plugin. For Docker to find this plugin, symlink it:
+
+          mkdir -p ~/.docker/cli-plugins
+          ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
 
 ## Start minikube
 
@@ -144,33 +98,20 @@ To start minikube, it is important that on first initial start configuration is 
 
 Recommendation is to give minikube half of machines resources, if you have 16GB or RAM, give minikube 8GB of RAM, if you have 8 core CPU, give minikube 4 cores.
 
-To be able to use ports like 80, 8080 which are Restful Booker Platform it is needed to extend NodePort range from default range 30000-32767 to 1-65535.
+To be able to use ports like 80 and 8080 it is needed to extend NodePort range from default range 30000-32767 to 1-65535.
 
-### Initial start of minikube on Windows
-
-1. Open PowerShell with administrator privileges
-2. Start minikube by running the following command:
-
-        minikube start --memory 8192 --cpus 4 --extra-config=apiserver.service-node-port-range=1-65535
-
-      - sometime error can occurs during initial start, in that case stop minikube, purge it and start again with same command:
-
-            minikube stop
-            minikube delete --all --purge
-            minikube start --memory 8192 --cpus 4 --extra-config=apiserver.service-node-port-range=1-65535
-
-### Initial start of minikube on MacOS
+### Initial start of minikube
 
 1. Open Terminal
 2. Start minikube by running the following command (you will be asked for sudo rights):
 
-        minikube start --memory 8192 --cpus 4 --extra-config=apiserver.service-node-port-range=1-65535
+        minikube start --addons=dashboard --addons=metrics-server --memory 8192 --cpus 4 --extra-config=apiserver.service-node-port-range=1-65535
 
       - sometime error can occurs during initial start, in that case stop minikube, purge it and start again with same command:
 
             minikube stop
             minikube delete --all --purge
-            minikube start --memory 8192 --cpus 4 --extra-config=apiserver.service-node-port-range=1-65535
+            minikube start --addons=dashboard --addons=metrics-server --memory 8192 --cpus 4 --extra-config=apiserver.service-node-port-range=1-65535
 
 ---
 
@@ -192,7 +133,7 @@ To use minikube with ease there are couple of tips and tricks which can help you
 
 ### (optional) Minikube Dashboard
 
-Minikube Dashboard is a web-based Kubernetes user interface. To access the dashboard use following command in Powershell (on Windows) or in Terminal (on MacOS):
+Minikube Dashboard is a web-based Kubernetes user interface. To access the dashboard use following command in Terminal:
 
     minikube dashboard
 
@@ -200,12 +141,12 @@ This will enable the dashboard add-on, and open the proxy in the default web bro
 
 ### (optional) Visual Studio Code (VS Code) plugins
 
-On both Windows and MacOS there are plugins available for VS Code which provide user interface to Minikube's Kubernetes. Plugins which can help control Minikube's Kubernetes are:
+On both Windows and Mac there are plugins available for VS Code which provide user interface to Minikube's Kubernetes. Plugins which can help control Minikube's Kubernetes are:
 
 - [Docker VS Code Plugin](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
 - [Kubernetes VS Code Plugin](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools)
 
-Docker VS Code Plugin requires to configure it properly to use minikube's docker. To configure this plugin open its configuration inside of VS Code, and navigate to `Docker: Environment` section. Run following command in Powershell (on Windows) or in Terminal (on MacOS)
+Docker VS Code Plugin requires to configure it properly to use minikube's docker. To configure this plugin open its configuration inside of VS Code, and navigate to `Docker: Environment` section. Run following command in in Terminal:
 
     minikube docker-env
 
@@ -215,46 +156,41 @@ Kubernetes VS Code Plugin does not require any additional configuration.
 
 After that you can use both of those plugins to control your Kubernetes cluster and docker inside VS Code.
 
-### Configure Windows machine to use minikube
+### Configure Mac host file and terminal to use minikube
 
-TBD
+#### Configure Host File
 
-### Configure MacOS host file and terminal to use minikube
-
-To be able to run docker commands with minikube inside all terminal sessions we need to configure docker-cli to use minikube. Add following entry to `~/.bashrc` or `~/.zshrc`:
-
-- `eval $(minikube docker-env)`
-
-Add minikube IP address in host file for easier access. Bellow command will add host record pointing to minikube IP and with domain names `kube.local`.
+Add minikube IP address in host file for easier access. Bellow command will add host record pointing to minikube IP and with domain name `kube.local`.
 
     echo "`minikube ip` kube.local" | sudo tee -a /etc/hosts > /dev/null
 
-## Uninstall minikube
+#### Configure Current Terminal Session
 
-### Uninstall minikube and all its dependencies on Windows
+If you just want to use docker commands inside current session use this guide, but if you want to use it in all terminal sessions, skip this one and use next [Configure All Terminal Sessions](#configure-all-terminal-sessions) guide.
 
-1. Open PowerShell with administrator privileges
-2. Stop minikube by running the following command:
+To be able to run docker commands with minikube inside **CURRENT** terminal session we need to configure docker-cli to use minikube.
 
-        minikube stop
+Execute following command:
 
-3. Delete and purge minikube by running the following command:
+    minikube docker-env
 
-        minikube delete --all --purge
+It will output list of commands which you need to execute, but also, at the end, commented out, there is command which you can execute and it will do it all for you.
 
-4. Uninstall Hyper-V by running the following command:
+For Mac that is following command:
 
-        choco uninstall hyper-v -y --remove-dependencies
+    eval $(minikube -p minikube docker-env)
 
-5. Uninstall Docker CLI by running the following command:
+IMPORTANT: If you close and/or open new terminal session you will need again to execute above command(s) before you can use docker commands.
 
-        choco uninstall docker-cli -y --remove-dependencies
+#### Configure All Terminal Sessions
 
-6. Uninstall Minikube by running the following command:
+If you just want to use docker commands inside all sessions use this guide, but if you want to use it in current terminal session, skip this one and use previous [Configure Current Terminal Session](#configure-current-terminal-session) guide.
 
-        choco uninstall minikube -y --remove-dependencies
+To be able to run docker commands with minikube inside **ALL** terminal sessions we need to configure docker-cli to use minikube. Add following entry to `~/.bashrc` or `~/.zshrc`:
 
-### Uninstall minikube and all its dependencies on MacOS
+- `eval $(minikube docker-env)`
+
+## Uninstall minikube and all its dependencies
 
 1. Open Terminal
 2. Stop minikube by running the following command:
@@ -269,20 +205,37 @@ Add minikube IP address in host file for easier access. Bellow command will add 
 
         brew uninstall docker-buildx
 
-5. Uninstall Docker CLI by running the following command:
+5. Uninstall Docker Compose by running the following command:
+
+        brew uninstall docker-compose
+
+6. Uninstall Docker CLI by running the following command:
 
         brew uninstall docker
 
-6. Uninstall Minikube by running the following command:
+7. Uninstall Minikube by running the following command:
 
         brew uninstall minikube
 
-7. Uninstall HyperKit by running the following command:
+8. Uninstall HyperKit by running the following command:
 
         brew uninstall hyperkit
 
-8. Remove all unused dependencies by running the following command:
+9. Remove all unused dependencies by running the following command:
 
         brew autoremove
 
-[← Back to documentation](/readme.md#local-kubernetes-environment-with-minikubes-kubernetes)
+10. Manually remove Host Entry added [this step](#configure-host-file), easiest way to do that is via nano text editor by using following command:
+
+        sudo nano /etc/hosts
+
+    - Than scroll to the end of the file and remove added host record
+    - Save and Close nano text editor
+
+          Control + O
+          Control + X
+
+11. If you have used this guide [Configure All Terminal Sessions](#configure-all-terminal-sessions), than manually remove entry from `~/.bashrc` or `~/.zshrc` files
+12. (optional) Uninstall Homebrew by running the following command:
+
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"

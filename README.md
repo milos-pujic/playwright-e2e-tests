@@ -59,11 +59,15 @@ Example of above commands with possible variables:
 
 ## Local Docker Environment with Docker for Desktop
 
-Before you proceed, you should install Docker for Desktop depending on your OS and start it:
-
-- [Docker Desktop for Linux](https://docs.docker.com/desktop/install/linux-install/)
-- [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
-- [Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/)
+>Before you proceed, you should install Docker Desktop depending on your OS and start it:
+>
+>- [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
+>- [Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/)
+>
+>As Docker for Desktop is **paid** software now, instead of it you can setup and start minikube using bellow guides:
+>
+>- [Minikube Setup for Windows](/docs/minikube-setup-windows.md)
+>- [Minikube Setup for Mac](/docs/minikube-setup-mac.md)
 
 After Docker has been installed on your machine, open the terminal inside `<local_path>\playwright-e2e-tests` and use the following command:
 
@@ -71,11 +75,17 @@ After Docker has been installed on your machine, open the terminal inside `<loca
 
 That will start Restful Booker Platform locally.
 
-After everything is up and running you will have Restful Booker Platform available at `http://localhost`.
+After everything is up and running you will have Restful Booker Platform available at:
+
+- Docker for Desktop: `http://localhost`
+- minikube: `http://kube.local`
 
 ## Local Kubernetes Environment with Minikube's Kubernetes
 
-Before you proceed, you should setup and start minikube using [this guide](/docs/minikube-setup.md).
+>Before you proceed, you should setup and start minikube using bellow guides:
+>
+>- [Minikube Setup for Windows](/docs/minikube-setup-windows.md)
+>- [Minikube Setup for Mac](/docs/minikube-setup-mac.md)
 
 After minikube has been properly installed and started on your machine, open the terminal inside `<local_path>\playwright-e2e-tests` and use the following command:
 
