@@ -2,7 +2,7 @@ name: Playwright Tests
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 9 * * 1'
+    - cron:  '0 9 * * 1'
 
 jobs:
   install:
@@ -117,14 +117,14 @@ jobs:
         id: run-playwright-tests
         run: npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
-          ENV: local
-      - name: Upload Playwright Blob Report
-        id: upload-playwright-blob-report
+          ENV: local 
+      - name: Upload Playwright HTML Report
+        id: upload-playwright-html-report
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: playwright-all-blob-reports
-          path: playwright-blob-report
+          name: playwright-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
+          path: playwright-report/
           if-no-files-found: ignore
           retention-days: 1
       - name: Upload Playwright Test Results
@@ -190,7 +190,7 @@ jobs:
         uses: actions/download-artifact@v3
       - name: Merge Playwright HTML Reports
         id: merge-playwright-html-reports
-        run: npx playwright merge-reports --reporter html ./playwright-all-blob-reports
+        run: npm run merge:report:playwright
       - name: Merge Playwright Monocart Reports
         id: merge-playwright-monocart-reports
         run: |
@@ -201,7 +201,7 @@ jobs:
       - name: Move to Reports folder
         id: move-to-reports-folder
         run: |
-          mv playwright-report reports/playwright
+          mv merged-html-report reports/playwright
           mv merged-monocart-report reports/monocart
         shell: bash
       - name: Setup Pages

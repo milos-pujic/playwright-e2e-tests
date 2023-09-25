@@ -3,8 +3,6 @@
 /playwright-monocart-report/
 /playwright-report/
 /playwright/.cache/
-/playwright-blob-report/
-/playwright-all-blob-reports/
 
 # Compiled output
 /dist
