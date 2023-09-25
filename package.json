@@ -28,7 +28,6 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "monocart-reporter": "^1.7.13",
-    "playwright-merge-html-reports": "^0.2.8",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.1",
     "tsx": "^3.12.10",

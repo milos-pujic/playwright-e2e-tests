@@ -41,7 +41,8 @@ export default defineConfig({
             name: 'Playwright E2E Tests',
             outputFile: './playwright-monocart-report/index.html'
           }
-        ]
+        ],
+        ['blob', { outputDir: 'playwright-blob-report' }]
       ]
     : [
         ['list'],
