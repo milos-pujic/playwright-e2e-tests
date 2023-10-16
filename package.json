@@ -26,7 +26,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.3",
-    "lint-staged": "^14.0.1",
+    "lint-staged": "^15.0.1",
     "monocart-reporter": "^1.7.13",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5",
