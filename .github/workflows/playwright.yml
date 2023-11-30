@@ -212,6 +212,11 @@ jobs:
       - name: Generate Allure Report
         id: generate-allure-report
         run: |
+          curl --create-dirs -o ./playwright-allure-results/history/categories-trend.json https://milos-pujic.github.io/playwright-e2e-tests/allure/history/categories-trend.json
+          curl --create-dirs -o ./playwright-allure-results/history/duration-trend.json https://milos-pujic.github.io/playwright-e2e-tests/allure/history/duration-trend.json
+          curl --create-dirs -o ./playwright-allure-results/history/history-trend.json https://milos-pujic.github.io/playwright-e2e-tests/allure/history/history-trend.json
+          curl --create-dirs -o ./playwright-allure-results/history/history.json https://milos-pujic.github.io/playwright-e2e-tests/allure/history/history.json
+          curl --create-dirs -o ./playwright-allure-results/history/retry-trend.json https://milos-pujic.github.io/playwright-e2e-tests/allure/history/retry-trend.json
           npx allure generate playwright-allure-results -o playwright-allure-report --clean
       - name: Move to Reports folder
         id: move-to-reports-folder
