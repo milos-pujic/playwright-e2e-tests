@@ -34,6 +34,7 @@ export default defineConfig({
   reporter: process.env.CI
     ? [
         ['list'],
+        ['line'],
         ['html', { open: 'never' }],
         [
           'monocart-reporter',
@@ -42,16 +43,33 @@ export default defineConfig({
             outputFile: './playwright-monocart-report/index.html'
           }
         ],
-        ['blob', { outputDir: 'playwright-blob-report' }]
+        ['blob', { outputDir: 'playwright-blob-report' }],
+        [
+          'allure-playwright',
+          {
+            detail: true,
+            outputFolder: 'playwright-allure-results',
+            suiteTitle: false
+          }
+        ]
       ]
     : [
         ['list'],
+        ['line'],
         ['html', { open: 'on-failure' }],
         [
           'monocart-reporter',
           {
             name: 'Playwright E2E Tests',
             outputFile: './playwright-monocart-report/index.html'
+          }
+        ],
+        [
+          'allure-playwright',
+          {
+            detail: true,
+            outputFolder: 'playwright-allure-results',
+            suiteTitle: false
           }
         ]
       ],

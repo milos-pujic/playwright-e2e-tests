@@ -147,6 +147,15 @@ jobs:
           path: playwright-monocart-report/
           if-no-files-found: ignore
           retention-days: 1
+      - name: Upload Playwright Allure Results
+        id: upload-playwright-allure-results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-allure-results
+          path: playwright-allure-results/
+          if-no-files-found: ignore
+          retention-days: 1
 
   report:
     name: Merge and Publish Reports
@@ -200,11 +209,21 @@ jobs:
           npm run merge:report:monocart
           chmod +x ./merge-test-results.sh
           ./merge-test-results.sh
+      - name: Generate Allure Report
+        id: generate-allure-report
+        run: |
+          curl --create-dirs -o ./playwright-allure-results/history/categories-trend.json https://milos-pujic.github.io/playwright-e2e-tests/allure/history/categories-trend.json
+          curl --create-dirs -o ./playwright-allure-results/history/duration-trend.json https://milos-pujic.github.io/playwright-e2e-tests/allure/history/duration-trend.json
+          curl --create-dirs -o ./playwright-allure-results/history/history-trend.json https://milos-pujic.github.io/playwright-e2e-tests/allure/history/history-trend.json
+          curl --create-dirs -o ./playwright-allure-results/history/history.json https://milos-pujic.github.io/playwright-e2e-tests/allure/history/history.json
+          curl --create-dirs -o ./playwright-allure-results/history/retry-trend.json https://milos-pujic.github.io/playwright-e2e-tests/allure/history/retry-trend.json
+          allure generate playwright-allure-results -o playwright-allure-report --clean
       - name: Move to Reports folder
         id: move-to-reports-folder
         run: |
           mv playwright-report reports/playwright
           mv merged-monocart-report reports/monocart
+          mv playwright-allure-report reports/allure
         shell: bash
       - name: Setup Pages
         id: setup-pages
@@ -226,4 +245,5 @@ jobs:
             playwright-report-*
             test-results-*
             monocart-report-*
+            playwright-allure-results
           failOnError: false

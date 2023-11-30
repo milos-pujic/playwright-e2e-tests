@@ -5,7 +5,8 @@
 /playwright/.cache/
 /playwright-blob-report/
 /playwright-all-blob-reports/
-
+/playwright-allure-results/
+/playwright-allure-report/
 # Compiled output
 /dist
 /node_modules
