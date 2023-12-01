@@ -23,9 +23,12 @@ Provided tests are based on examples how to define and use utility functions, ex
 
 ## Used Libraries
 
+- [Playwright](https://github.com/microsoft/playwright)
 - [Monocart Reporter](https://github.com/cenfun/monocart-reporter)
+- [Allure Reporter](https://github.com/allure-framework/allure-js)
 - [Faker JS](https://github.com/faker-js/faker)
 - [Prettier](https://prettier.io/)
+- [ESLint](https://github.com/eslint/eslint)
 - [Husky](https://typicode.github.io/husky/#/)
 - [Lint Staged](https://github.com/okonet/lint-staged)
 
@@ -127,6 +130,16 @@ This workflow is only triggered Manually. Steps to trigger it:
 
 Also, on [Playwright Tests](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml) page, status of all on-going and previously executed 'Playwright Tests' Workflow runs can be found.
 
+Latest Test reports, with trends history, Playwright Tests GitHub Action Workflow can be found [here](https://milos-pujic.github.io/playwright-e2e-tests/).
+
+![Playwright Tests Reports](/docs/imgs/Playwright-Tests-Reports.png)
+
+There are 3 types of reports:
+
+1. Regular Playwright HTML Reports, without trend history
+2. Monocart Report, with trend history
+3. Allure Report, with trend history
+
 ### Sanity Check
 
 This GitHub Action Workflow Executes `@sanity` tagged tests of Playwright E2E Tests on `local` environnement using `chromium`, `firefox` and `webkit` browsers from `main` or Pull Request source branch.
@@ -139,3 +152,5 @@ This workflow is only triggered automatically on specific events:
 - Create / Update GitHub Pull Request Events
 
 Also, on [Sanity Check](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/sanity-check.yml) page, status of all on-going and previously executed 'Sanity Check' Workflow runs can be found.
+
+This workflow doesn't produce reports like Playwright Tests Workflow, and its status and results can be checked inside GitHub Action Job Summary.
