@@ -122,7 +122,7 @@ jobs:
           PWTEST_BLOB_REPORT_NAME: ${{ matrix.project }}
       - name: Upload Playwright Blob Report
         id: upload-playwright-blob-report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-all-blob-reports
@@ -131,7 +131,7 @@ jobs:
           retention-days: 1
       - name: Upload Playwright Test Results
         id: upload-playwright-test-results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-results-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
@@ -140,7 +140,7 @@ jobs:
           retention-days: 1
       - name: Upload Playwright Monocart Report
         id: upload-playwright-monocart-report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: monocart-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
@@ -149,7 +149,7 @@ jobs:
           retention-days: 1
       - name: Upload Playwright Allure Results
         id: upload-playwright-allure-results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-allure-results
