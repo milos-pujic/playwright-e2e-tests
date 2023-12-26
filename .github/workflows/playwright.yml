@@ -230,7 +230,7 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Upload Pages Artifact
         id: upload-pages-artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: reports/
       - name: Deploy to GitHub Pages
