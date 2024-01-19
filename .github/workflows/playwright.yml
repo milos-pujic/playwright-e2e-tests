@@ -125,7 +125,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-all-blob-reports
+          name: playwright-blob-report-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
           path: playwright-blob-report
           if-no-files-found: ignore
           retention-days: 1
@@ -152,7 +152,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-allure-results
+          name: playwright-allure-results-${{ matrix.project }}-${{ matrix.shardIndex }}_${{ matrix.shardTotal }}
           path: playwright-allure-results/
           if-no-files-found: ignore
           retention-days: 1
@@ -164,6 +164,7 @@ jobs:
     needs: [test]
     timeout-minutes: 30
     permissions:
+      actions: read
       contents: read
       pages: write
       id-token: write
@@ -196,12 +197,26 @@ jobs:
           path: |
             ~/.cache/ms-playwright
           key: playwright-${{ hashFiles('package-lock.json') }}
-      - name: Download Artifacts
-        id: download-artifacts
+      - name: Download Playwright Blob Reports
+        id: download-blob-reports
         uses: actions/download-artifact@v4
+        with:
+          path: all-blob-reports
+          pattern: blob-report-*
+          merge-multiple: true
       - name: Merge Playwright HTML Reports
         id: merge-playwright-html-reports
         run: npx playwright merge-reports --reporter html ./playwright-all-blob-reports
+      - name: Download Monocart Reports
+        id: download-monocart-reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: monocart-report-*
+      - name: Download Test Results
+        id: download-test-results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: test-results-*
       - name: Merge Playwright Monocart Reports
         id: merge-playwright-monocart-reports
         run: |
@@ -209,6 +224,13 @@ jobs:
           npm run merge:report:monocart
           chmod +x ./merge-test-results.sh
           ./merge-test-results.sh
+      - name: Download Allure Results
+        id: download-allure-results
+        uses: actions/download-artifact@v4
+        with:
+          path: playwright-allure-results
+          pattern: playwright-allure-results-*
+          merge-multiple: true
       - name: Generate Allure Report
         id: generate-allure-report
         run: |
@@ -241,9 +263,8 @@ jobs:
         uses: geekyeggo/delete-artifact@v4
         with:
           name: |
-            playwright-all-blob-reports
-            playwright-report-*
+            playwright-blob-report-*
             test-results-*
             monocart-report-*
-            playwright-allure-results
+            playwright-allure-results-*
           failOnError: false
