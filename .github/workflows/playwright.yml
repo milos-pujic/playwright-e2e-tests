@@ -224,8 +224,6 @@ jobs:
         run: |
           curl -o previous-trend.json https://milos-pujic.github.io/playwright-e2e-tests/monocart/index.json
           npm run merge:report:monocart
-          chmod +x ./merge-test-results.sh
-          ./merge-test-results.sh
       - name: Download Allure Results
         id: download-allure-results
         uses: actions/download-artifact@v4
