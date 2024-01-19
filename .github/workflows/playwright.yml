@@ -164,7 +164,7 @@ jobs:
     needs: [test]
     timeout-minutes: 30
     permissions:
-      actions: read
+      actions: write
       contents: read
       pages: write
       id-token: write
