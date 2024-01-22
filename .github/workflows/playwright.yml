@@ -118,7 +118,7 @@ jobs:
         run: npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
           ENV: local
-          BLOB_NAME: ${{ matrix.project }}
+          BLOB_NAME: ${{ matrix.project }}-${{ matrix.shardIndex }}
       - name: Upload Playwright Blob Report
         id: upload-playwright-blob-report
         uses: actions/upload-artifact@v4
