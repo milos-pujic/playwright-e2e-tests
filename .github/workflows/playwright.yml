@@ -118,8 +118,7 @@ jobs:
         run: npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
           ENV: local
-          # Env variable which changes the default blob report name from report.zip to whatever else
-          PWTEST_BLOB_REPORT_NAME: ${{ matrix.project }}
+          BLOB_NAME: ${{ matrix.project }}
       - name: Upload Playwright Blob Report
         id: upload-playwright-blob-report
         uses: actions/upload-artifact@v4

@@ -43,7 +43,7 @@ export default defineConfig({
             outputFile: './playwright-monocart-report/index.html'
           }
         ],
-        ['blob', { outputDir: 'playwright-blob-report' }],
+        ['blob', { outputDir: 'playwright-blob-report', fileName: `report-${process.env.BLOB_NAME}.zip` }],
         [
           'allure-playwright',
           {
