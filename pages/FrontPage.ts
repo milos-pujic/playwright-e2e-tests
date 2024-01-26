@@ -54,11 +54,11 @@ export class FrontPage extends BasePage {
 
   async sendMessage(name: string, email: string, phone: string, subject: string, description: string) {
     await test.step('Submit Message to Hotel', async () => {
-      await this.contactNameField.type(name);
-      await this.contactEmailField.type(email);
-      await this.contactPhoneField.type(phone);
-      await this.contactSubjectField.type(subject);
-      await this.contactDescriptionField.type(description);
+      await this.contactNameField.fill(name);
+      await this.contactEmailField.fill(email);
+      await this.contactPhoneField.fill(phone);
+      await this.contactSubjectField.fill(subject);
+      await this.contactDescriptionField.fill(description);
       await this.contactSubmitButton.click();
     });
   }
@@ -71,10 +71,10 @@ export class FrontPage extends BasePage {
 
   async fillBookingFields(firstName: string, lastName: string, email: string, phoneNumber: string) {
     await test.step('Fill in booking information', async () => {
-      await this.bookingFirstNameField.type(firstName);
-      await this.bookingLastNameField.type(lastName);
-      await this.bookingEmailField.type(email);
-      await this.bookingPhoneNumberField.type(phoneNumber);
+      await this.bookingFirstNameField.fill(firstName);
+      await this.bookingLastNameField.fill(lastName);
+      await this.bookingEmailField.fill(email);
+      await this.bookingPhoneNumberField.fill(phoneNumber);
     });
   }
 

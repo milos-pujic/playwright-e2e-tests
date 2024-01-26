@@ -24,8 +24,8 @@ export class AdminPage extends BasePage {
 
   async login(username: string, password: string) {
     await test.step(`Log in using with username: ${username} and password: ${password}`, async () => {
-      await this.usernameField.type(username);
-      await this.passwordField.type(password);
+      await this.usernameField.fill(username);
+      await this.passwordField.fill(password);
       await this.loginButton.click();
     });
   }

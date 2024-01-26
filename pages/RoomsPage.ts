@@ -42,7 +42,7 @@ export class RoomsPage extends BasePage {
   }
 
   async enterPrice(price: number | null) {
-    if (price != null) await this.roomPriceField.type(price.toString());
+    if (price != null) await this.roomPriceField.fill(price.toString());
   }
 
   async selectAmenities(amenities: RoomAmenities) {
@@ -62,7 +62,7 @@ export class RoomsPage extends BasePage {
 
   async createRoom(roomName: string, roomType: RoomType | null, roomIsAccessible: boolean, roomPrice: number | null, roomAmenities: RoomAmenities) {
     await test.step(`Create ${roomType} Room with name '${roomName}'`, async () => {
-      await this.roomNameField.type(roomName);
+      await this.roomNameField.fill(roomName);
       await this.selectRoomType(roomType);
       await this.roomAccessibleSelect.selectOption(roomIsAccessible ? 'true' : 'false');
       await this.enterPrice(roomPrice);
