@@ -33,13 +33,13 @@ After that, clear the leftover Docker for Desktop data and system components.
 
 ## Installation Guide
 
-Official installation guides are available ono minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page. This guide recommends and shows installation via package managers, for Windows [Chocolatey](https://chocolatey.org/). You can chose any other method mentioned on minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page, but than you must install other components and configuration on your own.
+Official installation guides are available ono minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page. This guide recommends and shows installation via package managers, for Windows [Chocolatey](https://chocolatey.org/). You can choose any other method mentioned on minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page, but than you must install other components and configuration on your own.
 
 This guide will cover setup for:
 
 - Package Manager: [Chocolatey](https://chocolatey.org/)
 - Virtualization Engine: `Hyper-V`
-- Additionally tools and command line interfaces: `Docker CLI` and `Docker Compose`
+- Additionally, tools and command line interfaces: `Docker CLI` and `Docker Compose`
 - Host File and PowerShell Configuration
 
 ### Install minikube
@@ -93,7 +93,7 @@ To be able to use ports like 80 and 8080 it is needed to extend NodePort range f
 
         minikube start --addons=dashboard --addons=metrics-server --memory 8192 --cpus 4 --extra-config=apiserver.service-node-port-range=1-65535
 
-      - sometime error can occurs during initial start, in that case stop minikube, purge it and start again with same command:
+      - sometime error can occur during initial start, in that case stop minikube, purge it and start again with same command:
 
             minikube stop
             minikube delete --all --purge
@@ -109,13 +109,13 @@ When you finish testing / using minikube for the day, do not forget to stop it t
 
     minikube stop
 
-Next time when you start it it will be in same state as when you stopped it.
+Next time when you start it will be in same state as when you stopped it.
 
 Minikube configuration can always be checked in `%USERPROFILE%\.minikube\machines\minikube\config.json` file.
 
 ## Configure machine to use minikube
 
-To use minikube with ease there are couple of tips and tricks which can help you.
+To use minikube with ease there are a couple of tips and tricks which can help you.
 
 ### (optional) Minikube Dashboard
 
@@ -198,7 +198,7 @@ Execute following command:
 
     minikube docker-env
 
-It will output list of commands which you need to execute, but also, at the end, commented out, there is command which you can execute and it will do it all for you.
+It will output list of commands which you need to execute, but also, at the end, commented out, there is command which you can execute, and it will do it all for you.
 
 For Windows that is following command:
 

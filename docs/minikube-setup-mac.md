@@ -42,13 +42,13 @@ Open terminal and execute following commands, one by one, to remove all Docker D
 
 ## Installation Guide
 
-Official installation guides are available ono minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page. This guide recommends and shows installation via package managers, for Mac [Homebrew](https://brew.sh/). You can chose any other method mentioned on minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page, but than you must install other components and configuration on your own.
+Official installation guides are available ono minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page. This guide recommends and shows installation via package managers, for Mac [Homebrew](https://brew.sh/). You can choose any other method mentioned on minikube's [Get Started!](https://minikube.sigs.k8s.io/docs/start/) page, but than you must install other components and configuration on your own.
 
 This guide will cover setup for:
 
 - Package Manager: [Homebrew](https://brew.sh/)
 - Virtualization Engine: `HyperKit`
-- Additionally tools and command line interfaces:  `Docker CLI`, `Docker Compose` and `Docker Buildx`
+- Additionally, tools and command line interfaces:  `Docker CLI`, `Docker Compose` and `Docker Buildx`
 - Host File and Terminal Configuration
 
 ### Install minikube
@@ -107,7 +107,7 @@ To be able to use ports like 80 and 8080 it is needed to extend NodePort range f
 
         minikube start --addons=dashboard --addons=metrics-server --memory 8192 --cpus 4 --extra-config=apiserver.service-node-port-range=1-65535
 
-      - sometime error can occurs during initial start, in that case stop minikube, purge it and start again with same command:
+      - sometime error can occur during initial start, in that case stop minikube, purge it and start again with same command:
 
             minikube stop
             minikube delete --all --purge
@@ -123,13 +123,13 @@ When you finish testing / using minikube for the day, do not forget to stop it t
 
     minikube stop
 
-Next time when you start it it will be in same state as when you stopped it.
+Next time when you start it will be in same state as when you stopped it.
 
 Minikube configuration can always be checked in `~/.minikube/machines/minikube/config.json` file.
 
 ## Configure machine to use minikube
 
-To use minikube with ease there are couple of tips and tricks which can help you.
+To use minikube with ease there are a couple of tips and tricks which can help you.
 
 ### (optional) Minikube Dashboard
 
@@ -146,7 +146,7 @@ On both Windows and Mac there are plugins available for VS Code which provide us
 - [Docker VS Code Plugin](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
 - [Kubernetes VS Code Plugin](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools)
 
-Docker VS Code Plugin requires to configure it properly to use minikube's docker. To configure this plugin open its configuration inside of VS Code, and navigate to `Docker: Environment` section. Run following command in in Terminal:
+Docker VS Code Plugin requires to configure it properly to use minikube's docker. To configure this plugin open its configuration inside of VS Code, and navigate to `Docker: Environment` section. Run following command in Terminal:
 
     minikube docker-env
 
@@ -174,7 +174,7 @@ Execute following command:
 
     minikube docker-env
 
-It will output list of commands which you need to execute, but also, at the end, commented out, there is command which you can execute and it will do it all for you.
+It will output list of commands which you need to execute, but also, at the end, commented out, there is command which you can execute, and it will do it all for you.
 
 For Mac that is following command:
 
@@ -229,13 +229,13 @@ To be able to run docker commands with minikube inside **ALL** terminal sessions
 
         sudo nano /etc/hosts
 
-    - Than scroll to the end of the file and remove added host record
+    - Then scroll to the end of the file and remove added host record
     - Save and Close nano text editor
 
           Control + O
           Control + X
 
-11. If you have used this guide [Configure All Terminal Sessions](#configure-all-terminal-sessions), than manually remove entry from `~/.bashrc` or `~/.zshrc` files
+11. If you have used this guide [Configure All Terminal Sessions](#configure-all-terminal-sessions), then manually remove entry from `~/.bashrc` or `~/.zshrc` files
 12. (optional) Uninstall Homebrew by running the following command:
 
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
