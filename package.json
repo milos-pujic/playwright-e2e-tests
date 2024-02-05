@@ -20,7 +20,7 @@
   "license": "ISC",
   "devDependencies": {
     "@faker-js/faker": "^8.4.0",
-    "@playwright/test": "^1.41.1",
+    "@playwright/test": "^1.41.2",
     "@typescript-eslint/eslint-plugin": "^6.20.0",
     "@typescript-eslint/parser": "^6.19.1",
     "allure-commandline": "^2.26.0",
