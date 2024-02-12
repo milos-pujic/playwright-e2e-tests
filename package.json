@@ -32,7 +32,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.1",
-    "monocart-reporter": "^2.3.0",
+    "monocart-reporter": "^2.3.1",
     "prettier": "^3.2.4",
     "rimraf": "^5.0.5",
     "tsx": "^4.7.0",
