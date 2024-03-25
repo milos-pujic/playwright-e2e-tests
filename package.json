@@ -27,7 +27,7 @@
     "allure-playwright": "^2.14.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-playwright": "^1.5.2",
+    "eslint-plugin-playwright": "^1.5.4",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^9.0.11",
