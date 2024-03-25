@@ -259,7 +259,7 @@ jobs:
         uses: actions/deploy-pages@v4
       - name: Delete Unnecessary Artifacts
         id: delete-unnecessary-artifacts
-        uses: geekyeggo/delete-artifact@v4
+        uses: geekyeggo/delete-artifact@v5
         with:
           name: |
             playwright-blob-report-*
