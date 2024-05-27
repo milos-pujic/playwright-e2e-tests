@@ -13,7 +13,8 @@
     "allure:generate": "allure generate playwright-allure-results -o playwright-allure-report--clean",
     "allure:open": "allure open playwright-allure-report",
     "merge:report:playwright": "tsx merge-playwright-reports.ts",
-    "merge:report:monocart": "tsx merge-monocart-reports.ts"
+    "merge:report:monocart": "tsx merge-monocart-reports.ts",
+    "update:playwright": "playwright install --with-deps"
   },
   "keywords": [],
   "author": "",
