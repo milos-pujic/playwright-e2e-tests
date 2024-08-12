@@ -1,7 +1,0 @@
-*.json
-pnpm-lock.yaml
-*.md
-.eslintignore
-test-results
-playwright-report
-playwright/.cache
