@@ -22,7 +22,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.14.0",
-    "@faker-js/faker": "^9.0.3",
+    "@faker-js/faker": "^9.2.0",
     "@playwright/test": "^1.48.2",
     "@typescript-eslint/eslint-plugin": "^8.12.2",
     "@typescript-eslint/parser": "^8.13.0",
