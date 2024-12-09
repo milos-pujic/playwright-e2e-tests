@@ -10,7 +10,7 @@
     "clean:results": "rimraf ./playwright-report ./playwright-blob-report  ./playwright-monocart-report ./playwright-allure-results ./playwright-allure-reports ./test-results",
     "test:sanity": "playwright test --grep @sanity",
     "docker:build": "docker build . -t e2e-playwright",
-    "allure:generate": "allure generate playwright-allure-results -o playwright-allure-report--clean",
+    "allure:generate": "allure generate playwright-allure-results -o playwright-allure-report --clean",
     "allure:open": "allure open playwright-allure-report",
     "merge:report:playwright": "tsx merge-playwright-reports.ts",
     "merge:report:monocart": "tsx merge-monocart-reports.ts",
