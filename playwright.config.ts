@@ -48,7 +48,7 @@ export default defineConfig({
           'allure-playwright',
           {
             detail: true,
-            outputFolder: 'playwright-allure-results',
+            resultsDir: 'playwright-allure-results',
             suiteTitle: false
           }
         ]
@@ -68,7 +68,7 @@ export default defineConfig({
           'allure-playwright',
           {
             detail: true,
-            outputFolder: 'playwright-allure-results',
+            resultsDir: 'playwright-allure-results',
             suiteTitle: false
           }
         ]
