@@ -64,6 +64,7 @@ jobs:
 
   sanity-tests:
     name: Sanity Tests
+    needs: [install]
     runs-on: ubuntu-latest
     timeout-minutes: 60
     services:
@@ -144,6 +145,7 @@ jobs:
 
   changed-tests:
     name: Changed Tests
+    needs: [sanity-tests]
     runs-on: ubuntu-latest
     timeout-minutes: 60
     services:
