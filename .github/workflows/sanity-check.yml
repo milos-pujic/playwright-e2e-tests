@@ -123,7 +123,7 @@ jobs:
         run: npm run clean:results
       - name: Run Playwright Changed Tests
         id: run-playwright-changed-tests
-        run: npx playwright test --only-changed=$GITHUB_BASE_REF
+        run: npx playwright test --only-changed=origin/$GITHUB_BASE_REF
         env:
           ENV: local
       - name: Upload Playwright Changed Tests HTML Report
