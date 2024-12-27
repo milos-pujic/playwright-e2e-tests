@@ -97,6 +97,9 @@ jobs:
         id: install-playwright-system-dependencies
         if: steps.cache-playwright.outputs.cache-hit == 'true'
         run: npx playwright install-deps
+      - name: Run Type Checks
+        id: run-type-checks
+        run: npx tsc -p tsconfig.json --noEmit
       - name: Run Playwright Tests
         id: run-playwright-tests
         run: npx playwright test --grep @sanity

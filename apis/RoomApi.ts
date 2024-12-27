@@ -46,7 +46,8 @@ export class RoomApi extends BaseApi {
       expect(getRoomsResponse.status(), 'All rooms are fetched').toBe(200);
       const getRoomsData = JSON.parse(await getRoomsResponse.text());
       const allRooms = getRoomsData.rooms;
-      const filteredRoomsByName = allRooms.filter((room) => room.roomName == roomName);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const filteredRoomsByName = allRooms.filter((room: any) => room.roomName == roomName);
       for (const room of filteredRoomsByName) await this.deleteRoom(room.roomid);
     });
   }

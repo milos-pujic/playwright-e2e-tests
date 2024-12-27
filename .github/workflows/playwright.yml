@@ -40,6 +40,9 @@ jobs:
         id: install-playwright-browsers
         if: steps.cache-playwright.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
+      - name: Run Type Checks
+        id: run-type-checks
+        run: npx tsc -p tsconfig.json --noEmit
 
   test:
     name: Tests - ${{ matrix.project }} - Shard ${{ matrix.shardIndex }} of ${{ matrix.shardTotal }}
