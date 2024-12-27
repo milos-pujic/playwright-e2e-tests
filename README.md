@@ -104,53 +104,164 @@ All GitHub Actions Workflows are configured in [**GitHub Folder**](/.github/work
 
 They all can be found by navigating to [GitHub Repository > Actions](https://github.com/milos-pujic/playwright-e2e-tests/actions).
 
-![GitHub Actions Workflows](/docs/imgs/GitHub-Actions.png)
-
-There are 2 GitHub Actions Workflows setup for Playwright E2E Tests repository:
+There are 3 GitHub Actions Workflows setup for Playwright E2E Tests repository:
 
 - [Playwright Tests](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml)
-- [Sanity Check](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/sanity-check.yml)
+- [Check - Sanity Test](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/check-sanity.yml)
+- [Check - Changed Test](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/check-changed.yml)
 
-### Playwright Tests
+---
 
-This GitHub Action Workflow Executes All Playwright E2E Tests on `local` environment using `chromium`, `firefox` and `webkit` browsers from defined branch (by default it is `main`).
-Environment `local` means that, Restful Booker Platform will be started inside GitHub Services and tests will run against it.
+### Playwright Tests  
+
+This workflow is designed to run comprehensive automated tests using Playwright across multiple browsers. It Executes All Playwright E2E Tests on `local` environment using `chromium`, `firefox` and `webkit` browsers from defined branch (by default it is `main`). It includes parallel test execution, detailed reporting, and scheduled runs to maintain the reliability.  
+
+Status of all ongoing and previously executed `Playwright Tests` Workflow runs can be found [here](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml).
 
 GitHub Action Workflow configuration file of this workflow is [playwright.yml](/.github/workflows/playwright.yml).
 
-This workflow is only triggered Manually. Steps to trigger it:
+#### Playwright Tests: Key Features  
 
-1. Open [Playwright Tests](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml)
-2. Click on `Run workflow` button
-    - (which opens sub-modal where `Branch` can be selected, `main` selected by default)
-3. Select `Branch`
-4. Click on `Run workflow` button
+- **Trigger Events**:  
+  - Manually triggered via `workflow_dispatch`.  
+  - Automatically scheduled to run every Monday at 9:00 AM (UTC).  
 
-![Playwright Tests](/docs/imgs/Playwright-Tests.png)
+- **Setup and Dependencies**:  
+  - Installs Node.js and caches Node modules for faster execution.  
+  - Prepares Playwright binaries and their system dependencies.  
+  - Validates the codebase with TypeScript type checks.  
 
-Also, on [Playwright Tests](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml) page, status of all ongoing and previously executed 'Playwright Tests' Workflow runs can be found.
+- **Test Execution**:  
+  - Executes tests for `chromium`, `firefox`, and `webkit` browsers.  
+  - Implements test sharding to run tests concurrently, improving efficiency.  
 
-Latest Test reports, with trends history, Playwright Tests GitHub Action Workflow can be found [here](https://milos-pujic.github.io/playwright-e2e-tests/).
+- **Test Environment**:
+  - Deploys multiple Docker-based microservices to emulate the testing environment, ensuring tests run against a realistic backend setup.
 
-![Playwright Tests Reports](/docs/imgs/Playwright-Tests-Reports.png)
+- **Reporting**:  
+  - Generates multiple types of test reports, including HTML, Monocart, and Allure.  
+  - Merges test results and publishes them to GitHub Pages for easy access.  
 
-There are 3 types of reports:
+#### Playwright Tests: Workflow Overview  
 
-1. Regular Playwright HTML Reports, without trend history
-2. Monocart Report, with trend history
-3. Allure Report, with trend history
+- **Install Job**  
+  - Sets up the environment, installs dependencies, and validates the codebase with type checks.  
+- **Test Job**  
+  - Executes Playwright tests in parallel across browsers and shards.  
+  - Deploys Docker services to replicate the application environment.  
+  - Uploads reports and test results as artifacts for post-test analysis.  
+- **Report Job**  
+  - Consolidates and merges test reports from parallel runs.  
+  - Generates Playwright HTML, Monocart, and Allure reports.  
+  - Publishes the reports to GitHub Pages for easy sharing and review.  
+  - Cleans up unnecessary artifacts to optimize storage usage.  
 
-### Sanity Check
+#### Playwright Tests: Usage
 
-This GitHub Action Workflow Executes `@sanity` tagged tests of Playwright E2E Tests on `local` environment using `chromium`, `firefox` and `webkit` browsers from `main` or Pull Request source branch.
+To trigger the workflow:
 
-GitHub Action Workflow configuration file of this workflow is [sanity-check.yml](/.github/workflows/sanity-check.yml).
+- **Manual Run:** Go to the [Actions](https://github.com/milos-pujic/playwright-e2e-tests/actions) tab in your GitHub repository, select the [Playwright Tests](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml) workflow, and click `Run workflow`.
+  - :warning: This GitHub Actions publishes report on GitHub pages and because of that it can **ONLY** be executed on **main** branch. :warning:
+- **Scheduled Run:** The workflow automatically runs every Monday at 9:00 AM UTC.
 
-This workflow is only triggered automatically on specific events:
+#### Playwright Tests: Reports
 
-- Merge Events on `main` branch
-- Create / Update GitHub Pull Request Events
+- **Playwright HTML Report:** Test report without execution history and trends.
+- **Monocart Report:** Test report with execution history and trends..
+- **Allure Report:** Test report with execution history and trends.
 
-Also, on [Sanity Check](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/sanity-check.yml) page, status of all ongoing and previously executed 'Sanity Check' Workflow runs can be found.
+Access the reports via the GitHub Pages link provided in the workflow logs after execution, or click [here](https://milos-pujic.github.io/playwright-e2e-tests/).
 
-This workflow doesn't produce reports like Playwright Tests Workflow, and its status and results can be checked inside GitHub Action Job Summary.
+---
+
+### Check - Sanity Tests
+
+This GitHub Action ensures that essential functionality remains intact. It runs `@sanity` tagged tests on `local` environment using `chromium`, `firefox` and `webkit` browsers. It is triggered automatically on changes to specified parts of the repository or during pull requests targeting the `main` branch.
+
+Status of all ongoing and previously executed `Check - Sanity Tests` Workflow runs can be found [here](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/check-sanity.yml).
+
+GitHub Action Workflow configuration file of this workflow is [check-sanity.yml](/.github/workflows/check-sanity.yml).
+
+#### Check - Sanity Tests: Key Features
+
+- **Trigger Events**:
+  The workflow executes on:
+  - Push events to the `main` branch, specifically when changes occur in:
+    - Directories: `apis/`, `pages/`, `tests/`, `utils/`
+    - Workflow file: `.github/workflows/sanity-check.yml`
+    - Configuration files: `playwright.config.ts`, `package-lock.json`, `package.json`
+  - Pull request events targeting the `main` branch:
+    - Opened  
+    - Reopened  
+    - Synchronized  
+    - Labeled  
+
+- **Setup and Dependencies**:
+  - Installs Node.js and caches Node modules for faster subsequent runs.
+  - Installs and caches Playwright binaries, along with their system dependencies.
+  - Runs TypeScript type checks to validate code integrity.
+
+- **Test Environment**:
+  - Deploys multiple Docker-based microservices to emulate the testing environment, ensuring tests run against a realistic backend setup.
+
+- **Test Execution**:
+  - Leverages Playwright to execute tests marked with the `@sanity` tag.
+  - Ensures essential application flows are thoroughly verified.
+
+- **Reports**:
+  - Automatically generates and uploads an HTML report for the sanity test results, accessible via workflow artifacts.
+
+#### Check - Sanity Tests: Workflow Overview  
+
+- **Install Job**  
+  - Sets up the environment, installs dependencies, and ensures readiness for testing.
+  - Verifies code correctness with TypeScript type checks.
+- **Test Job**  
+  - Deploys test environment by initializing a set of microservices using Docker.
+  - Executes sanity tests using Playwright.
+  - Uploads a detailed HTML test report.
+
+---
+
+### Check - Changed Tests
+
+This GitHub Action is designed to streamline the testing process for pull requests. It identifies only the tests affected by the introduced changes and executes them on `local` environment using `chromium`, `firefox` and `webkit` browsers. It is triggered automatically during pull requests targeting the `main` branch.
+
+Status of all ongoing and previously executed `Check - Changed Tests` Workflow runs can be found [here](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/check-changes.yml).
+
+GitHub Action Workflow configuration file of this workflow is [check-changes.yml](/.github/workflows/check-changes.yml).
+
+#### Check - Changed Tests: Key Features  
+
+- **Trigger Events**:
+  Automatically runs when a pull request targeting the `main` branch is:
+  - Opened  
+  - Reopened  
+  - Synchronized  
+  - Labeled  
+
+- **Setup and Dependencies**:
+  - Performs a full repository checkout for accurate diff comparisons.
+  - Sets up Node.js and caches Node modules to speed up subsequent runs.
+  - Installs and caches Playwright binaries, along with their system dependencies.
+  - Runs TypeScript type checks to validate code integrity.
+
+- **Test Environment**:
+  - Deploys multiple Docker-based microservices to emulate the testing environment, ensuring tests run against a realistic backend setup.
+
+- **Test Execution**:
+  - Leverages Playwright's `--only-changed` option to execute only the tests impacted by code changes, improving feedback time and reducing resource usage.
+
+- **Reports**:
+  - Automatically generates and uploads an HTML report for Playwright test results, which can be accessed and reviewed directly from the workflow artifacts.
+
+#### Check - Changed Tests: Workflow Overview  
+
+- **Install Job**
+  - Sets up the environment, installs dependencies, and ensures everything is ready for test execution.
+  - Runs TypeScript type checks to ensure code validity.
+
+- **Test Job**
+  - Deploys test environment by initializing a set of microservices using Docker.
+  - Executes Playwright Tests for the affected files.
+  - Uploads a detailed HTML test report.
