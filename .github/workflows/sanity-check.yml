@@ -64,6 +64,10 @@ jobs:
       - name: Checkout Repository
         id: checkout-repository
         uses: actions/checkout@v4
+        with:
+          # Force a non-shallow checkout, so that we can reference $GITHUB_BASE_REF (needed for the --only-changed option to work)
+          # See https://github.com/actions/checkout for more details.
+          fetch-depth: 0
       - name: Setup Node
         id: setup-node
         uses: actions/setup-node@v4
@@ -97,17 +101,37 @@ jobs:
         id: install-playwright-system-dependencies
         if: steps.cache-playwright.outputs.cache-hit == 'true'
         run: npx playwright install-deps
-      - name: Run Playwright Tests
-        id: run-playwright-tests
+      - name: Run Type Checks
+        id: run-type-checks
+        run: npx tsc -p tsconfig.json --noEmit
+      - name: Run Playwright Sanity Tests
+        id: run-playwright-sanity-tests
         run: npx playwright test --grep @sanity
         env:
           ENV: local
-      - name: Upload Playwright HTML Report
-        id: upload-playwright-html-report
+      - name: Upload Playwright Sanity Tests HTML Report
+        id: upload-playwright-sanity-tests-html-report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-sanity-tests
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 1
+      - name: Clean Test Results
+        id: clean-test-Result
+        run: npm run clean:results
+      - name: Run Playwright Changed Tests
+        id: run-playwright-changed-tests
+        run: npx playwright test --only-changed=origin/$GITHUB_BASE_REF
+        env:
+          ENV: local
+      - name: Upload Playwright Changed Tests HTML Report
+        id: upload-playwright-changed-tests-html-report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-changed-tests
           path: playwright-report/
           if-no-files-found: ignore
           retention-days: 1
