@@ -79,7 +79,7 @@ export class FrontPage extends BasePage {
   }
 
   async selectBookingDates() {
-    await test.step('Select booking dates', async () => {
+    await test.step('Select Booking dates', async () => {
       await this.bookingCalendarNextButton.click();
       const bookingCalendarStart = this.page.locator('.rbc-day-bg:not(.rbc-off-range-bg)').first();
       const bookingCalendarEnd = this.page.locator('.rbc-day-bg:not(.rbc-off-range-bg)').last();
