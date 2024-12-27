@@ -185,6 +185,8 @@ jobs:
       - name: Checkout Repository
         id: checkout-repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Setup Node
         id: setup-node
         uses: actions/setup-node@v4
