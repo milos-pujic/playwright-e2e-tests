@@ -22,7 +22,7 @@ test.describe('Contact Hotel Tests', () => {
 
     const successMessage = `Thanks for getting in touch ${name}`;
     await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful').toBeVisible();
-    await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' displayed`).toContainText(successMessage);
+    await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' is displayed`).toContainText(successMessage);
   });
 
   test('Visitor must NOT be able to contact the property without filling up name field @contact', async () => {
@@ -131,7 +131,7 @@ test.describe('Contact Hotel Tests', () => {
 
       const successMessage = `Thanks for getting in touch ${name}`;
       await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful').toBeVisible();
-      await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' displayed`).toContainText(successMessage);
+      await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' is displayed`).toContainText(successMessage);
     });
   }
 
@@ -161,7 +161,7 @@ test.describe('Contact Hotel Tests', () => {
 
       const successMessage = `Thanks for getting in touch ${name}`;
       await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful').toBeVisible();
-      await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' displayed`).toContainText(successMessage);
+      await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' is displayed`).toContainText(successMessage);
     });
   }
 
@@ -191,7 +191,7 @@ test.describe('Contact Hotel Tests', () => {
 
       const successMessage = `Thanks for getting in touch ${name}`;
       await expect(frontPage.contactSuccessMessage, 'Messages Sent Successful').toBeVisible();
-      await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' displayed`).toContainText(successMessage);
+      await expect(frontPage.contactSuccessMessage, `Success Message '${successMessage}' is displayed`).toContainText(successMessage);
     });
   }
 });
