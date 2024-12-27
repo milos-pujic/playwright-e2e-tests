@@ -1,4 +1,4 @@
-name: Sanity Check
+name: Check - Sanity Tests
 
 on:
   push:
@@ -23,9 +23,49 @@ on:
       - labeled
 
 jobs:
+  install:
+    name: Install
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Repository
+        id: checkout-repository
+        uses: actions/checkout@v4
+      - name: Setup Node
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Playwright Binaries
+        id: cache-playwright
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        id: install-dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Install Playwright Browsers
+        id: install-playwright-browsers
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+      - name: Run Type Checks
+        id: run-type-checks
+        run: npx tsc -p tsconfig.json --noEmit
+
   test:
     name: Sanity Tests
     runs-on: ubuntu-latest
+    needs: [install]
     timeout-minutes: 60
     services:
       rbp-booking:
@@ -64,10 +104,6 @@ jobs:
       - name: Checkout Repository
         id: checkout-repository
         uses: actions/checkout@v4
-        with:
-          # Force a non-shallow checkout, so that we can reference $GITHUB_BASE_REF (needed for the --only-changed option to work)
-          # See https://github.com/actions/checkout for more details.
-          fetch-depth: 0
       - name: Setup Node
         id: setup-node
         uses: actions/setup-node@v4
@@ -87,51 +123,22 @@ jobs:
           path: |
             ~/.cache/ms-playwright
           key: playwright-${{ hashFiles('package-lock.json') }}
-      - name: Install dependencies
-        id: install-dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
-      - name: Install Playwright Browsers
-        id: install-playwright-browsers
-        if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
       # Playwright caches the browser binaries, but not their dependencies.
       # Those extra browser dependencies must be installed separately when the cached browsers are restored.
       - name: Install Playwright System Dependencies
         id: install-playwright-system-dependencies
-        if: steps.cache-playwright.outputs.cache-hit == 'true'
         run: npx playwright install-deps
-      - name: Run Type Checks
-        id: run-type-checks
-        run: npx tsc -p tsconfig.json --noEmit
-      - name: Run Playwright Sanity Tests
-        id: run-playwright-sanity-tests
+      - name: Run Playwright Tests
+        id: run-playwright-tests
         run: npx playwright test --grep @sanity
         env:
           ENV: local
-      - name: Upload Playwright Sanity Tests HTML Report
-        id: upload-playwright-sanity-tests-html-report
+      - name: Upload Playwright HTML Report
+        id: upload-playwright-html-report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-sanity-tests
-          path: playwright-report/
-          if-no-files-found: ignore
-          retention-days: 1
-      - name: Clean Test Results
-        id: clean-test-Result
-        run: npm run clean:results
-      - name: Run Playwright Changed Tests
-        id: run-playwright-changed-tests
-        run: npx playwright test --only-changed=origin/$GITHUB_BASE_REF
-        env:
-          ENV: local
-      - name: Upload Playwright Changed Tests HTML Report
-        id: upload-playwright-changed-tests-html-report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report-changed-tests
+          name: playwright-report
           path: playwright-report/
           if-no-files-found: ignore
           retention-days: 1

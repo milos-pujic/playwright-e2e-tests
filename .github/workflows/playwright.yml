@@ -1,4 +1,5 @@
 name: Playwright Tests
+
 on:
   workflow_dispatch:
   schedule:
