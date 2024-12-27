@@ -23,7 +23,46 @@ on:
       - labeled
 
 jobs:
-  test:
+  install:
+    name: Install
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Repository
+        id: checkout-repository
+        uses: actions/checkout@v4
+      - name: Setup Node
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Playwright Binaries
+        id: cache-playwright
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        id: install-dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Install Playwright Browsers
+        id: install-playwright-browsers
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+      - name: Run Type Checks
+        id: run-type-checks
+        run: npx tsc -p tsconfig.json --noEmit
+
+  sanity-tests:
     name: Sanity Tests
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -83,25 +122,13 @@ jobs:
           path: |
             ~/.cache/ms-playwright
           key: playwright-${{ hashFiles('package-lock.json') }}
-      - name: Install dependencies
-        id: install-dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
-      - name: Install Playwright Browsers
-        id: install-playwright-browsers
-        if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
       # Playwright caches the browser binaries, but not their dependencies.
       # Those extra browser dependencies must be installed separately when the cached browsers are restored.
       - name: Install Playwright System Dependencies
         id: install-playwright-system-dependencies
-        if: steps.cache-playwright.outputs.cache-hit == 'true'
         run: npx playwright install-deps
-      - name: Run Type Checks
-        id: run-type-checks
-        run: npx tsc -p tsconfig.json --noEmit
-      - name: Run Playwright Tests
-        id: run-playwright-tests
+      - name: Run Playwright Sanity Tests
+        id: run-playwright-sanity-tests
         run: npx playwright test --grep @sanity
         env:
           ENV: local
@@ -110,7 +137,87 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-sanity-tests
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 1
+
+  changed-tests:
+    name: Changed Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    services:
+      rbp-booking:
+        image: mwinteringham/restfulbookerplatform_booking:1.6.24c7b22
+        ports:
+          - 3000:3000
+      rbp-room:
+        image: mwinteringham/restfulbookerplatform_room:1.6.24c7b22
+        ports:
+          - 3001:3001
+      rbp-branding:
+        image: mwinteringham/restfulbookerplatform_branding:1.6.24c7b22
+        ports:
+          - 3002:3002
+      rbp-assets:
+        image: mwinteringham/restfulbookerplatform_assets:1.6.24c7b22
+        ports:
+          - 3003:3003
+      rbp-auth:
+        image: mwinteringham/restfulbookerplatform_auth:1.6.24c7b22
+        ports:
+          - 3004:3004
+      rbp-report:
+        image: mwinteringham/restfulbookerplatform_report:1.6.24c7b22
+        ports:
+          - 3005:3005
+      rbp-message:
+        image: mwinteringham/restfulbookerplatform_message:1.6.24c7b22
+        ports:
+          - 3006:3006
+      rbp-proxy:
+        image: mwinteringham/restfulbookerplatform_proxy:latest
+        ports:
+          - 80:80
+    steps:
+      - name: Checkout Repository
+        id: checkout-repository
+        uses: actions/checkout@v4
+      - name: Setup Node
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Playwright Binaries
+        id: cache-playwright
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
+      # Playwright caches the browser binaries, but not their dependencies.
+      # Those extra browser dependencies must be installed separately when the cached browsers are restored.
+      - name: Install Playwright System Dependencies
+        id: install-playwright-system-dependencies
+        run: npx playwright install-deps
+      - name: Run Playwright Changed Tests
+        id: run-playwright-changed-tests
+        run: npx playwright test --only-changed=main
+        env:
+          ENV: local
+      - name: Upload Playwright HTML Report
+        id: upload-playwright-html-report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-changed-tests
           path: playwright-report/
           if-no-files-found: ignore
           retention-days: 1

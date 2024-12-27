@@ -13,6 +13,8 @@
     "pw:install": "playwright install",
     "pw:ui": "playwright test --ui",
     "test:sanity": "playwright test --grep @sanity",
+    "test:changed": "playwright test --only-changed=main",
+    "test:failed": "playwright test --last-failed",
     "docker:build": "docker build . -t e2e-playwright",
     "allure:generate": "allure generate playwright-allure-results -o playwright-allure-report --clean",
     "allure:open": "allure open playwright-allure-report",
