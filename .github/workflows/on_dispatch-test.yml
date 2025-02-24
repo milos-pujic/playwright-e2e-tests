@@ -8,9 +8,15 @@ jobs:
   execute:
     runs-on: ubuntu-latest
     steps:
-
-      - name: Print Success Message
-        run: echo "This is a successful job!"
+      - name: Pass or fail based on expected_status
+        run: |
+          if [[ "${{ github.event.client_payload.expected_status }}" == "pass" ]]; then
+            echo "Job passed!"
+            exit 0
+          else
+            echo "Job failed!"
+            exit 1
+          fi
 
       - name: Report success back
         if: success()
