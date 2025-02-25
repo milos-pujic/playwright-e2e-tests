@@ -15,7 +15,7 @@ jobs:
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.event.client_payload.repository}}/statuses/${{ github.event.client_payload.commit_sha }} \
+            https://api.github.com/repos/${{ github.event.client_payload.source_repository}}/statuses/${{ github.event.client_payload.source_commit_sha }} \
             -d '{
                 "state": "pending",
                 "context": "Playwright Tests",
@@ -47,7 +47,7 @@ jobs:
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.event.client_payload.repository}}/statuses/${{ github.event.client_payload.commit_sha }} \
+            https://api.github.com/repos/${{ github.event.client_payload.source_repository}}/statuses/${{ github.event.client_payload.source_commit_sha }} \
             -d '{
                 "state": "success",
                 "context": "Playwright Tests",
@@ -62,7 +62,7 @@ jobs:
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.event.client_payload.repository}}/statuses/${{ github.event.client_payload.commit_sha }} \
+            https://api.github.com/repos/${{ github.event.client_payload.source_repository}}/statuses/${{ github.event.client_payload.source_commit_sha }} \
             -d '{
                 "state": "failure",
                 "context": "Playwright Tests",
