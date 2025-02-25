@@ -19,10 +19,15 @@ jobs:
             -d '{
                 "state": "pending",
                 "context": "Playwright Tests",
-                "description": "Playwright Tests are in progress...",
+                "description": "This check has started...",
                 "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
               }'
 
+      - name: Checkout Repository
+        id: checkout-repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.client_payload.target_branch }}
 
       - name: Pass or fail based on expected_status
         run: |
