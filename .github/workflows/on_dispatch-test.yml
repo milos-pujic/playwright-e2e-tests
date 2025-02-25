@@ -9,8 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Report success back
-        if: success()
+      - name: Report pending back
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
