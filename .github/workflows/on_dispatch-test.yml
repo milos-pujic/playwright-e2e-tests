@@ -27,7 +27,7 @@ jobs:
         id: checkout-repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.client_payload.target_branch }}
+          ref: ${{ github.event.client_payload.target_branch || 'main' }}
 
       - name: Pass or fail based on expected_status
         run: |
