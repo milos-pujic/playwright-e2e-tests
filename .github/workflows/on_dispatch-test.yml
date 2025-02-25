@@ -4,6 +4,10 @@ on:
   repository_dispatch:
     types: [run-pw-tests]
 
+concurrency:
+  group: e2e-tests
+  cancel-in-progress: false
+
 jobs:
   execute:
     runs-on: ubuntu-latest
@@ -31,7 +35,7 @@ jobs:
 
       - name: Pass or fail based on expected_status
         run: |
-          sleep 10
+          sleep 30
           if [[ "${{ github.event.client_payload.expected_status }}" == "pass" ]]; then
             echo "Job passed!"
             exit 0
