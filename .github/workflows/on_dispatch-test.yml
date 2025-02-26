@@ -15,7 +15,7 @@ jobs:
     steps:
 
       - name: Report pending back
-        if: github.event.client_payload != '' && github.event.client_payload != null
+        if: github.event.client_payload.source_commit_sha != '' && github.event.client_payload.source_commit_sha != null
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
@@ -30,7 +30,7 @@ jobs:
               }'
 
       - name: Checkout Repository
-        if: github.event.client_payload != '' && github.event.client_payload != null
+        if: github.event.client_payload.target_branch != '' && github.event.client_payload.target_branch != null
         id: checkout-repository
         uses: actions/checkout@v4
         with:
@@ -48,7 +48,7 @@ jobs:
           fi
 
       - name: Report success back
-        if: success() && github.event.client_payload != '' && github.event.client_payload != null
+        if: success() && github.event.client_payload.source_commit_sha != '' && github.event.client_payload.source_commit_sha != null
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
@@ -63,7 +63,7 @@ jobs:
               }'
 
       - name: Report failure back
-        if: failure() && github.event.client_payload != '' && github.event.client_payload != null
+        if: failure() && github.event.client_payload.source_commit_sha != '' && github.event.client_payload.source_commit_sha != null
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
