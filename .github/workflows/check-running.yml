@@ -15,24 +15,21 @@ jobs:
           while true; do
             running_response=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
                              -H "Accept: application/vnd.github.v3+json" \
-                             "https://api.github.com/repos/${{ github.repository_owner }}/actions/workflows/on_dispatch-test.yml/runs?status=in_progress")
+                             "https://api.github.com/repos/${{ github.repository }}/actions/workflows/on_dispatch-test.yml/runs?status=in_progress")
             
             running_count=$(echo "$running_response" | jq '.total_count')
-            echo $running_count
             
             queued_response=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
                              -H "Accept: application/vnd.github.v3+json" \
-                             "https://api.github.com/repos/${{ github.repository_owner }}/actions/workflows/on_dispatch-test.yml/runs?status=queued")
+                             "https://api.github.com/repos/${{ github.repository }}/actions/workflows/on_dispatch-test.yml/runs?status=queued")
 
             queued_count=$(echo "$queued_response" | jq '.total_count')
-            echo $queued_count
 
             pending_response=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
                              -H "Accept: application/vnd.github.v3+json" \
-                             "https://api.github.com/repos/${{ github.repository_owner }}/actions/workflows/on_dispatch-test.yml/runs?status=pending")
+                             "https://api.github.com/repos/${{ github.repository }}/actions/workflows/on_dispatch-test.yml/runs?status=pending")
 
             pending_count=$(echo "$pending_response" | jq '.total_count')
-            echo $pending_count
 
             if [ "$running_count" -eq 0 ] && [ "$queued_count" -eq 0 ] && [ "$pending_count" -eq 0 ]; then
               echo "No in progress or queued or pending workflows found."
