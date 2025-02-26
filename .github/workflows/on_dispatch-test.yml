@@ -3,6 +3,7 @@ name: On Dispatch Test
 on:
   repository_dispatch:
     types: [run-pw-tests]
+  workflow_dispatch: 
 
 concurrency:
   group: e2e-tests
@@ -14,6 +15,7 @@ jobs:
     steps:
 
       - name: Report pending back
+        if: github.event.client_payload != '' && github.event.client_payload != null
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
@@ -28,6 +30,7 @@ jobs:
               }'
 
       - name: Checkout Repository
+        if: github.event.client_payload != '' && github.event.client_payload != null
         id: checkout-repository
         uses: actions/checkout@v4
         with:
@@ -35,7 +38,7 @@ jobs:
 
       - name: Pass or fail based on expected_status
         run: |
-          sleep 30
+          sleep 60
           if [[ "${{ github.event.client_payload.expected_status }}" == "pass" ]]; then
             echo "Job passed!"
             exit 0
@@ -45,7 +48,7 @@ jobs:
           fi
 
       - name: Report success back
-        if: success()
+        if: success() && github.event.client_payload != '' && github.event.client_payload != null
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
@@ -60,7 +63,7 @@ jobs:
               }'
 
       - name: Report failure back
-        if: failure()
+        if: failure() && github.event.client_payload != '' && github.event.client_payload != null
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
