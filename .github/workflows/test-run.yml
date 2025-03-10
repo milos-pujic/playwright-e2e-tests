@@ -1,0 +1,20 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+      types: [test]
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Run on repository_dispatch
+        if: github.event_name == 'repository_dispatch'
+        run: |
+          echo 'Run on "repository_dispatch" event'
+      - name: Run on all events
+        run: |
+          echo 'Run on all events'
