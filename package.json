@@ -29,7 +29,7 @@
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.19.0",
     "@faker-js/faker": "^9.6.0",
-    "@playwright/test": "^1.50.1",
+    "@playwright/test": "^1.51.0",
     "@types/node": "^22.13.8",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
     "@typescript-eslint/parser": "^8.25.0",
