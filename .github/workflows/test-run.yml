@@ -11,10 +11,28 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      - name: Run on all events 1
+        run: |
+          echo 'Run on all events 1'
       - name: Run on repository_dispatch
         if: github.event_name == 'repository_dispatch'
         run: |
-          echo 'Run on "repository_dispatch" event'
-      - name: Run on all events
+          echo 'Run on repository_dispatch events'
+          if [[ "${{ github.event.client_payload.status }}" == "pass" ]]; then
+            echo "Job passed!"
+            exit 0
+          else
+            echo "Job failed!"
+            exit 1
+          fi
+      - name: Run on repository_dispatch and success
+        if: github.event_name == 'repository_dispatch' && success()
         run: |
-          echo 'Run on all events'
+          echo 'Run on repository_dispatch events and success'
+      - name: Run on repository_dispatch and success
+        if: github.event_name == 'repository_dispatch' && failure()
+        run: |
+          echo 'Run on repository_dispatch events and failure'
+      - name: Run on all events 2
+        run: |
+          echo 'Run on all events 2'
