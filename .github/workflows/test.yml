@@ -1,0 +1,15 @@
+name: Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job:
+    name: fail-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail step
+        run: exit 1
+      - name: Pass step
+        if: always()
+        run: echo "This job runs no matter what and always passes!"
