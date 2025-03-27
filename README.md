@@ -102,13 +102,13 @@ After everything is up and running you will have Restful Booker Platform availab
 
 All GitHub Actions Workflows are configured in [**GitHub Folder**](/.github/workflows) yml files.
 
-They all can be found by navigating to [GitHub Repository > Actions](https://github.com/milos-pujic/playwright-e2e-tests/actions).
+They all can be found by navigating to [GitHub Repository > Actions](https://github.com/m-pujic-levi9-com/playwright-e2e-tests/actions).
 
 There are 3 GitHub Actions Workflows setup for Playwright E2E Tests repository:
 
-- [Playwright Tests](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml)
-- [Check - Sanity Test](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/check-sanity.yml)
-- [Check - Changed Test](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/check-changed.yml)
+- [Playwright Tests](https://github.com/m-pujic-levi9-com/playwright-e2e-tests/actions/workflows/playwright.yml)
+- [Check - Sanity Test](https://github.com/m-pujic-levi9-com/playwright-e2e-tests/actions/workflows/check-sanity.yml)
+- [Check - Changed Test](https://github.com/m-pujic-levi9-com/playwright-e2e-tests/actions/workflows/check-changed.yml)
 
 ---
 
@@ -116,7 +116,7 @@ There are 3 GitHub Actions Workflows setup for Playwright E2E Tests repository:
 
 This workflow is designed to run comprehensive automated tests using Playwright across multiple browsers. It Executes All Playwright E2E Tests on `local` environment using `chromium`, `firefox` and `webkit` browsers from defined branch (by default it is `main`). It includes parallel test execution, detailed reporting, and scheduled runs to maintain the reliability.  
 
-Status of all ongoing and previously executed `Playwright Tests` Workflow runs can be found [here](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml).
+Status of all ongoing and previously executed `Playwright Tests` Workflow runs can be found [here](https://github.com/m-pujic-levi9-com/playwright-e2e-tests/actions/workflows/playwright.yml).
 
 GitHub Action Workflow configuration file of this workflow is [playwright.yml](/.github/workflows/playwright.yml).
 
@@ -160,7 +160,7 @@ GitHub Action Workflow configuration file of this workflow is [playwright.yml](/
 
 To trigger the workflow:
 
-- **Manual Run:** Go to the [Actions](https://github.com/milos-pujic/playwright-e2e-tests/actions) tab in your GitHub repository, select the [Playwright Tests](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/playwright.yml) workflow, and click `Run workflow`.
+- **Manual Run:** Go to the [Actions](https://github.com/m-pujic-levi9-com/playwright-e2e-tests/actions) tab in your GitHub repository, select the [Playwright Tests](https://github.com/m-pujic-levi9-com/playwright-e2e-tests/actions/workflows/playwright.yml) workflow, and click `Run workflow`.
   - :warning: This GitHub Actions publishes report on GitHub pages and because of that it can **ONLY** be executed on **main** branch. :warning:
 - **Scheduled Run:** The workflow automatically runs every Monday at 9:00 AM UTC.
 
@@ -170,7 +170,7 @@ To trigger the workflow:
 - **Monocart Report:** Test report with execution history and trends..
 - **Allure Report:** Test report with execution history and trends.
 
-Access the reports via the GitHub Pages link provided in the workflow logs after execution, or click [here](https://milos-pujic.github.io/playwright-e2e-tests/).
+Access the reports via the GitHub Pages link provided in the workflow logs after execution, or click [here](https://m-pujic-levi9-com.github.io/playwright-e2e-tests/).
 
 ---
 
@@ -178,7 +178,7 @@ Access the reports via the GitHub Pages link provided in the workflow logs after
 
 This GitHub Action ensures that essential functionality remains intact. It runs `@sanity` tagged tests on `local` environment using `chromium`, `firefox` and `webkit` browsers. It is triggered automatically on changes to specified parts of the repository or during pull requests targeting the `main` branch.
 
-Status of all ongoing and previously executed `Check - Sanity Tests` Workflow runs can be found [here](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/check-sanity.yml).
+Status of all ongoing and previously executed `Check - Sanity Tests` Workflow runs can be found [here](https://github.com/m-pujic-levi9-com/playwright-e2e-tests/actions/workflows/check-sanity.yml).
 
 GitHub Action Workflow configuration file of this workflow is [check-sanity.yml](/.github/workflows/check-sanity.yml).
 
@@ -227,7 +227,7 @@ GitHub Action Workflow configuration file of this workflow is [check-sanity.yml]
 
 This GitHub Action is designed to streamline the testing process for pull requests. It identifies only the tests affected by the introduced changes and executes them on `local` environment using `chromium`, `firefox` and `webkit` browsers. It is triggered automatically during pull requests targeting the `main` branch.
 
-Status of all ongoing and previously executed `Check - Changed Tests` Workflow runs can be found [here](https://github.com/milos-pujic/playwright-e2e-tests/actions/workflows/check-changes.yml).
+Status of all ongoing and previously executed `Check - Changed Tests` Workflow runs can be found [here](https://github.com/m-pujic-levi9-com/playwright-e2e-tests/actions/workflows/check-changes.yml).
 
 GitHub Action Workflow configuration file of this workflow is [check-changes.yml](/.github/workflows/check-changes.yml).
 
